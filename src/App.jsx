@@ -1,3 +1,10 @@
+import Login from "./pages/Login";
+
 export default function App() {
-  return <div>App</div>;
+
+  return <div className="App">
+
+  <Login />
+
+</div>;
 }
