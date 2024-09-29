@@ -3,11 +3,11 @@ import leftImage from '../assets/Login_photo.png';
 
 const Login = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white shadow-lg rounded-lg flex w-[95%] max-w-6xl overflow-hidden">
+    <div className="h-screen w-screen flex bg-gray-100">
+      <div className="flex w-full h-full">
         
         {/* Left side (Welcome message with image) */}
-        <div  className="bg-primary  w-1/2 p-12 text-white flex flex-col justify-center items-center">
+        <div  className="bg-primary w-1/2 h-full p-12 text-white flex flex-col justify-center items-center">
           <img src={leftImage} alt="Welcome Image" className="w-3/4 mb-8" />
           <h1 className="text-4xl font-bold mb-6 text-center">Welcome To Chat Community</h1>
           <p className="text-lg text-center">
@@ -17,7 +17,7 @@ const Login = () => {
         </div>
 
         {/* Right side (Login form with Logo) */}
-        <div className="w-1/2 p-12 relative">
+        <div className="w-1/2 h-full p-12 relative flex flex-col justify-center">
           {/* Logo */}
           <div className="absolute top-0 right-0 mt-4 mr-4">
             <img src={logo} alt="Logo" className="w-16" />
@@ -61,7 +61,7 @@ const Login = () => {
 
           <div className="mt-6 text-center">
             <p>
-              Don&apos;t have an account?
+              Don&apos;t have an account?{" "}
               <a href="#" className="text-blue-500 hover:underline">
                 Sign up
               </a>
