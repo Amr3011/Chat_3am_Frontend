@@ -23,8 +23,8 @@ const Login = () => {
             <img src={logo} alt="Logo" className="w-16" />
           </div>
 
-          <h2 className="text-3xl font-bold mb-6">Login page</h2>
-          <p className="text-sm text-neutral mb-6">
+          <h2 className="text-3xl font-bold mb-6">Login</h2>
+          <p className="text-sm mb-6">
             Login to access your travelwise account
           </p>
 
@@ -51,7 +51,7 @@ const Login = () => {
           </div>
 
           <div className="flex items-center justify-between mb-6">
-            <a href="#" className="text-sm text-blue-500 hover:underline">
+            <a href="#" className="text-sm text-primary hover:underline">
               Forgot Password
             </a>
           </div>
@@ -62,7 +62,7 @@ const Login = () => {
           <div className="mt-6 text-center">
             <p>
               Don&apos;t have an account?{" "}
-              <a href="#" className="text-blue-500 hover:underline">
+              <a href="#" className="text-primary hover:underline">
                 Sign up
               </a>
             </p>
