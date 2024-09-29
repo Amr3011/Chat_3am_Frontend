@@ -1,3 +1,4 @@
+
 export default function App() {
-  return <div>App</div>;
+  return <main></main>;
 }
