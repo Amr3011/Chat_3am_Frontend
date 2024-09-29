@@ -3,7 +3,7 @@ import leftImage from '../assets/Login_photo.png';
 
 const Login = () => {
   return (
-    <div className="h-screen w-screen flex bg-gray-100">
+    <div className="h-screen w-screen flex bg-base-100">
       <div className="flex w-full h-full">
         
         {/* Left side (Welcome message with image) */}
@@ -24,12 +24,12 @@ const Login = () => {
           </div>
 
           <h2 className="text-3xl font-bold mb-6">Login page</h2>
-          <p className="text-sm text-gray-500 mb-6">
+          <p className="text-sm text-neutral mb-6">
             Login to access your travelwise account
           </p>
 
           <div className="mb-5">
-            <label className="block text-sm font-semibold text-gray-700">
+            <label className="block text-sm font-semibold text-neutral">
               Email
             </label>
             <input
