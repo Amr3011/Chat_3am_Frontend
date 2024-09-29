@@ -1,13 +1,14 @@
-//import Login from './Pages/Login';
-import ThemeToggler from './components/inputs/ThemeToggler';
 import Register from './Pages/Register';
+import ThemeToggler from './components/inputs/ThemeToggler';
+
 
 export default function App() {
-
-  return <div className="App">
+  return <main>
 
   <Register />
   <ThemeToggler />
 
-</div>;
+
+
+  </main>;
 }
