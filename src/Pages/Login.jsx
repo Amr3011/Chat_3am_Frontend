@@ -1,5 +1,6 @@
 import logo from '../assets/Logo.png'; 
 import leftImage from '../assets/Login_photo.png'; 
+import { Link } from 'react-router-dom';
 
 const Login = () => {
   return (
@@ -43,7 +44,7 @@ const Login = () => {
 
         <div className="text-center">
           <p>Don&apos;t have an account?
-            <a href="#" className="text-primary hover:underline">Sign up</a>
+            <Link to="/register" href="#" className="text-primary hover:underline">Sign up</Link>
           </p>
         </div>
       </div>
