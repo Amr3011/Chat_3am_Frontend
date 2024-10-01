@@ -1,26 +1,13 @@
 import logo from '../assets/Logo.png'; 
 import leftImage from '../assets/Login_photo.png'; 
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
-import axios from 'axios';
+//import { useState } from 'react';
+//import axios from 'axios';
 
 
 const Register = () => {
 
-  const [FullName, setFullName] = useState();
-  const [UserName, setUserName] = useState();
-  const [Email, setEmail] = useState(); 
-  const [PhoneNum, setPhoneNum] = useState();
-  const [Password, setPassword] = useState(); 
-
-  const handleSubmit = (e) =>{
-    e.preventDefault();
-    axios.post('' , {FullName, UserName, Email, PhoneNum, Password})
-    .then(result => console.log(result))
-    .catch(error => console.error(error))
-
-
-  }
+  
 
 
   return (
@@ -45,18 +32,18 @@ const Register = () => {
         <h2 className="text-2xl lg:text-3xl font-bold mb-4 lg:mb-6">Register</h2>
         <p className="text-sm mb-4 lg:mb-6">Lets get you all set up so you can access your personal account.</p>
 
-        <form onSubmit={handleSubmit}>
+        <form >
 
         <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 mb-5">
           <div className="flex flex-col w-full">
             <label className="block text-sm font-semibold text-neutral">Full Name</label>
             <input type="text" placeholder="ex: Amr Osama" className="input input-bordered w-full"
-            onChange={(e) => setFullName(e.target.value)} />
+             />
           </div>
           <div className="flex flex-col w-full">
             <label className="block text-sm font-semibold text-neutral">UserName</label>
             <input type="text" placeholder="ex: Amr" className="input input-bordered w-full"
-            onChange={(e) => setUserName(e.target.value)} />
+             />
           </div>
         </div>
 
@@ -64,19 +51,19 @@ const Register = () => {
           <div className="flex flex-col w-full">
             <label className="block text-sm font-semibold text-neutral">Email</label>
             <input type="email" placeholder="example@gmail.com" className="input input-bordered w-full"
-            onChange={(e) => setEmail(e.target.value)} />
+             />
           </div>
           <div className="flex flex-col w-full">
             <label className="block text-sm font-semibold text-neutral">Phone Number</label>
             <input type="tel" placeholder="ex: 0123456789" className="input input-bordered w-full" 
-            onChange={(e) => setPhoneNum(e.target.value)} />
+             />
           </div>
         </div>
 
         <div className="mb-5">
           <label className="block text-sm font-semibold text-neutral">Password</label>
           <input type="password" placeholder="Password" className="input input-bordered w-full" 
-          onChange={(e) => setPassword(e.target.value)} />
+           />
         </div>
 
         <div className="mb-5">
