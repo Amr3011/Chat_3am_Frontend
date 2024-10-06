@@ -1,5 +1,5 @@
-import Login from './Pages/Login';
-import Register from './Pages/Register.jsx'
+import Login from './pages/Login.jsx';
+import Register from './pages/Register.jsx'
 
 
 import { StrictMode, Suspense } from "react";
