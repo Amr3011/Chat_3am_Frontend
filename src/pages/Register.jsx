@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { login } from '../redux/reducers/userSlice';
 import { useState } from 'react';
-import axios from 'axios'; // استيراد مكتبة Axios
+import axios from 'axios';  
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -20,18 +20,17 @@ const Register = () => {
     e.preventDefault();
 
     if (password === confirmPassword) {
-      const userData = { username: userName, name: fullName, email, phone, password }; // يمكنك تعديل هذه المعلومات كما تريد
+      const userData = { username: userName, name: fullName, email, phone, password }; 
 
       try {
-        // إرسال طلب تسجيل المستخدم إلى الخادم
+
         const response = await axios.post('http://127.0.0.1:5000/api/users/register', userData);
 
-        // استجابة النجاح
-        alert(response.data.message); // إظهار رسالة النجاح
-        dispatch(login({ name: fullName, email })); // تسجيل الدخول
-        navigate('/'); // إعادة التوجيه إلى الصفحة الرئيسية
+        alert(response.data.message); 
+        dispatch(login({ name: fullName, email })); 
+        navigate('/');   
       } catch (error) {
-        alert(error.response?.data?.message || 'Registration failed!'); // إظهار رسالة الخطأ
+        alert(error.response?.data?.message || 'Registration failed!');    
       }
     } else {
       alert('Passwords do not match!');
