@@ -12,7 +12,7 @@ const VerifyEmail = () => {
 
   const handleVerify = async () => {
     try {
-      const response = await axios.post('http://127.0.0.1:5000/api/users/verify', { email, code });
+      const response = await axios.post('http://127.0.0.1:5000/api/users/verify', { email, verificationCode:code });
       alert(response.data.message);
 
       navigate('/login');
