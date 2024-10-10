@@ -23,12 +23,12 @@ const Register = () => {
       const userData = { username: userName, name: fullName, email, phone, password }; 
 
       try {
-
         const response = await axios.post('http://127.0.0.1:5000/api/users/register', userData);
 
         alert(response.data.message); 
         dispatch(login({ name: fullName, email })); 
-        navigate('/');   
+        
+        navigate('/verify', { state: { email } });   
       } catch (error) {
         alert(error.response?.data?.message || 'Registration failed!');    
       }
