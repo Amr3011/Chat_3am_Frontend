@@ -1,14 +1,13 @@
 import logo from "../../assets/Logo.png";
 import leftImage from "../../assets/Verify_photo.png";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 
 const VerifyEmail = () => {
-  const location = useLocation();
   const navigate = useNavigate();
-  const { email } = location.state || {};
+  const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
 
   const handleVerify = async () => {
@@ -58,6 +57,18 @@ const VerifyEmail = () => {
           An authentication code has been sent to your email.
         </p>
 
+        <div className="mb-5">
+          <label className="block text-sm font-semibold text-neutral">
+            Enter Your Email
+          </label>
+          <input
+            type="text"
+            placeholder="Enter the mail"
+            className="input input-bordered w-full"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
         <div className="mb-5">
           <label className="block text-sm font-semibold text-neutral">
             Enter Code

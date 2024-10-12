@@ -40,6 +40,8 @@ const Register = () => {
 
         navigate("/verify", { replace: true });
       } catch (error) {
+        console.log();
+        
         toast.error(error.response?.data?.message || "Registration failed!");
       }
     } else {
