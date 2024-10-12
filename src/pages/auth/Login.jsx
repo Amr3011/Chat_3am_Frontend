@@ -72,11 +72,11 @@ const Login = () => {
 
         <div className="mb-5">
           <label className="block text-sm font-semibold text-neutral">
-            Email
+            Email or Username or Phone
           </label>
           <input
             type="email"
-            placeholder="example@gmail.com"
+            placeholder="example@gmail.com or 0123456789 or username"
             className="input input-bordered w-full"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
