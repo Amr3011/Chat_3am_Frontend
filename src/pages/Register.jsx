@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { login } from '../redux/reducers/userSlice';
 import { useState } from 'react';
 import axios from 'axios';  
+import { toast } from 'react-toastify';
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -25,15 +26,15 @@ const Register = () => {
       try {
         const response = await axios.post('http://127.0.0.1:5000/api/users/register', userData);
 
-        alert(response.data.message); 
+        toast.success(response.data.message); 
         dispatch(login({ name: fullName, email })); 
         
-        navigate('/verify', { state: { email } });   
+        navigate('/verify');   
       } catch (error) {
-        alert(error.response?.data?.message || 'Registration failed!');    
+        toast.error(error.response?.data?.message || 'Registration failed!');    
       }
     } else {
-      alert('Passwords do not match!');
+      toast.error('Passwords do not match!');
     }
   };
 

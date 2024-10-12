@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { login } from '../redux/reducers/userSlice';
 import { useState } from 'react';
 import axios from 'axios'; 
+import { toast } from 'react-toastify';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -33,10 +34,10 @@ const Login = () => {
         navigate('/');
       } catch (error) {
         // Handle errors
-        alert(error.response?.data?.message || 'Login failed');
+        toast.error(error.response?.data?.message || 'Login failed');
       }
     } else {
-      alert('Please enter valid credentials');
+      toast.error('Please enter valid credentials');
     }
   };
 

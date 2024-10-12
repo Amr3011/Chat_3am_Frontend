@@ -3,6 +3,7 @@ import leftImage from '../assets/Verify_photo.png';
 import { useLocation, useNavigate } from 'react-router-dom'; 
 import { useState } from 'react'; 
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const VerifyEmail = () => {
   const location = useLocation();
@@ -13,11 +14,11 @@ const VerifyEmail = () => {
   const handleVerify = async () => {
     try {
       const response = await axios.post('http://127.0.0.1:5000/api/users/verify', { email, verificationCode:code });
-      alert(response.data.message);
+      toast.success(response.data.message);
 
       navigate('/login');
     } catch (error) {
-      alert(error.response?.data?.message || 'Verification failed!');
+      toast.error(error.response?.data?.message || 'Verification failed!');
     }
   };
 
