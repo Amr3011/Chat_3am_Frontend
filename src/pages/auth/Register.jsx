@@ -1,10 +1,10 @@
-import logo from "../assets/Logo.png";
-import leftImage from "../assets/Login_photo.png";
+import logo from "../../assets/Logo.png";
+import leftImage from "../../assets/Login_photo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { login } from "../redux/reducers/userSlice";
+import { login } from "../../redux/reducers/userReducer";
 import { useState } from "react";
-import axios from "axios";
+import axios from "axios";  
 import { toast } from "react-toastify";
 
 const Register = () => {
@@ -31,7 +31,7 @@ const Register = () => {
 
       try {
         const response = await axios.post(
-          "http://127.0.0.1:5000/api/users/register",
+          "http://127.0.0.1:5000/api/user/register",
           userData
         );
 

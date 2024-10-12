@@ -1,8 +1,8 @@
-import logo from "../assets/Logo.png";
-import leftImage from "../assets/Login_photo.png";
+import logo from "../../assets/Logo.png";
+import leftImage from "../../assets/Login_photo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { login } from "../redux/reducers/userSlice";
+import { login } from "../../redux/reducers/userReducer";
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -20,7 +20,7 @@ const Login = () => {
       try {
         // Send a POST request to the backend for login
         const response = await axios.post(
-          "http://localhost:5000/api/users/login",
+          "http://localhost:5000/api/user/login",
           { email, password }
         );
 
@@ -97,9 +97,12 @@ const Login = () => {
         </div>
 
         <div className="flex items-center justify-between mb-6">
-          <a href="#" className="text-sm text-primary hover:underline">
+          <Link
+            to="/forgot-password"
+            className="text-sm text-primary hover:underline"
+          >
             Forgot Password
-          </a>
+          </Link>
         </div>
 
         <button
