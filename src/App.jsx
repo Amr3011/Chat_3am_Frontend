@@ -1,20 +1,40 @@
+import { ToastContainer } from "react-toastify";
+import Register from "./pages/auth/Register.jsx";
+import VerifyEmail from "./pages/auth/VerifyEmail.jsx";
+import Login from "./pages/auth/Login.jsx";
+import { Outlet, Route, Routes } from "react-router-dom";
+import NotFound from "./components/common/NotFound.jsx";
 import SideBar from "./components/common/SideBar";
-import ChangePassword from "./pages/ChangePassword";
-import EditPersonalInfo from "./pages/EditPersonalInfo";
 import FAQs from "./pages/FAQs";
-import Notification from "./pages/Notification";
-import UserInfo from "./pages/UserInfo";
+import Notification from "./pages/Notification.jsx";
+import UserInfo from "./pages/user/UserInfo";
+import ProtectedRoute from "./components/guard/ProtectedRoute.jsx";
 
 export default function App() {
   return (
-    <main>
-      <SideBar>
-        <UserInfo />
-        {/* <EditPersonalInfo /> */}
-        {/* <ChangePassword /> */}
-        {/* <FAQs /> */}
-        {/* <Notification /> */}
-      </SideBar>
-    </main>
+    <>
+      <ToastContainer />
+      <Routes>
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/verify" element={<VerifyEmail />} />
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <SideBar>
+                <Outlet />
+              </SideBar>
+            </ProtectedRoute>
+          }
+        >
+          <Route path="/" element={<h1>home page</h1>} />
+          <Route path="/FAQs" element={<FAQs />} />
+          <Route path="/user-info" element={<UserInfo />} />
+          <Route path="/notifications" element={<Notification />} />
+        </Route>
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </>
   );
 }

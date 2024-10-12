@@ -1,4 +1,3 @@
-import React from 'react'
 import Profile from '../assets/Profile.png'
 import { useState } from 'react'
 
