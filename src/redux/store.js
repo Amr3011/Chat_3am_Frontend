@@ -5,12 +5,12 @@ import userReducer from "./reducers/userReducer"; // Already added
 // Combine all the reducers
 const rootReducer = combineReducers({
   theme: themeReducer,
-  user: userReducer // The reducer for user registration and authentication
+  user: userReducer, // The reducer for user registration and authentication
 });
 
 // Configure the Redux store
 const store = configureStore({
-  reducer: rootReducer
+  reducer: rootReducer,
 });
 
 export default store;
