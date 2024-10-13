@@ -1,11 +1,10 @@
-import SideBar from "./components/common/SideBar";
+import PrivateChat from "./components/common/PrivateChat";
+// import Setting from "./components/common/Setting";
 
 export default function App() {
   return (
     <main>
-      <SideBar>
-        <h1>hello world</h1>
-      </SideBar>
+      <PrivateChat />
     </main>
   );
 }
