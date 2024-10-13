@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { TiMessageTyping } from "react-icons/ti";
 import { Link, useLocation } from "react-router-dom";
-import logo from "../../assets/logo.png";
+import logo from "../../assets/Logo.png";
 import { IoArrowRedoCircleOutline } from "react-icons/io5";
 import { FaBell } from "react-icons/fa";
 import { LuUser2 } from "react-icons/lu";

@@ -1,10 +1,11 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import themeReducer from "./reducers/themeReducer";
-import { persistStore, persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
+import userReducer from "./reducers/userReducer"; // Already added
 
+// Combine all the reducers
 const rootReducer = combineReducers({
   theme: themeReducer,
+<<<<<<< HEAD
 });
 
 const persistConfig = {
@@ -20,6 +21,14 @@ export const store = configureStore({
     getDefaultMiddleware({
       serializableCheck: false,
     }),
+=======
+  user: userReducer // The reducer for user registration and authentication
 });
 
-export const persistor = persistStore(store);
+// Configure the Redux store
+const store = configureStore({
+  reducer: rootReducer
+>>>>>>> 3124a79b1bdb2190b4156d20a5bbb2b71075f82b
+});
+
+export default store;
