@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { ToastContainer } from "react-toastify";
 import Register from "./pages/auth/Register.jsx";
 import VerifyEmail from "./pages/auth/VerifyEmail.jsx";
