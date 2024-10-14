@@ -9,15 +9,19 @@ import FAQs from "./pages/FAQs";
 import Notification from "./pages/Notification.jsx";
 import UserInfo from "./pages/user/UserInfo";
 import ProtectedRoute from "./components/guard/ProtectedRoute.jsx";
+import ForgotPassword from "./pages/auth/ForgotPassword.jsx";
+import { useSelector } from "react-redux";
 
 export default function App() {
+  const isDark = useSelector((state) => state.theme.darkMode);
   return (
-    <>
-      <ToastContainer />
+    <main>
+      {isDark ? <ToastContainer theme="dark" /> : <ToastContainer />}
       <Routes>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/verify" element={<VerifyEmail />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route
           path="/"
           element={
@@ -32,9 +36,10 @@ export default function App() {
           <Route path="/FAQs" element={<FAQs />} />
           <Route path="/user-info" element={<UserInfo />} />
           <Route path="/notifications" element={<Notification />} />
+          <Route path="*" element={<NotFound />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
-    </>
+    </main>
   );
 }

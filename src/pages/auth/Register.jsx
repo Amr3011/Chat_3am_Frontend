@@ -38,10 +38,9 @@ const Register = () => {
         toast.success(response.data.message);
         dispatch(login({ name: fullName, email }));
 
+        e.target.reset();
         navigate("/verify", { replace: true });
-      } catch (error) {
-        console.log();
-        
+      } catch (error) {        
         toast.error(error.response?.data?.message || "Registration failed!");
       }
     } else {
