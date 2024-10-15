@@ -2,7 +2,6 @@ import logo from "../../assets/Logo.png";
 import leftImage from "../../assets/Verify_photo.png";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import axios from "axios";
 import { toast } from "react-toastify";
 
 const VerifyEmail = () => {
@@ -12,15 +11,19 @@ const VerifyEmail = () => {
 
   const handleVerify = async () => {
     try {
-      const response = await axios.post(
-        "http://127.0.0.1:5000/api/user/verify",
-        { email, verificationCode: code }
-      );
-      toast.success(response.data.message);
+      const response = await fetch("/api/user/verify", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email, verificationCode: code })
+      });
+      const data = await response.json();
+      toast.success(data.message);
 
       navigate("/login");
     } catch (error) {
-      toast.error(error.response?.data?.message || "Verification failed!");
+      toast.error(error.message || "Verification failed!");
     }
   };
 

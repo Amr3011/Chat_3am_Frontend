@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/reducers/userReducer";
 import { useState } from "react";
-import axios from "axios";  
 import { toast } from "react-toastify";
 
 const Register = () => {
@@ -30,19 +29,21 @@ const Register = () => {
       };
 
       try {
-        const response = await axios.post(
-          "http://127.0.0.1:5000/api/user/register",
-          userData
-        );
+        const response = await fetch("/api/user/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(userData)
+        });
 
         toast.success(response.data.message);
         dispatch(login({ name: fullName, email }));
 
+        e.target.reset();
         navigate("/verify", { replace: true });
       } catch (error) {
-        console.log();
-        
-        toast.error(error.response?.data?.message || "Registration failed!");
+        toast.error(error.message || "Registration failed!");
       }
     } else {
       toast.error("Passwords do not match!");

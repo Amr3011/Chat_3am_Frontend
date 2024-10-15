@@ -14,6 +14,8 @@ const initialState = {
   darkMode
 };
 
+localStorage.setItem("darkMode", JSON.stringify(darkMode));
+
 const themeSlice = createSlice({
   name: "theme",
   initialState,
