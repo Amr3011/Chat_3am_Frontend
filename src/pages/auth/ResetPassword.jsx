@@ -14,11 +14,19 @@ export default function ResetPassword() {
   const [passwordViability, setPasswordViability] = useState(false);
   const [confirmPasswordViability, setConfirmPasswordViability] =
     useState(false);
+  const [formError, setFormError] = useState(null);
   const { restToken } = useParams();
   const navigate = useNavigate();
-  const [formDate, setFormData] = useState(intialState);
+  const [formData, setFormData] = useState(intialState);
   const handleChange = (e) => {
-    setFormData({ ...formDate, [e.target.name]: e.target.value });
+    if (e.target.name === "confirmPassword") {
+      if (formData.password !== e.target.value) {
+        setFormError("Password does not match");
+      } else {
+        setFormError(null);
+      }
+    }
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   const handleOnSubmit = async (e) => {
     e.preventDefault();
@@ -28,7 +36,7 @@ export default function ResetPassword() {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify(formDate)
+        body: JSON.stringify(formData)
       });
       const data = await response.json();
       if (!response.ok) {
@@ -120,6 +128,9 @@ export default function ResetPassword() {
                     <FaRegEyeSlash />
                   </span>
                 </div>
+                {formError && (
+                  <span className="text-error text-sm">{formError}</span>
+                )}
               </label>
               <button
                 type="submit"
@@ -128,12 +139,6 @@ export default function ResetPassword() {
                 submit
               </button>
             </form>
-            <p className="text-sm my-4">
-              Don&apos;t have an account?{" "}
-              <Link to="/register" className="link link-primary capitalize">
-                sign up
-              </Link>
-            </p>
           </div>
         </div>
       </div>
