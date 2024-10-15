@@ -51,9 +51,10 @@ export default function SideBar({ children }) {
               <li>
                 <Link
                   className={`${
-                    location.pathname == "/chats" && "text-primary bg-white"
+                    location.pathname == "/privatechat" &&
+                    "text-primary bg-white"
                   } hover:text-primary hover:bg-white h-fit flex flex-col items-center p-2 rounded-lg`}
-                  to={"/chats"}
+                  to={"/privatechat"}
                 >
                   <TiMessageTyping fontSize={24} />
                   <p className="capitalize">chats</p>
@@ -85,9 +86,9 @@ export default function SideBar({ children }) {
               <li>
                 <Link
                   className={`${
-                    location.pathname == "/groups" && "text-primary bg-white"
+                    location.pathname == "/groupchat" && "text-primary bg-white"
                   } hover:text-primary hover:bg-white h-fit flex flex-col items-center p-2 rounded-lg`}
-                  to={"/groups"}
+                  to={"/groupchat"}
                 >
                   <HiOutlineUserGroup fontSize={24} />
                   <p className="capitalize">groups</p>
