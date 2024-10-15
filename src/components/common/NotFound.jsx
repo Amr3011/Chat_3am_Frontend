@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import siteMap from "../../sitemap";
 
 export default function NotFound() {
   return (
@@ -16,7 +17,7 @@ export default function NotFound() {
           <p className="mb-5">
             We are sorry, the page you are looking for could not be found.
           </p>
-          <Link to="/">
+          <Link to={siteMap.home.path}>
             <button className="btn btn-primary">Back to Home </button>
           </Link>
         </div>

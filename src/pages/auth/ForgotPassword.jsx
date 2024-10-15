@@ -3,7 +3,7 @@ import leftImg from "../../assets/forgot-password.png";
 import { Link, useNavigate } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
 import { toast } from "react-toastify";
-
+import siteMap from "../../sitemap";
 const intialState = {
   username: ""
 };
@@ -29,7 +29,7 @@ export default function ForgotPassword() {
         toast.error(data.message || data.errors[0].msg);
       } else {
         toast.success(data.message);
-        navigate("/login");
+        navigate(siteMap.login.path);
       }
     } catch (error) {
       toast.error(error.message);
@@ -56,7 +56,7 @@ export default function ForgotPassword() {
           <div className="flex flex-col justify-center items-center h-full">
             <Link
               className="link link-primary flex justify-start self-start items-center"
-              to="/login"
+              to={siteMap.login.path}
             >
               <IoIosArrowBack className="text-primary" />
               Back to Login
@@ -94,7 +94,10 @@ export default function ForgotPassword() {
             </form>
             <p className="text-sm my-4">
               Don&apos;t have an account?{" "}
-              <Link to="/register" className="link link-primary capitalize">
+              <Link
+                to={siteMap.register.path}
+                className="link link-primary capitalize"
+              >
                 sign up
               </Link>
             </p>

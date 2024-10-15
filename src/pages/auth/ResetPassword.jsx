@@ -4,6 +4,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
 import { toast } from "react-toastify";
 import { FaRegEyeSlash } from "react-icons/fa";
+import siteMap from "../../sitemap";
 
 const intialState = {
   password: "",
@@ -43,7 +44,7 @@ export default function ResetPassword() {
         toast.error(data.message);
       } else {
         toast.success(data.message);
-        navigate("/login");
+        navigate(siteMap.login.path);
       }
     } catch (error) {
       toast.error(error.message);
@@ -70,7 +71,7 @@ export default function ResetPassword() {
           <div className="flex flex-col justify-center items-center h-full">
             <Link
               className="link link-primary flex justify-start self-start items-center"
-              to="/login"
+              to={siteMap.login.path}
             >
               <IoIosArrowBack className="text-primary" />
               Back to Login

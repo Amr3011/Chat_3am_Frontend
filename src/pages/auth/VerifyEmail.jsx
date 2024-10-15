@@ -3,6 +3,7 @@ import leftImage from "../../assets/Verify_photo.png";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import siteMap from "./../../sitemap";
 
 const VerifyEmail = () => {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ const VerifyEmail = () => {
       const data = await response.json();
       toast.success(data.message);
 
-      navigate("/login");
+      navigate(siteMap.login.path);
     } catch (error) {
       toast.error(error.message || "Verification failed!");
     }

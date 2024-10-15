@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { login } from "../../redux/reducers/userReducer";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import siteMap from "../../sitemap";
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -41,7 +42,7 @@ const Register = () => {
         dispatch(login({ name: fullName, email }));
 
         e.target.reset();
-        navigate("/verify", { replace: true });
+        navigate(siteMap.verify.path, { replace: true });
       } catch (error) {
         toast.error(error.message || "Registration failed!");
       }
@@ -180,7 +181,7 @@ const Register = () => {
         <div className="text-center">
           <p>
             Already have an Account?{" "}
-            <Link to="/login" className="text-primary hover:underline">
+            <Link to={siteMap.login.path} className="text-primary hover:underline">
               Login
             </Link>
           </p>

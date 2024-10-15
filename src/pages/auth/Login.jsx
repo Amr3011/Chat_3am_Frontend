@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { login } from "../../redux/reducers/userReducer";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import siteMap from "../../sitemap";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -45,7 +46,7 @@ const Login = () => {
         dispatch(login(data.user));
 
         // Navigate to home or dashboard
-        navigate("/app", { replace: true });
+        navigate(siteMap.home.path, { replace: true });
       } catch (error) {
         // Handle errors
         toast.error(error.message || "Login failed");
@@ -112,7 +113,7 @@ const Login = () => {
 
         <div className="flex items-center justify-between mb-6">
           <Link
-            to="/forgot-password"
+            to={siteMap.forgotPassword.path}
             className="text-sm text-primary hover:underline"
           >
             Forgot Password
@@ -129,7 +130,7 @@ const Login = () => {
         <div className="text-center">
           <p>
             Don&apos;t have an account?
-            <Link to="/register" className="text-primary hover:underline">
+            <Link to={siteMap.register.path} className="text-primary hover:underline">
               {" "}
               Sign up
             </Link>
