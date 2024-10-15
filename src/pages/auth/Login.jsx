@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { login } from "../../redux/reducers/userReducer";
 import { useState } from "react";
-import axios from "axios";
 import { toast } from "react-toastify";
 
 const Login = () => {
@@ -19,19 +18,22 @@ const Login = () => {
     if (email && password) {
       try {
         // Send a POST request to the backend for login
-        const response = await axios.post(
-          "http://localhost:5000/api/user/login",
-          { email, password }
-        );
+        const response = await fetch("/api/user/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ email, password })
+        });
 
         // Handle successful login
-        const { user } = response.data;
+        const data = await response.json();
 
         // Dispatch login action with user data
-        dispatch(login(user));
+        dispatch(login(data.user));
 
         // Navigate to home or dashboard
-        navigate("/", { replace: true });
+        navigate("/app", { replace: true });
       } catch (error) {
         // Handle errors
         toast.error(error.response?.data?.message || "Login failed");

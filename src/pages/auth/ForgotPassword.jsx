@@ -1,6 +1,6 @@
 import { useState } from "react";
 import leftImg from "../../assets/forgot-password.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
 import { toast } from "react-toastify";
 
@@ -9,6 +9,7 @@ const intialState = {
 };
 
 export default function ForgotPassword() {
+  const navigate = useNavigate();
   const [formDate, setFormData] = useState(intialState);
   const handleChange = (e) => {
     setFormData({ ...formDate, [e.target.name]: e.target.value });
@@ -28,6 +29,7 @@ export default function ForgotPassword() {
         toast.error(data.message);
       } else {
         toast.success(data.message);
+        navigate("/login");
       }
     } catch (error) {
       toast.error(error.message);
@@ -42,10 +44,10 @@ export default function ForgotPassword() {
             alt="Welcome Image"
             className="w-3/6 mb-6 lg:mb-8"
           />
-          <h1 className="text-2xl lg:text-4xl font-bold text-center">
+          <h1 className="text-2xl lg:text-4xl font-bold text-center text-base-100">
             Welcome To Chat Community
           </h1>
-          <p className="text-sm lg:text-lg text-left p-5">
+          <p className="text-sm lg:text-lg text-left p-5 text-base-100">
             This website to cover all people against world to talk with each
             others
           </p>
