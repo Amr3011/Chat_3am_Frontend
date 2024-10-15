@@ -3,6 +3,7 @@ import leftImage from "../../assets/Login_photo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import siteMap from "../../sitemap";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -38,7 +39,7 @@ const Register = () => {
         
 
         e.target.reset();
-        navigate("/verify", { replace: true });
+        navigate(siteMap.verify.path, { replace: true });
       } catch (error) {
         toast.error(error.message || "Registration failed!");
       }
@@ -177,7 +178,7 @@ const Register = () => {
         <div className="text-center">
           <p>
             Already have an Account?{" "}
-            <Link to="/login" className="text-primary hover:underline">
+            <Link to={siteMap.login.path} className="text-primary hover:underline">
               Login
             </Link>
           </p>

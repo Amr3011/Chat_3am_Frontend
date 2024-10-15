@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { login } from "../../redux/reducers/userReducer";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import siteMap from "../../sitemap";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -25,15 +26,27 @@ const Login = () => {
           },
           body: JSON.stringify({ email, password })
         });
-
-        // Handle successful login
         const data = await response.json();
+
+        if (!response.ok) {
+          // Handle non-OK responses
+          if (data.errors) {
+            // Display error messages
+            data.errors.forEach((error) => {
+              toast.error(error.msg);
+            });
+          } else {
+            // Display error message
+            toast.error(data.message || "Login failed");
+          }
+          return;
+        }
 
         // Dispatch login action with user data
         dispatch(login(data.user));
 
         // Navigate to home or dashboard
-        navigate("/app", { replace: true });
+        navigate(siteMap.home.path, { replace: true });
       } catch (error) {
         // Handle errors
         toast.error(error.message || "Login failed");
@@ -100,7 +113,7 @@ const Login = () => {
 
         <div className="flex items-center justify-between mb-6">
           <Link
-            to="/forgot-password"
+            to={siteMap.forgotPassword.path}
             className="text-sm text-primary hover:underline"
           >
             Forgot Password
@@ -117,7 +130,7 @@ const Login = () => {
         <div className="text-center">
           <p>
             Don&apos;t have an account?
-            <Link to="/register" className="text-primary hover:underline">
+            <Link to={siteMap.register.path} className="text-primary hover:underline">
               {" "}
               Sign up
             </Link>

@@ -4,6 +4,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
 import { toast } from "react-toastify";
 import { FaRegEyeSlash } from "react-icons/fa";
+import siteMap from "../../sitemap";
 
 const intialState = {
   password: "",
@@ -14,10 +15,21 @@ export default function ResetPassword() {
   const [passwordViability, setPasswordViability] = useState(false);
   const [confirmPasswordViability, setConfirmPasswordViability] =
     useState(false);
+  const [formError, setFormError] = useState(null);
   const { restToken } = useParams();
   const navigate = useNavigate();
   const [formData, setFormData] = useState(intialState);
   const handleChange = (e) => {
+<<<<<<< HEAD
+    if (e.target.name === "confirmPassword") {
+      if (formData.password !== e.target.value) {
+        setFormError("Password does not match");
+      } else {
+        setFormError(null);
+      }
+    }
+=======
+>>>>>>> main
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   const handleOnSubmit = async (e) => {
@@ -28,14 +40,18 @@ export default function ResetPassword() {
         headers: {
           "Content-Type": "application/json"
         },
+<<<<<<< HEAD
+        body: JSON.stringify(formData)
+=======
         body: JSON.stringify({password: formData.password})
+>>>>>>> main
       });
       const data = await response.json();
       if (!response.ok) {
         toast.error(data.message);
       } else {
         toast.success(data.message);
-        navigate("/login");
+        navigate(siteMap.login.path);
       }
     } catch (error) {
       toast.error(error.message);
@@ -62,7 +78,7 @@ export default function ResetPassword() {
           <div className="flex flex-col justify-center items-center h-full">
             <Link
               className="link link-primary flex justify-start self-start items-center"
-              to="/login"
+              to={siteMap.login.path}
             >
               <IoIosArrowBack className="text-primary" />
               Back to Login
@@ -120,6 +136,9 @@ export default function ResetPassword() {
                     <FaRegEyeSlash />
                   </span>
                 </div>
+                {formError && (
+                  <span className="text-error text-sm">{formError}</span>
+                )}
               </label>
               <button
                 type="submit"
@@ -128,12 +147,6 @@ export default function ResetPassword() {
                 submit
               </button>
             </form>
-            <p className="text-sm my-4">
-              Don&apos;t have an account?{" "}
-              <Link to="/register" className="link link-primary capitalize">
-                sign up
-              </Link>
-            </p>
           </div>
         </div>
       </div>

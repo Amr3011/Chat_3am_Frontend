@@ -8,6 +8,7 @@ import { LuUser2 } from "react-icons/lu";
 import { HiOutlineUserGroup } from "react-icons/hi";
 import { GoGear } from "react-icons/go";
 import { faker } from "@faker-js/faker";
+import siteMap from "../../sitemap";
 
 const avatar = faker.image.avatar();
 
@@ -36,7 +37,7 @@ export default function SideBar({ children }) {
         <ul className="flex flex-col items-center justify-around bg-primary text-white min-h-full w-32 p-4 ">
           {/* Sidebar content here */}
           <li>
-            <Link to={"/"}>
+            <Link to={siteMap.home.path}>
               <img
                 className="rounded-full h-16 w-16"
                 width={0}
@@ -51,10 +52,16 @@ export default function SideBar({ children }) {
               <li>
                 <Link
                   className={`${
+<<<<<<< HEAD
+                    location.pathname == siteMap.chats.path && "text-primary bg-white"
+                  } hover:text-primary hover:bg-white h-fit flex flex-col items-center p-2 rounded-lg`}
+                  to={siteMap.chats.path}
+=======
                     location.pathname == "/privatechat" &&
                     "text-primary bg-white"
                   } hover:text-primary hover:bg-white h-fit flex flex-col items-center p-2 rounded-lg`}
                   to={"/privatechat"}
+>>>>>>> main
                 >
                   <TiMessageTyping fontSize={24} />
                   <p className="capitalize">chats</p>
@@ -63,10 +70,10 @@ export default function SideBar({ children }) {
               <li>
                 <Link
                   className={`${
-                    location.pathname == "/notifications" &&
+                    location.pathname == siteMap.notifications.path &&
                     "text-primary bg-white"
                   } hover:text-primary hover:bg-white h-fit flex flex-col items-center p-2 rounded-lg`}
-                  to={"/notifications"}
+                  to={siteMap.notifications.path}
                 >
                   <FaBell fontSize={24} />
                   <p className="capitalize">notifications</p>
@@ -75,9 +82,9 @@ export default function SideBar({ children }) {
               <li>
                 <Link
                   className={`${
-                    location.pathname == "/user-info" && "text-primary bg-white"
+                    location.pathname == siteMap.userInfo.path && "text-primary bg-white"
                   } hover:text-primary hover:bg-white h-fit flex flex-col items-center p-2 rounded-lg`}
-                  to={"/user-info"}
+                  to={siteMap.userInfo.path}
                 >
                   <LuUser2 fontSize={24} />
                   <p className="capitalize">user info</p>
@@ -86,9 +93,15 @@ export default function SideBar({ children }) {
               <li>
                 <Link
                   className={`${
+<<<<<<< HEAD
+                    location.pathname == siteMap.groups.path && "text-primary bg-white"
+                  } hover:text-primary hover:bg-white h-fit flex flex-col items-center p-2 rounded-lg`}
+                  to={siteMap.groups.path}
+=======
                     location.pathname == "/groupchat" && "text-primary bg-white"
                   } hover:text-primary hover:bg-white h-fit flex flex-col items-center p-2 rounded-lg`}
                   to={"/groupchat"}
+>>>>>>> main
                 >
                   <HiOutlineUserGroup fontSize={24} />
                   <p className="capitalize">groups</p>
@@ -101,9 +114,9 @@ export default function SideBar({ children }) {
               <li>
                 <Link
                   className={`${
-                    location.pathname == "/settings" && "text-primary bg-white"
+                    location.pathname == siteMap.settings.path && "text-primary bg-white"
                   } hover:text-primary hover:bg-white h-fit flex flex-col items-center p-2 rounded-lg`}
-                  to={"/settings"}
+                  to={siteMap.settings.path}
                 >
                   <GoGear fontSize={24} />
                   <p className="capitalize">settings</p>
