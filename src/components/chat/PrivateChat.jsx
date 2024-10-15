@@ -8,16 +8,22 @@ import { IoIosArrowBack } from "react-icons/io";
 import { faker } from "@faker-js/faker";
 import io from "socket.io-client";
 
-const ENDPOINT = "http://localhost:5000/";
+// const ENDPOINT = "http://localhost:5000/";
 
-var socket, selectedChatCompare;
+// var socket, selectedChatCompare;
 
 const avatar = faker.image.avatar();
 
 const PrivateChat = () => {
-  useEffect(() => {
-    socket = io(ENDPOINT);
-  }, []);
+  //   useEffect(() => {
+  //     socket = io(ENDPOINT);
+  //   }, []);
+
+  //   useEffect(() => {
+  //     if (selectedChat) {
+  //       socket.emit("joinChat", selectedChat.id);
+  //     }
+  //   }, [selectedChat]);
 
   // Sample chats data
   const initialChats = [
