@@ -26,7 +26,7 @@ export default function ForgotPassword() {
       });
       const data = await response.json();
       if (!response.ok) {
-        toast.error(data.message);
+        toast.error(data.message || data.errors[0].msg);
       } else {
         toast.success(data.message);
         navigate("/login");

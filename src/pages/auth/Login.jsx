@@ -25,9 +25,21 @@ const Login = () => {
           },
           body: JSON.stringify({ email, password })
         });
-
-        // Handle successful login
         const data = await response.json();
+
+        if (!response.ok) {
+          // Handle non-OK responses
+          if (data.errors) {
+            // Display error messages
+            data.errors.forEach((error) => {
+              toast.error(error.msg);
+            });
+          } else {
+            // Display error message
+            toast.error(data.message || "Login failed");
+          }
+          return;
+        }
 
         // Dispatch login action with user data
         dispatch(login(data.user));
