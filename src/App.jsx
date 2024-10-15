@@ -12,6 +12,7 @@ import ProtectedRoute from "./components/guard/ProtectedRoute.jsx";
 import ForgotPassword from "./pages/auth/ForgotPassword.jsx";
 import { useSelector } from "react-redux";
 import PublicRoute from "./components/guard/PublicRoute.jsx";
+import ResetPassword from "./pages/auth/ResetPassword.jsx";
 
 export default function App() {
   const isDark = useSelector((state) => state.theme.darkMode);
@@ -32,6 +33,7 @@ export default function App() {
           <Route path="login" element={<Login />} />
           <Route path="verify" element={<VerifyEmail />} />
           <Route path="forgot-password" element={<ForgotPassword />} />
+          <Route path="reset-password/:restToken" element={<ResetPassword />} />
           <Route path="/" element={<Navigate to="/register" replace />} />
         </Route>
 

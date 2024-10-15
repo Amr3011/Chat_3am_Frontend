@@ -43,7 +43,7 @@ const Register = () => {
         e.target.reset();
         navigate("/verify", { replace: true });
       } catch (error) {
-        toast.error(error.response?.data?.message || "Registration failed!");
+        toast.error(error.message || "Registration failed!");
       }
     } else {
       toast.error("Passwords do not match!");

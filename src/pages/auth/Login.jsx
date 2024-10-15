@@ -36,7 +36,7 @@ const Login = () => {
         navigate("/app", { replace: true });
       } catch (error) {
         // Handle errors
-        toast.error(error.response?.data?.message || "Login failed");
+        toast.error(error.message || "Login failed");
       }
     } else {
       toast.error("Please enter valid credentials");
