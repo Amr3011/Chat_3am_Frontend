@@ -15,9 +15,9 @@ export default function SideBar({ children }) {
   const location = useLocation();
 
   return (
-    <div className="drawer lg:drawer-open ">
+    <div className="drawer lg:drawer-open">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-      <div className="drawer-content flex flex-row">
+      <div className="drawer-content grid">
         {/* Page content here */}
         <label
           htmlFor="my-drawer-2"
@@ -25,16 +25,7 @@ export default function SideBar({ children }) {
         >
           <IoArrowRedoCircleOutline fontSize={24} />
         </label>
-
         {children}
-
-        {/* First part of the content
-        <div className="first-part flex-1 ">{Content}</div>
-
-        Second part of the content
-        <div className="second-part flex-2 bg-primary flex items-center justify-center h-full">
-          {RightSide}
-        </div> */}
       </div>
       <div className="drawer-side">
         <label
@@ -136,7 +127,5 @@ export default function SideBar({ children }) {
 }
 
 SideBar.propTypes = {
-  // Content: PropTypes.node.isRequired, // Validate Content prop
-  // RightSide: PropTypes.node.isRequired,
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired
 };
