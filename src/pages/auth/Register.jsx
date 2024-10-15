@@ -1,13 +1,10 @@
 import logo from "../../assets/Logo.png";
 import leftImage from "../../assets/Login_photo.png";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { login } from "../../redux/reducers/userReducer";
 import { useState } from "react";
 import { toast } from "react-toastify";
 
 const Register = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [fullName, setFullName] = useState("");
   const [userName, setUserName] = useState("");
@@ -36,9 +33,9 @@ const Register = () => {
           },
           body: JSON.stringify(userData)
         });
-
-        toast.success(response.data.message);
-        dispatch(login({ name: fullName, email }));
+        const data = await response.json()
+        toast.success(data.message);
+        
 
         e.target.reset();
         navigate("/verify", { replace: true });
