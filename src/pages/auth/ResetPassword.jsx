@@ -20,6 +20,7 @@ export default function ResetPassword() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState(intialState);
   const handleChange = (e) => {
+<<<<<<< HEAD
     if (e.target.name === "confirmPassword") {
       if (formData.password !== e.target.value) {
         setFormError("Password does not match");
@@ -27,6 +28,8 @@ export default function ResetPassword() {
         setFormError(null);
       }
     }
+=======
+>>>>>>> main
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   const handleOnSubmit = async (e) => {
@@ -37,7 +40,11 @@ export default function ResetPassword() {
         headers: {
           "Content-Type": "application/json"
         },
+<<<<<<< HEAD
         body: JSON.stringify(formData)
+=======
+        body: JSON.stringify({password: formData.password})
+>>>>>>> main
       });
       const data = await response.json();
       if (!response.ok) {
