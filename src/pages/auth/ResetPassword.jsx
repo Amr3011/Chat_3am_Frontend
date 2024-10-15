@@ -16,9 +16,9 @@ export default function ResetPassword() {
     useState(false);
   const { restToken } = useParams();
   const navigate = useNavigate();
-  const [formDate, setFormData] = useState(intialState);
+  const [formData, setFormData] = useState(intialState);
   const handleChange = (e) => {
-    setFormData({ ...formDate, [e.target.name]: e.target.value });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   const handleOnSubmit = async (e) => {
     e.preventDefault();
@@ -28,7 +28,7 @@ export default function ResetPassword() {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify(formDate)
+        body: JSON.stringify({password: formData.password})
       });
       const data = await response.json();
       if (!response.ok) {
