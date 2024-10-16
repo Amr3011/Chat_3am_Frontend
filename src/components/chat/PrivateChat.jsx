@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import SendIcon from "../../assets/SendIcon.svg";
 import AttachedIcon from "../../assets/AttachedIcon.svg";
 import RightSide from "../common/RightSide";
@@ -6,7 +6,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { FaArrowUp, FaArrowDown } from "react-icons/fa";
 import { IoIosArrowBack } from "react-icons/io";
 import { faker } from "@faker-js/faker";
-import io from "socket.io-client";
+// import io from "socket.io-client";
 
 // const ENDPOINT = "http://localhost:5000/";
 
