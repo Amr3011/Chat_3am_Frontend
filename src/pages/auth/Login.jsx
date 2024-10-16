@@ -64,7 +64,7 @@ const Login = () => {
           <img
             src={leftImage}
             alt="Welcome Image"
-            className="w-2/3 lg:w-3/4 mb-6 lg:mb-8"
+            className="w-2/3 lg:w-3/4 mb-4 lg:mb-8"
           />
           <h1 className="text-2xl lg:text-4xl font-bold mb-4 lg:mb-6 text-center">
             Welcome To Chat Community
@@ -78,15 +78,15 @@ const Login = () => {
 
       {/* Right side (Login form) */}
       <div className="w-full lg:w-1/2 flex flex-col justify-center p-6 lg:p-12 relative">
-        <div className="absolute top-0 right-0 mt-4 mr-4">
+        <div className="absolute top-0 right-0 mt-8 mr-8">
           <img src={logo} alt="Logo" className="w-10 lg:w-16 rounded-full" />
         </div>
 
-        <h2 className="text-2xl lg:text-3xl font-bold mb-4 lg:mb-6">Login</h2>
+        <h2 className="text-2xl lg:text-3xl font-bold">Login</h2>
         <p className="text-sm mb-4 lg:mb-6">Login to access your account</p>
 
         <div className="mb-5">
-          <label className="block text-sm font-semibold text-neutral">
+          <label className="block text-sm mb-2 font-semibold text-neutral">
             Email or Username or Phone
           </label>
           <input
@@ -99,7 +99,7 @@ const Login = () => {
         </div>
 
         <div className="mb-5">
-          <label className="block text-sm font-semibold text-neutral">
+          <label className="block text-sm mb-2 font-semibold text-neutral">
             Password
           </label>
           <input
