@@ -54,7 +54,7 @@ export default function ResetPassword() {
   return (
     <div className="flex flex-col lg:flex-row min-h-screen bg-base-100">
       {/* Left side */}
-      <div className="hidden lg:flex w-full lg:w-1/2 bg-primary p-8 text-white justify-center items-center">
+      <div className="flex flex-col md:flex-row w-full lg:w-1/2 bg-primary p-8 text-white justify-center items-center">
         <div className="flex flex-col justify-center items-center w-full">
           <img
             src={leftImg}
@@ -94,7 +94,7 @@ export default function ResetPassword() {
         </div>
         <form
           method="post"
-          className="w-8/12 self-start flex flex-col gap-5"
+          className="w-full self-start flex flex-col gap-5"
           onSubmit={handleOnSubmit}
         >
           <label

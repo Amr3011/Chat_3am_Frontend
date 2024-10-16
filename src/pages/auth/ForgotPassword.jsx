@@ -40,7 +40,7 @@ export default function ForgotPassword() {
   return (
     <div className="min-h-screen flex flex-col lg:flex-row bg-base-100">
       {/* Left side */}
-      <div className="hidden lg:flex w-1/2 bg-primary p-8 text-white justify-center items-center">
+      <div className="w-full flex flex-col md:flex-row lg:w-1/2 bg-primary p-8 text-white justify-center items-center">
         <div className="flex flex-col justify-center items-center w-full">
           <img
             src={leftImg}
