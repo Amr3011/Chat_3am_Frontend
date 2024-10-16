@@ -16,7 +16,6 @@ import { useSelector } from "react-redux";
 import PublicRoute from "./components/guard/PublicRoute.jsx";
 import ResetPassword from "./pages/auth/ResetPassword.jsx";
 import siteMap from "./sitemap.js";
-import Groups from "./components/chat/Groups.jsx";
 import GroupChat from "./components/chat/GroupChat.jsx";
 import PrivateChat from "./components/chat/PrivateChat.jsx";
 
@@ -60,8 +59,7 @@ export default function App() {
           <Route path="home" element={<h1>home page</h1>} />
           <Route path="FAQs" element={<FAQs />} />
           <Route path="user-info" element={<UserInfo />} />
-          <Route path="groups" element={<Groups />} />
-          <Route path="group-chat" element={<GroupChat />} />
+          <Route path="groups" element={<GroupChat />} />
           <Route path="chats" element={<PrivateChat />} />
           <Route path="change-password" element={<ChangePassword />} />
           <Route path="Personal-info" element={<EditPersonalInfo />} />

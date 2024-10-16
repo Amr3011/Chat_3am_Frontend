@@ -76,7 +76,7 @@ const PrivateChat = () => {
 
   const [selectedChat, setSelectedChat] = useState(null);
   const [messages, setMessages] = useState([]);
-  const [searchActive, setSearchActive] = useState(false);
+  const [searchActive, _] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleChatClick = (chat) => {
@@ -84,9 +84,9 @@ const PrivateChat = () => {
     setMessages(chat.messages);
   };
 
-  const handleSearchToggle = () => {
-    setSearchActive((prev) => !prev);
-  };
+  // const handleSearchToggle = () => {
+  //   setSearchActive((prev) => !prev);
+  // };
 
   const handleBackClick = () => {
     setSelectedChat(null);
@@ -227,33 +227,33 @@ const PrivateChat = () => {
 
             {/* Input form fixed at the bottom */}
             <div className="fixed bottom-0">
-            <form
-              className="bg-base-100 flex items-center p-2"
-              onSubmit={(e) => {
-                e.preventDefault();
-                const newMessage = e.target.input.value;
-                setMessages((prev) => [...prev, newMessage]);
-                e.target.input.value = "";
-              }}
-            >
-              <button type="submit" className="px-1">
-                <img src={AttachedIcon} alt="Attach" />
-              </button>
-              
-              <input
-                id="input"
-                type="text"
-                placeholder="Type your message..."
-                className="flex-grow bg-gray-100 rounded-full px-4 py-2 text-base focus:outline-none"
-                autoComplete="off"
-              />
-              <button
-                type="submit"
-                className=" text-white flex items-center justify-center p-2 ml-2 rounded-full"
+              <form
+                className="bg-base-100 flex items-center p-2"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  const newMessage = e.target.input.value;
+                  setMessages((prev) => [...prev, newMessage]);
+                  e.target.input.value = "";
+                }}
               >
-                <img src={SendIcon} alt="Send" />
-              </button>
-            </form>
+                <button type="submit" className="px-1">
+                  <img src={AttachedIcon} alt="Attach" />
+                </button>
+
+                <input
+                  id="input"
+                  type="text"
+                  placeholder="Type your message..."
+                  className="flex-grow bg-gray-100 rounded-full px-4 py-2 text-base focus:outline-none"
+                  autoComplete="off"
+                />
+                <button
+                  type="submit"
+                  className=" text-white flex items-center justify-center p-2 ml-2 rounded-full"
+                >
+                  <img src={SendIcon} alt="Send" />
+                </button>
+              </form>
             </div>
           </>
         ) : (

@@ -1,41 +1,45 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import SendIcon from "../../assets/SendIcon.svg";
 import AttachedIcon from "../../assets/AttachedIcon.svg";
 import RightSide from "../common/RightSide";
-// import { AiOutlineSearch } from "react-icons/ai";
+import { AiOutlineSearch } from "react-icons/ai";
 import { FaArrowUp, FaArrowDown } from "react-icons/fa";
 import { IoIosArrowBack } from "react-icons/io";
+import { fetchGroupChats } from "../../api/chatApi"; // Adjust the import path
+import { setGroupChats } from "../../redux/reducers/chatReducer";
 import { faker } from "@faker-js/faker";
 
-// const avatar = faker.image.avatar();
+const avatar = faker.image.avatar();
 
 const GroupChat = () => {
-  // Sample group chats data
-  const initialGroups = [
-    {
-      id: 1,
-      name: "Group A",
-      members: ["Tafeda", "Sodfa", "Alice"],
-      image: "/path/to/groupA.png",
-      messages: ["Welcome to Group A!", "Let's discuss our project."],
-    },
-    {
-      id: 2,
-      name: "Group B",
-      members: ["Bob", "Charlie"],
-      image: "/path/to/groupB.png",
-      messages: ["Good morning, everyone!", "What's on the agenda today?"],
-    },
-  ];
-
+  const dispatch = useDispatch();
+  const { groupChats } = useSelector((state) => state.chat);
   const [selectedGroup, setSelectedGroup] = useState(null);
   const [messages, setMessages] = useState([]);
   const [searchActive, setSearchActive] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [filteredMessages, setFilteredMessages] = useState([]);
+
+  // Fetch group chats when component mounts
+  useEffect(() => {
+    const fetchChats = async () => {
+      try {
+        const userId = JSON.parse(localStorage.getItem("userInfo"))._id; // Adjust according to your user data structure
+        const chats = await fetchGroupChats(userId);
+        dispatch(setGroupChats(chats)); // Dispatch the action to set the chats in the store
+      } catch (error) {
+        console.error("Failed to fetch group chats:", error);
+      }
+    };
+
+    fetchChats();
+  }, [dispatch]);
 
   const handleGroupClick = (group) => {
     setSelectedGroup(group);
-    setMessages(group.messages);
+    setMessages(group.messages); // Assume 'messages' is an array within the group object
+    setFilteredMessages(group.messages); // Set filtered messages initially
   };
 
   const handleSearchToggle = () => {
@@ -45,12 +49,23 @@ const GroupChat = () => {
   const handleBackClick = () => {
     setSelectedGroup(null);
     setMessages([]);
+    setFilteredMessages([]); // Reset filtered messages
   };
 
   // Filter groups based on search query
-  const filteredGroups = initialGroups.filter((group) =>
-    group.name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredGroups = groupChats.filter((group) =>
+    group.chatName.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  // Filter messages based on search query
+  useEffect(() => {
+    if (selectedGroup) {
+      const results = messages.filter((msg) =>
+        msg.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+      setFilteredMessages(results);
+    }
+  }, [searchQuery, selectedGroup, messages]);
 
   return (
     <div className="flex flex-col lg:flex-row w-full h-screen">
@@ -70,7 +85,7 @@ const GroupChat = () => {
             placeholder="Search or create a new group"
             className="input w-full bg-white pl-4 pr-4 text-neutral"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)} // Update search query
+            onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
 
@@ -78,22 +93,22 @@ const GroupChat = () => {
         <ul className="space-y-4">
           {filteredGroups.map((group) => (
             <li
-              key={group.id}
+              key={group._id}
               className={`cursor-pointer p-4 rounded-md shadow flex items-center ${
-                selectedGroup?.id === group.id
-                  ? "bg-[#E6E6E6]" // Selected group background
-                  : "bg-[#F5F5F5]" // Unselected group background (light gray)
+                selectedGroup?._id === group._id
+                  ? "bg-[#E6E6E6]"
+                  : "bg-[#F5F5F5]"
               }`}
               onClick={() => handleGroupClick(group)}
             >
               <div className="relative mr-4">
                 <img
-                  src={avatar}
-                  alt={group.name}
+                  src={group.image || avatar}
+                  alt={group.chatName}
                   className="w-10 h-10 rounded-full object-cover"
                 />
               </div>
-              <span className="text-base text-secondary">{group.name}</span>
+              <span className="text-base text-secondary">{group.chatName}</span>
             </li>
           ))}
         </ul>
@@ -119,12 +134,14 @@ const GroupChat = () => {
               <div className="flex-1 flex items-center">
                 <div className="relative mr-2">
                   <img
-                    src={avatar}
-                    alt={selectedGroup.name}
+                    src={selectedGroup.image || avatar}
+                    alt={selectedGroup.chatName}
                     className="w-10 h-10 rounded-full object-cover"
                   />
                 </div>
-                <span className="text-white text-xl">{selectedGroup.name}</span>
+                <span className="text-white text-xl">
+                  {selectedGroup.chatName}
+                </span>
               </div>
               <div className="flex-none">
                 <AiOutlineSearch
@@ -141,6 +158,8 @@ const GroupChat = () => {
                   type="text"
                   placeholder="Search messages..."
                   className="input w-full bg-gray-100 pl-4 pr-4 rounded-lg"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
                 />
                 <div className="flex justify-end mt-2">
                   <FaArrowUp className="mr-2 cursor-pointer text-black" />
@@ -155,13 +174,13 @@ const GroupChat = () => {
               style={{ maxHeight: "calc(100vh - 200px)" }}
             >
               <ul className="w-full">
-                {messages.map((msg, index) => (
+                {filteredMessages.map((msg, index) => (
                   <li
                     key={index}
                     className={`p-2 my-2 rounded-lg ${
                       index % 2 === 0
-                        ? "bg-[#F1F1F1] text-black" // First sender's message
-                        : "bg-primary text-white" // Second sender's message
+                        ? "bg-[#F1F1F1] text-black"
+                        : "bg-primary text-white"
                     }`}
                   >
                     {msg}
@@ -176,7 +195,9 @@ const GroupChat = () => {
               onSubmit={(e) => {
                 e.preventDefault();
                 const newMessage = e.target.input.value;
+                // Update messages and filtered messages
                 setMessages((prev) => [...prev, newMessage]);
+                setFilteredMessages((prev) => [...prev, newMessage]);
                 e.target.input.value = "";
               }}
             >
