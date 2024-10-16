@@ -35,6 +35,21 @@ const Register = () => {
           body: JSON.stringify(userData)
         });
         const data = await response.json();
+        
+        if (!response.ok) {
+          // Handle non-OK responses
+          if (data.errors) {
+            // Display error messages
+            data.errors.forEach((error) => {
+              toast.error(error.msg);
+            });
+          } else {
+            // Display error message
+            toast.error(data.message || "Registration failed!");
+          }
+          return;
+        }
+
         toast.success(data.message);
 
         e.target.reset();
@@ -45,6 +60,8 @@ const Register = () => {
     } else {
       toast.error("Passwords do not match!");
     }
+
+
   };
 
   return (
