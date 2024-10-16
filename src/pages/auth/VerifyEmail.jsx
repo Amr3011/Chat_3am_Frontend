@@ -36,7 +36,7 @@ const VerifyEmail = () => {
           <img
             src={leftImage}
             alt="Welcome Image"
-            className="w-1/2 lg:w-1/3 mb-6 lg:mb-8"
+            className="w-1/2 lg:w-1/3 mb-4 lg:mb-8"
           />
           <h1 className="text-2xl lg:text-4xl font-bold mb-4 lg:mb-6 text-center">
             Welcome To Chat Community
@@ -50,7 +50,7 @@ const VerifyEmail = () => {
 
       {/* Right side */}
       <div className="w-full lg:w-1/2 flex flex-col justify-center p-6 lg:p-12 relative">
-        <div className="absolute top-0 right-0 mt-4 mr-4">
+        <div className="absolute top-0 right-0 mt-8 mr-8">
           <img src={logo} alt="Logo" className="w-10 lg:w-16 rounded-full" />
         </div>
 
@@ -62,7 +62,7 @@ const VerifyEmail = () => {
         </p>
 
         <div className="mb-5">
-          <label className="block text-sm font-semibold text-neutral">
+          <label className="block text-sm mb-2 font-semibold text-neutral">
             Enter Your Email
           </label>
           <input
@@ -74,7 +74,7 @@ const VerifyEmail = () => {
           />
         </div>
         <div className="mb-5">
-          <label className="block text-sm font-semibold text-neutral">
+          <label className="block text-sm mb-2 font-semibold text-neutral">
             Enter Code
           </label>
           <input
