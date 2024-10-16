@@ -1,9 +1,9 @@
-import logo from "../../assets/Logo.png";
 import leftImage from "../../assets/Verify_photo.png";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import siteMap from "./../../sitemap";
+import Logo from "./../../components/common/Logo";
 
 const VerifyEmail = () => {
   const navigate = useNavigate();
@@ -50,9 +50,10 @@ const VerifyEmail = () => {
 
       {/* Right side */}
       <div className="w-full lg:w-1/2 flex flex-col justify-center p-6 lg:p-12 relative">
-        <div className="absolute top-0 right-0 mt-8 mr-8">
-          <img src={logo} alt="Logo" className="w-10 lg:w-16 rounded-full" />
-        </div>
+        <Logo
+          containerClass="absolute top-8 right-8"
+          imgClass="w-10 lg:w-16 rounded-full"
+        />
 
         <h2 className="text-2xl lg:text-3xl font-bold mb-4 lg:mb-6">
           Verify Code
