@@ -6,6 +6,7 @@ import RightSide from "../common/RightSide";
 import { FaArrowUp, FaArrowDown } from "react-icons/fa";
 import { IoIosArrowBack } from "react-icons/io";
 import { faker } from "@faker-js/faker";
+
 // import io from "socket.io-client";
 
 // const ENDPOINT = "http://localhost:5000/";
@@ -105,11 +106,11 @@ const PrivateChat = () => {
     <div className="flex flex-col lg:flex-row w-full h-screen">
       {/* Sidebar with chat list */}
       <div
-        className={`w-full lg:w-1/3 p-4 bg-base-100 ${
+        className={`w-full lg:w-1/3 p-4 bg-base-100 lg:overflow-y-scroll overflow-y-visible ${
           selectedChat ? "hidden lg:block" : "block"
         }`}
       >
-        <h2 className="text-2xl font-bold mb-4 text-secondary">Chats</h2>
+        <h2 className="text-2xl font-bold mb-4">Chats</h2>
         <button className="bg-primary text-white rounded-full px-4 py-2 mb-4">
           Add User
         </button>

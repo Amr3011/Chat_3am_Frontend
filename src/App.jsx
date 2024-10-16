@@ -2,7 +2,7 @@ import { ToastContainer } from "react-toastify";
 import Register from "./pages/auth/Register.jsx";
 import VerifyEmail from "./pages/auth/VerifyEmail.jsx";
 import Login from "./pages/auth/Login.jsx";
-import { Outlet, Route, Routes } from "react-router-dom";
+import { Navigate, Outlet, Route, Routes } from "react-router-dom";
 import NotFound from "./components/common/NotFound.jsx";
 import SideBar from "./components/common/SideBar";
 import FAQs from "./pages/FAQs";
@@ -19,6 +19,7 @@ import Groups from "./components/chat/Groups.jsx";
 import GroupChat from "./components/chat/GroupChat.jsx";
 import PrivateChat from "./components/chat/PrivateChat.jsx";
 import Setting from "./pages/Setting.jsx";
+import siteMap from "./sitemap.js";
 
 export default function App() {
   const isDark = useSelector((state) => state.theme.darkMode);
@@ -40,7 +41,10 @@ export default function App() {
           <Route path="verify" element={<VerifyEmail />} />
           <Route path="forgot-password" element={<ForgotPassword />} />
           <Route path="reset-password/:restToken" element={<ResetPassword />} />
-          <Route path="*" element={<NotFound />} />
+          <Route
+            path=""
+            element={<Navigate to={siteMap.login.path} replace />}
+          />
         </Route>
 
         <Route
@@ -63,6 +67,10 @@ export default function App() {
           <Route path="Personal-info" element={<EditPersonalInfo />} />
           <Route path="notifications" element={<Notification />} />
           <Route path="settings" element={<Setting />} />
+          <Route
+            path=""
+            element={<Navigate to={siteMap.home.path} replace />}
+          />
           <Route path="*" element={<NotFound />} />
         </Route>
 

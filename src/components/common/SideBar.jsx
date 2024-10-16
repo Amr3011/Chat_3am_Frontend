@@ -34,7 +34,7 @@ export default function SideBar({ children }) {
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <ul className="flex flex-col items-center justify-around bg-primary text-white min-h-full w-32 p-4 ">
+        <ul className="flex flex-col items-center justify-around bg-primary text-white min-h-full h-full w-32 p-4">
           {/* Sidebar content here */}
           <li>
             <Link to={siteMap.home.path}>
