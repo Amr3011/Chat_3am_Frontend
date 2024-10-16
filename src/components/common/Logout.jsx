@@ -6,13 +6,12 @@ const Logout = () => {
     <Fragment>
       <div>
         {/* Button to Open the Modal */}
-        <button
-          className="btn"
-          onClick={() => document.getElementById("logout_modal").showModal()}
-        >
-          <img src={LogoutImg} alt="LogoutIcon" />
-          Logout
-        </button>
+        <div className="mt-4">
+          <div className="flex items-center border-b border-neutral pb-4 cursor-pointer hover:text-primary">
+              <img src={LogoutImg} alt="LogoutImg-icon" />
+              <span className="text-lg ms-2">Logout</span>
+          </div>
+        </div>
 
         {/* Modal Dialog */}
         <dialog id="logout_modal" className="modal">

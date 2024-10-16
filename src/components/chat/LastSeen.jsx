@@ -35,10 +35,13 @@ const LastSeen = () => {
   return (
     <Fragment>
       <div>
-        <button className="btn" onClick={openModal}>
-          <img src={LastSeenImg} alt="" />
-          Online & Last seen visibility
-        </button>
+        <div className="mt-4" onClick={openModal}>
+          <div className="flex items-center border-b border-neutral pb-4 cursor-pointer hover:text-primary">
+              <img src={LastSeenImg} alt="LastSeen-icon" />
+              <span className="text-lg ms-2">Last Seen Visibility</span>
+          </div>
+        </div>
+
         <dialog id="my_modal_1" className="modal">
           <div className="modal-box">
             <h3 className="font-bold text-lg">Choose Visibility Option</h3>
