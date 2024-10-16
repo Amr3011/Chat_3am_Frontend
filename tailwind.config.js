@@ -26,7 +26,13 @@ export default {
         "2xl": "1.5rem",
         "3xl": "1.75rem",
         "4xl": "2rem",
-      }
+      },
+      screens: {
+        's': {'min': '250px', 'max': '567px'},
+        'm': {'min': '568px', 'max': '767px'},
+        'l': {'min': '768px', 'max': '1280px'},
+        'x': {'max': '1281px' }, 
+      },
     }
   },
   plugins: [daisyui],
