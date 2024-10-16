@@ -8,12 +8,17 @@ import SideBar from "./components/common/SideBar";
 import FAQs from "./pages/FAQs";
 import Notification from "./pages/Notification.jsx";
 import UserInfo from "./pages/user/UserInfo";
+import ChangePassword from "./pages/user/ChangePassword.jsx";
+import EditPersonalInfo from "./pages/user/EditPersonalInfo.jsx";
 import ProtectedRoute from "./components/guard/ProtectedRoute.jsx";
 import ForgotPassword from "./pages/auth/ForgotPassword.jsx";
 import { useSelector } from "react-redux";
 import PublicRoute from "./components/guard/PublicRoute.jsx";
 import ResetPassword from "./pages/auth/ResetPassword.jsx";
 import siteMap from "./sitemap.js";
+import Groups from "./components/chat/Groups.jsx";
+import GroupChat from "./components/chat/GroupChat.jsx";
+import PrivateChat from "./components/chat/PrivateChat.jsx";
 
 export default function App() {
   const isDark = useSelector((state) => state.theme.darkMode);
@@ -51,9 +56,15 @@ export default function App() {
             </ProtectedRoute>
           }
         >
+          <Route path="reset-password/:restToken" element={<ResetPassword />} />
           <Route path="home" element={<h1>home page</h1>} />
           <Route path="FAQs" element={<FAQs />} />
           <Route path="user-info" element={<UserInfo />} />
+          <Route path="groups" element={<Groups />} />
+          <Route path="group-chat" element={<GroupChat />} />
+          <Route path="chats" element={<PrivateChat />} />
+          <Route path="change-password" element={<ChangePassword />} />
+          <Route path="Personal-info" element={<EditPersonalInfo />} />
           <Route path="notifications" element={<Notification />} />
         </Route>
 
