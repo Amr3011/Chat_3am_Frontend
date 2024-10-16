@@ -7,7 +7,7 @@ import { FaArrowUp, FaArrowDown } from "react-icons/fa";
 import { IoIosArrowBack } from "react-icons/io";
 import { faker } from "@faker-js/faker";
 
-// const avatar = faker.image.avatar();
+const avatar = faker.image.avatar();
 
 const GroupChat = () => {
   // Sample group chats data

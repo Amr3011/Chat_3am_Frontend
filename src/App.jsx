@@ -25,7 +25,7 @@ export default function App() {
   const isDark = useSelector((state) => state.theme.darkMode);
 
   return (
-    <main>
+    <main>  
       {isDark ? <ToastContainer theme="dark" /> : <ToastContainer />}
       <Routes>
         <Route

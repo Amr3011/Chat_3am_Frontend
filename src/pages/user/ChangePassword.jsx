@@ -1,4 +1,4 @@
-import Profile from "../../assets/Profile.png";
+import { faker } from "@faker-js/faker";
 import { useState, useEffect } from "react";
 import { CgClose } from "react-icons/cg";
 import { Link } from "react-router-dom";
@@ -44,7 +44,7 @@ const ChangePassword = () => {
 
                 <div className="flex items-center mb-8">
                     <img
-                        src={Profile}
+                        src={faker.image.avatar()}
                         alt="User Profile"
                         className="w-20 h-20 rounded-full mr-6"
                     />
