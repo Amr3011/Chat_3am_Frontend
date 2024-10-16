@@ -1,5 +1,7 @@
 // import React from "react";
 
+import RightSide from "../common/RightSide";
+
 const notifications = [
   {
     id: 1,
@@ -71,7 +73,7 @@ const Groups = () => {
         </div>
       </div>
 
-      <div className="md:block flex-1 bg-primary flex justify-center items-center p-12 shadow-lg">
+      {/* <div className="md:block flex-1 bg-primary flex justify-center items-center p-12 shadow-lg">
         <div className="text-center text-base-100">
           <div className="flex justify-center">
             <img src="" alt="Illustration" className="mb-8" />
@@ -81,7 +83,8 @@ const Groups = () => {
             Faster Now...
           </p>
         </div>
-      </div>
+      </div> */}
+      <RightSide />
     </div>
   );
 };

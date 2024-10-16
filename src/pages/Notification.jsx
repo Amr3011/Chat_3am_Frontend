@@ -1,5 +1,6 @@
 import { faker } from "@faker-js/faker";
 import AmigosChatting from "../assets/Amigos Chatting.png";
+import RightSide from "../components/common/RightSide";
 
 function timeDifference(toDate) {
   const now = new Date(); // Get current date and time
@@ -48,7 +49,7 @@ const generateNotification = () => ({
   image: faker.image.avatar()
 });
 
-const notifications = Array.from({ length: 6 }, generateNotification);
+const notifications = Array.from({ length: 5 }, generateNotification);
 
 const Notification = () => {
   return (
@@ -77,7 +78,7 @@ const Notification = () => {
         </div>
       </div>
 
-      <div className="md:block flex-1 bg-primary flex justify-center items-center p-12 shadow-lg">
+      {/* <div className="md:block flex-1 bg-primary flex justify-center items-center p-12 shadow-lg">
         <div className="text-center text-base-100">
           <div className="flex justify-center">
             <img src={AmigosChatting} alt="Illustration" className="mb-8" />
@@ -87,7 +88,8 @@ const Notification = () => {
             Faster Now...
           </p>
         </div>
-      </div>
+      </div> */}
+      <RightSide />
     </div>
   );
 };

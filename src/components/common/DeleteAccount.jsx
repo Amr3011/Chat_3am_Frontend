@@ -6,15 +6,12 @@ const DeleteAccount = () => {
     <Fragment>
       <div>
         {/* Button to Open the Modal */}
-        <button
-          className="btn"
-          onClick={() =>
-            document.getElementById("delete_account_modal").showModal()
-          }
-        >
-          <img src={DeleteAccountImg} alt="DeleteAccountIcon" />
-          Delete Account
-        </button>
+        <div className="mt-4">
+          <div className="flex items-center border-b border-neutral pb-4 cursor-pointer hover:text-primary">
+              <img src={DeleteAccountImg} alt="DeleteAccount-icon" />
+              <span className="text-lg ms-2">Delete An Account</span>
+          </div>
+        </div>
 
         {/* Modal Dialog */}
         <dialog id="delete_account_modal" className="modal">

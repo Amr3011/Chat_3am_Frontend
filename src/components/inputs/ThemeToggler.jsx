@@ -45,10 +45,12 @@ const ThemeToggler = () => {
     <Fragment>
       <div>
         {/* Button to open the modal */}
-        <button className="btn" onClick={openModal}>
-          <img src={DarkMode} />
-          Dark Mode
-        </button>
+        <div className="" onClick={openModal}>
+          <div className="flex items-center border-b border-neutral pb-4 cursor-pointer hover:text-primary">
+            <img src={DarkMode} alt="DarkMode-icon"/>
+            <span className="text-lg ms-2">Dark Mode</span>
+          </div>
+        </div>
 
         {/* Modal */}
         {isModalOpen && (
@@ -56,9 +58,8 @@ const ThemeToggler = () => {
             className={`fixed inset-0 flex items-center justify-center z-50`}
           >
             <div
-              className={`modal-box p-6 rounded-lg shadow-lg ${
-                isDarkMode ? "bg-gray-800 text-white" : "bg-white text-black"
-              }`}
+              className={`modal-box p-6 rounded-lg shadow-lg ${isDarkMode ? "bg-gray-800 text-white" : "bg-white text-black"
+                }`}
             >
               <h3 className="font-bold text-lg">Theme Settings</h3>
               <p className="py-4">Choose your theme preference:</p>
