@@ -56,7 +56,7 @@ const Register = () => {
           <img
             src={leftImage}
             alt="Welcome Image"
-            className="w-2/3 lg:w-3/4 mb-6 lg:mb-8"
+            className="w-2/3 lg:w-3/4 mb-4 lg:mb-8"
           />
           <h1 className="text-2xl lg:text-4xl font-bold mb-4 lg:mb-6 text-center">
             Welcome To Chat Community
@@ -70,11 +70,11 @@ const Register = () => {
 
       {/* Right side (Register form) */}
       <div className="w-full lg:w-1/2 flex flex-col justify-center p-6 lg:p-12 relative">
-        <div className="absolute top-0 right-0 mt-4 mr-4">
+        <div className="absolute top-0 right-0 mt-8 mr-8">
           <img src={logo} alt="Logo" className="w-10 lg:w-16 rounded-full" />
         </div>
 
-        <h2 className="text-2xl lg:text-3xl font-bold mb-4 lg:mb-6">
+        <h2 className="text-2xl lg:text-3xl font-bold">
           Register
         </h2>
         <p className="text-sm mb-4 lg:mb-6">
@@ -83,8 +83,9 @@ const Register = () => {
 
         <form onSubmit={handleRegister}>
           <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 mb-5">
+            
             <div className="flex flex-col w-full">
-              <label className="block text-sm font-semibold text-neutral">
+              <label className="block text-sm mb-2 font-semibold text-neutral">
                 Full Name
               </label>
               <input
@@ -95,8 +96,9 @@ const Register = () => {
                 onChange={(e) => setFullName(e.target.value)}
               />
             </div>
+            
             <div className="flex flex-col w-full">
-              <label className="block text-sm font-semibold text-neutral">
+              <label className="block text-sm mb-2 font-semibold text-neutral">
                 UserName
               </label>
               <input
@@ -111,7 +113,7 @@ const Register = () => {
 
           <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 mb-5">
             <div className="flex flex-col w-full">
-              <label className="block text-sm font-semibold text-neutral">
+              <label className="block text-sm mb-2 font-semibold text-neutral">
                 Email
               </label>
               <input
@@ -123,7 +125,7 @@ const Register = () => {
               />
             </div>
             <div className="flex flex-col w-full">
-              <label className="block text-sm font-semibold text-neutral">
+              <label className="block text-sm mb-2 font-semibold text-neutral">
                 Phone Number
               </label>
               <input
@@ -136,8 +138,8 @@ const Register = () => {
             </div>
           </div>
 
-          <div className="mb-5">
-            <label className="block text-sm font-semibold text-neutral">
+          <div className="mb-4">
+            <label className="block text-sm mb-2 font-semibold text-neutral">
               Password
             </label>
             <input
@@ -149,8 +151,8 @@ const Register = () => {
             />
           </div>
 
-          <div className="mb-5">
-            <label className="block text-sm font-semibold text-neutral">
+          <div className="mb-4">
+            <label className="block text-sm mb-2 font-semibold text-neutral">
               Confirm Password
             </label>
             <input
@@ -162,7 +164,7 @@ const Register = () => {
             />
           </div>
 
-          <label className="flex items-center mb-4">
+          <label className="flex items-center mb-4 mt-6">
             <input type="checkbox" className="checkbox mr-2" />I agree to all
             the Terms and Privacy Policies
           </label>

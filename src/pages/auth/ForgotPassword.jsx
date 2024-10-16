@@ -4,6 +4,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { IoIosArrowBack } from "react-icons/io";
 import { toast } from "react-toastify";
 import siteMap from "../../sitemap";
+import logo from "../../assets/Logo.png";
+
+
 const intialState = {
   username: ""
 };
@@ -36,43 +39,52 @@ export default function ForgotPassword() {
     }
   };
   return (
-    <div className="container">
-      <div className="flex flex-row">
-        <div className="hidden lg:flex min-h-screen w-2/3 bg-primary flex-col justify-center items-center gap-3">
+
+    <div className="min-h-screen flex flex-col lg:flex-row bg-base-100">
+      {/* Left side */}
+      <div className="flex w-full lg:w-1/2 bg-primary p-8 lg:p-12 text-white justify-center items-center">
+        <div className="flex flex-col justify-center items-center w-full">
           <img
             src={leftImg}
             alt="Welcome Image"
-            className="w-3/6 mb-6 lg:mb-8"
+            className="w-1/2 lg:w-1/3 mb-4 lg:mb-8"
           />
-          <h1 className="text-2xl lg:text-4xl font-bold text-center text-base-100">
+          <h1 className="text-2xl lg:text-4xl font-bold mb-4 lg:mb-6 text-center">
             Welcome To Chat Community
           </h1>
-          <p className="text-sm lg:text-lg text-left p-5 text-base-100">
+          <p className="text-sm lg:text-lg text-center">
             This website to cover all people against world to talk with each
             others
           </p>
         </div>
-        <div className="container p-4">
-          <div className="flex flex-col justify-center items-center h-full">
-            <Link
+      </div>
+
+      {/* Right side */}
+      <div className="w-full lg:w-1/2 flex flex-col justify-center p-6 lg:p-12 relative">
+        <div className="absolute top-0 right-0 mt-8 mr-8">
+          <img src={logo} alt="Logo" className="w-10 lg:w-16 rounded-full" />
+        </div>
+
+
+        <Link
               className="link link-primary flex justify-start self-start items-center"
               to={siteMap.login.path}
             >
               <IoIosArrowBack className="text-primary" />
               Back to Login
-            </Link>
-            <div className="mb-6 self-start">
-              <h1 className="text-2xl font-bold text-left capitalize">
-                forgot your password?
-              </h1>
-              <p className="text-xs capitalize">
-                Don&apos;t worry, happens to all of us. Enter your email below
-                to recover your password.
-              </p>
-            </div>
-            <form
+        </Link>
+
+        <h2 className="text-2xl lg:text-3xl font-bold mt-2">
+          forgot your password
+        </h2>
+        <p className="text-sm mb-4 lg:mb-6">
+          Don&apos;t worry, happens to all of us. Enter your email below
+          to recover your password.
+        </p>
+
+        <form
               method="post"
-              className="w-8/12 self-start flex flex-col gap-5"
+              className="w-full self-start flex flex-col gap-5"
               onSubmit={handleOnSubmit}
             >
               <label htmlFor="username" className="flex flex-col gap-3 w-full">
@@ -89,20 +101,11 @@ export default function ForgotPassword() {
                 type="submit"
                 className="btn btn-primary w-full capitalize"
               >
-                submit
+                Reset Your Password
               </button>
             </form>
-            <p className="text-sm my-4">
-              Don&apos;t have an account?{" "}
-              <Link
-                to={siteMap.register.path}
-                className="link link-primary capitalize"
-              >
-                sign up
-              </Link>
-            </p>
-          </div>
-        </div>
+
+
       </div>
     </div>
   );
