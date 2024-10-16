@@ -2,7 +2,7 @@ import { useState } from "react";
 import SendIcon from "../../assets/SendIcon.svg";
 import AttachedIcon from "../../assets/AttachedIcon.svg";
 import RightSide from "../common/RightSide";
-import { AiOutlineSearch } from "react-icons/ai";
+// import { AiOutlineSearch } from "react-icons/ai";
 import { FaArrowUp, FaArrowDown } from "react-icons/fa";
 import { IoIosArrowBack } from "react-icons/io";
 import { faker } from "@faker-js/faker";
@@ -182,10 +182,10 @@ const PrivateChat = () => {
                 <span className="text-white text-xl">{selectedChat.name}</span>
               </div>
               <div className="flex-none">
-                <AiOutlineSearch
+                {/* <AiOutlineSearch
                   className="text-white w-6 h-6 cursor-pointer"
                   onClick={handleSearchToggle}
-                />
+                /> */}
               </div>
             </div>
 
@@ -226,6 +226,7 @@ const PrivateChat = () => {
             </div>
 
             {/* Input form fixed at the bottom */}
+            <div className="fixed bottom-0">
             <form
               className="bg-base-100 flex items-center p-2"
               onSubmit={(e) => {
@@ -238,6 +239,7 @@ const PrivateChat = () => {
               <button type="submit" className="px-1">
                 <img src={AttachedIcon} alt="Attach" />
               </button>
+              
               <input
                 id="input"
                 type="text"
@@ -252,6 +254,7 @@ const PrivateChat = () => {
                 <img src={SendIcon} alt="Send" />
               </button>
             </form>
+            </div>
           </>
         ) : (
           <RightSide />

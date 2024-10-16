@@ -2,8 +2,8 @@ import logo from "../../assets/Logo.png";
 import leftImage from "../../assets/Verify_photo.png";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import axios from "axios";
 import { toast } from "react-toastify";
+import siteMap from "./../../sitemap";
 
 const VerifyEmail = () => {
   const navigate = useNavigate();
@@ -12,15 +12,19 @@ const VerifyEmail = () => {
 
   const handleVerify = async () => {
     try {
-      const response = await axios.post(
-        "http://127.0.0.1:5000/api/user/verify",
-        { email, verificationCode: code }
-      );
-      toast.success(response.data.message);
+      const response = await fetch("/api/user/verify", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email, verificationCode: code })
+      });
+      const data = await response.json();
+      toast.success(data.message);
 
-      navigate("/login");
+      navigate(siteMap.login.path);
     } catch (error) {
-      toast.error(error.response?.data?.message || "Verification failed!");
+      toast.error(error.message || "Verification failed!");
     }
   };
 
@@ -32,7 +36,7 @@ const VerifyEmail = () => {
           <img
             src={leftImage}
             alt="Welcome Image"
-            className="w-1/2 lg:w-1/3 mb-6 lg:mb-8"
+            className="w-1/2 lg:w-1/3 mb-4 lg:mb-8"
           />
           <h1 className="text-2xl lg:text-4xl font-bold mb-4 lg:mb-6 text-center">
             Welcome To Chat Community
@@ -46,7 +50,7 @@ const VerifyEmail = () => {
 
       {/* Right side */}
       <div className="w-full lg:w-1/2 flex flex-col justify-center p-6 lg:p-12 relative">
-        <div className="absolute top-0 right-0 mt-4 mr-4">
+        <div className="absolute top-0 right-0 mt-8 mr-8">
           <img src={logo} alt="Logo" className="w-10 lg:w-16 rounded-full" />
         </div>
 
@@ -58,19 +62,19 @@ const VerifyEmail = () => {
         </p>
 
         <div className="mb-5">
-          <label className="block text-sm font-semibold text-neutral">
+          <label className="block text-sm mb-2 font-semibold text-neutral">
             Enter Your Email
           </label>
           <input
             type="text"
-            placeholder="Enter the mail"
+            placeholder="Enter the Email"
             className="input input-bordered w-full"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
         <div className="mb-5">
-          <label className="block text-sm font-semibold text-neutral">
+          <label className="block text-sm mb-2 font-semibold text-neutral">
             Enter Code
           </label>
           <input

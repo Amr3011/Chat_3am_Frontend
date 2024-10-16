@@ -8,6 +8,7 @@ import { LuUser2 } from "react-icons/lu";
 import { HiOutlineUserGroup } from "react-icons/hi";
 import { GoGear } from "react-icons/go";
 import { faker } from "@faker-js/faker";
+import siteMap from "../../sitemap";
 
 const avatar = faker.image.avatar();
 
@@ -15,9 +16,9 @@ export default function SideBar({ children }) {
   const location = useLocation();
 
   return (
-    <div className="drawer lg:drawer-open ">
+    <div className="drawer lg:drawer-open">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-      <div className="drawer-content flex flex-row">
+      <div className="drawer-content grid">
         {/* Page content here */}
         <label
           htmlFor="my-drawer-2"
@@ -25,16 +26,7 @@ export default function SideBar({ children }) {
         >
           <IoArrowRedoCircleOutline fontSize={24} />
         </label>
-
         {children}
-
-        {/* First part of the content
-        <div className="first-part flex-1 ">{Content}</div>
-
-        Second part of the content
-        <div className="second-part flex-2 bg-primary flex items-center justify-center h-full">
-          {RightSide}
-        </div> */}
       </div>
       <div className="drawer-side">
         <label
@@ -45,7 +37,7 @@ export default function SideBar({ children }) {
         <ul className="flex flex-col items-center justify-around bg-primary text-white min-h-full w-32 p-4 ">
           {/* Sidebar content here */}
           <li>
-            <Link to={"/"}>
+            <Link to={siteMap.home.path}>
               <img
                 className="rounded-full h-16 w-16"
                 width={0}
@@ -60,10 +52,9 @@ export default function SideBar({ children }) {
               <li>
                 <Link
                   className={`${
-                    location.pathname == "/privatechat" &&
-                    "text-primary bg-white"
+                    location.pathname == siteMap.chats.path && "text-primary bg-white"
                   } hover:text-primary hover:bg-white h-fit flex flex-col items-center p-2 rounded-lg`}
-                  to={"/privatechat"}
+                  to={siteMap.chats.path}
                 >
                   <TiMessageTyping fontSize={24} />
                   <p className="capitalize">chats</p>
@@ -72,10 +63,10 @@ export default function SideBar({ children }) {
               <li>
                 <Link
                   className={`${
-                    location.pathname == "/notifications" &&
+                    location.pathname == siteMap.notifications.path &&
                     "text-primary bg-white"
                   } hover:text-primary hover:bg-white h-fit flex flex-col items-center p-2 rounded-lg`}
-                  to={"/notifications"}
+                  to={siteMap.notifications.path}
                 >
                   <FaBell fontSize={24} />
                   <p className="capitalize">notifications</p>
@@ -84,9 +75,9 @@ export default function SideBar({ children }) {
               <li>
                 <Link
                   className={`${
-                    location.pathname == "/user-info" && "text-primary bg-white"
+                    location.pathname == siteMap.userInfo.path && "text-primary bg-white"
                   } hover:text-primary hover:bg-white h-fit flex flex-col items-center p-2 rounded-lg`}
-                  to={"/user-info"}
+                  to={siteMap.userInfo.path}
                 >
                   <LuUser2 fontSize={24} />
                   <p className="capitalize">user info</p>
@@ -95,9 +86,9 @@ export default function SideBar({ children }) {
               <li>
                 <Link
                   className={`${
-                    location.pathname == "/groupchat" && "text-primary bg-white"
+                    location.pathname == siteMap.groups.path && "text-primary bg-white"
                   } hover:text-primary hover:bg-white h-fit flex flex-col items-center p-2 rounded-lg`}
-                  to={"/groupchat"}
+                  to={siteMap.groups.path}
                 >
                   <HiOutlineUserGroup fontSize={24} />
                   <p className="capitalize">groups</p>
@@ -110,9 +101,9 @@ export default function SideBar({ children }) {
               <li>
                 <Link
                   className={`${
-                    location.pathname == "/settings" && "text-primary bg-white"
+                    location.pathname == siteMap.settings.path && "text-primary bg-white"
                   } hover:text-primary hover:bg-white h-fit flex flex-col items-center p-2 rounded-lg`}
-                  to={"/settings"}
+                  to={siteMap.settings.path}
                 >
                   <GoGear fontSize={24} />
                   <p className="capitalize">settings</p>
@@ -136,7 +127,5 @@ export default function SideBar({ children }) {
 }
 
 SideBar.propTypes = {
-  // Content: PropTypes.node.isRequired, // Validate Content prop
-  // RightSide: PropTypes.node.isRequired,
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired
 };
