@@ -15,16 +15,17 @@ import ForgotPassword from "./pages/auth/ForgotPassword.jsx";
 import { useSelector } from "react-redux";
 import PublicRoute from "./components/guard/PublicRoute.jsx";
 import ResetPassword from "./pages/auth/ResetPassword.jsx";
-import siteMap from "./sitemap.js";
 import Groups from "./components/chat/Groups.jsx";
 import GroupChat from "./components/chat/GroupChat.jsx";
 import PrivateChat from "./components/chat/PrivateChat.jsx";
+import Setting from "./pages/Setting.jsx";
+import siteMap from "./sitemap.js";
 
 export default function App() {
   const isDark = useSelector((state) => state.theme.darkMode);
 
   return (
-    <main>
+    <main>  
       {isDark ? <ToastContainer theme="dark" /> : <ToastContainer />}
       <Routes>
         <Route
@@ -41,8 +42,8 @@ export default function App() {
           <Route path="forgot-password" element={<ForgotPassword />} />
           <Route path="reset-password/:restToken" element={<ResetPassword />} />
           <Route
-            path="/"
-            element={<Navigate to={siteMap.register.path} replace />}
+            path=""
+            element={<Navigate to={siteMap.login.path} replace />}
           />
         </Route>
 
@@ -56,7 +57,6 @@ export default function App() {
             </ProtectedRoute>
           }
         >
-          <Route path="reset-password/:restToken" element={<ResetPassword />} />
           <Route path="home" element={<h1>home page</h1>} />
           <Route path="FAQs" element={<FAQs />} />
           <Route path="user-info" element={<UserInfo />} />
@@ -66,6 +66,12 @@ export default function App() {
           <Route path="change-password" element={<ChangePassword />} />
           <Route path="Personal-info" element={<EditPersonalInfo />} />
           <Route path="notifications" element={<Notification />} />
+          <Route path="settings" element={<Setting />} />
+          <Route
+            path=""
+            element={<Navigate to={siteMap.home.path} replace />}
+          />
+          <Route path="*" element={<NotFound />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />

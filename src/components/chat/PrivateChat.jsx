@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import SendIcon from "../../assets/SendIcon.svg";
 import AttachedIcon from "../../assets/AttachedIcon.svg";
 import RightSide from "../common/RightSide";
@@ -6,6 +6,7 @@ import RightSide from "../common/RightSide";
 import { FaArrowUp, FaArrowDown } from "react-icons/fa";
 import { IoIosArrowBack } from "react-icons/io";
 import { faker } from "@faker-js/faker";
+
 // import io from "socket.io-client";
 
 // const ENDPOINT = "http://localhost:5000/";
@@ -34,7 +35,7 @@ const PrivateChat = () => {
       email: "tafeda@example.com",
       image: "/path/to/tafeda.png",
       status: "online",
-      messages: ["Hello Tafeda! How are you?", "I'm good, thanks!"],
+      messages: ["Hello Tafeda! How are you?", "I'm good, thanks!"]
     },
     {
       id: 2,
@@ -43,7 +44,7 @@ const PrivateChat = () => {
       email: "sodfa@example.com",
       image: "/path/to/sodfa.png",
       status: "offline",
-      messages: ["Did you see the new update?", "Yes, it's awesome!"],
+      messages: ["Did you see the new update?", "Yes, it's awesome!"]
     },
     {
       id: 3,
@@ -52,7 +53,7 @@ const PrivateChat = () => {
       email: "alice@example.com",
       image: "/path/to/alice.png",
       status: "online",
-      messages: ["Hey there!", "How's it going?"],
+      messages: ["Hey there!", "How's it going?"]
     },
     {
       id: 4,
@@ -61,7 +62,7 @@ const PrivateChat = () => {
       email: "bob@example.com",
       image: "/path/to/bob.png",
       status: "offline",
-      messages: ["Good morning!", "Ready for the meeting?"],
+      messages: ["Good morning!", "Ready for the meeting?"]
     },
     {
       id: 5,
@@ -70,13 +71,13 @@ const PrivateChat = () => {
       email: "charlie@example.com",
       image: "/path/to/charlie.png",
       status: "online",
-      messages: ["Let's catch up soon!", "Miss you!"],
-    },
+      messages: ["Let's catch up soon!", "Miss you!"]
+    }
   ];
 
   const [selectedChat, setSelectedChat] = useState(null);
   const [messages, setMessages] = useState([]);
-  const [searchActive, setSearchActive] = useState(false);
+  const [searchActive, _] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleChatClick = (chat) => {
@@ -84,9 +85,9 @@ const PrivateChat = () => {
     setMessages(chat.messages);
   };
 
-  const handleSearchToggle = () => {
-    setSearchActive((prev) => !prev);
-  };
+  // const handleSearchToggle = () => {
+  //   setSearchActive((prev) => !prev);
+  // };
 
   const handleBackClick = () => {
     setSelectedChat(null);
@@ -105,11 +106,11 @@ const PrivateChat = () => {
     <div className="flex flex-col lg:flex-row w-full h-screen">
       {/* Sidebar with chat list */}
       <div
-        className={`w-full lg:w-1/3 p-4 bg-base-100 ${
+        className={`w-full lg:w-1/3 p-4 bg-base-100 lg:overflow-y-scroll overflow-y-visible ${
           selectedChat ? "hidden lg:block" : "block"
         }`}
       >
-        <h2 className="text-2xl font-bold mb-4 text-secondary">Chats</h2>
+        <h2 className="text-2xl font-bold mb-4">Chats</h2>
         <button className="bg-primary text-white rounded-full px-4 py-2 mb-4">
           Add User
         </button>
@@ -227,33 +228,33 @@ const PrivateChat = () => {
 
             {/* Input form fixed at the bottom */}
             <div className="fixed bottom-0">
-            <form
-              className="bg-base-100 flex items-center p-2"
-              onSubmit={(e) => {
-                e.preventDefault();
-                const newMessage = e.target.input.value;
-                setMessages((prev) => [...prev, newMessage]);
-                e.target.input.value = "";
-              }}
-            >
-              <button type="submit" className="px-1">
-                <img src={AttachedIcon} alt="Attach" />
-              </button>
-              
-              <input
-                id="input"
-                type="text"
-                placeholder="Type your message..."
-                className="flex-grow bg-gray-100 rounded-full px-4 py-2 text-base focus:outline-none"
-                autoComplete="off"
-              />
-              <button
-                type="submit"
-                className=" text-white flex items-center justify-center p-2 ml-2 rounded-full"
+              <form
+                className="bg-base-100 flex items-center p-2"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  const newMessage = e.target.input.value;
+                  setMessages((prev) => [...prev, newMessage]);
+                  e.target.input.value = "";
+                }}
               >
-                <img src={SendIcon} alt="Send" />
-              </button>
-            </form>
+                <button type="submit" className="px-1">
+                  <img src={AttachedIcon} alt="Attach" />
+                </button>
+
+                <input
+                  id="input"
+                  type="text"
+                  placeholder="Type your message..."
+                  className="flex-grow bg-gray-100 rounded-full px-4 py-2 text-base focus:outline-none"
+                  autoComplete="off"
+                />
+                <button
+                  type="submit"
+                  className=" text-white flex items-center justify-center p-2 ml-2 rounded-full"
+                >
+                  <img src={SendIcon} alt="Send" />
+                </button>
+              </form>
             </div>
           </>
         ) : (

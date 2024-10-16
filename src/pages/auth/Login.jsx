@@ -1,4 +1,3 @@
-import logo from "../../assets/Logo.png";
 import leftImage from "../../assets/Login_photo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -6,6 +5,7 @@ import { login } from "../../redux/reducers/userReducer";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import siteMap from "../../sitemap";
+import Logo from "../../components/common/Logo";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -78,9 +78,10 @@ const Login = () => {
 
       {/* Right side (Login form) */}
       <div className="w-full lg:w-1/2 flex flex-col justify-center p-6 lg:p-12 relative">
-        <div className="absolute top-0 right-0 mt-8 mr-8">
-          <img src={logo} alt="Logo" className="w-10 lg:w-16 rounded-full" />
-        </div>
+        <Logo
+          containerClass="absolute top-8 right-8"
+          imgClass="w-10 md:w-16 rounded-full"
+        />
 
         <h2 className="text-2xl lg:text-3xl font-bold">Login</h2>
         <p className="text-sm mb-4 lg:mb-6">Login to access your account</p>
@@ -130,7 +131,10 @@ const Login = () => {
         <div className="text-center">
           <p>
             Don&apos;t have an account?
-            <Link to={siteMap.register.path} className="text-primary hover:underline">
+            <Link
+              to={siteMap.register.path}
+              className="text-primary hover:underline"
+            >
               {" "}
               Sign up
             </Link>
