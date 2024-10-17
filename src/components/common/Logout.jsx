@@ -1,11 +1,10 @@
 import { Fragment, useRef } from "react";
 import LogoutImg from "../../assets/LogoutImg.svg";
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+//import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Logout = () => {
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const modalRef = useRef(null); // Reference for modal
 
   const handleLogout = async () => {
