@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 import AmigosChatting from "../../assets/Amigos Chatting.png";
-import { faker } from "@faker-js/faker";
+import { useSelector } from "react-redux";
 
 const UserInfo = () => {
+  const userInfo = useSelector((state) => state.user.userInfo);
   return (
     <div className="min-h-screen flex flex-col md:flex-row light:text-base-100 font-roboto w-full">
       <div className="w-full md:w-[40%] lg:w-[30%] p-8 bg-base-100 shadow-lg">
@@ -10,7 +11,7 @@ const UserInfo = () => {
 
         <div className="flex items-center mb-8">
           <img
-            src={faker.image.avatar()}
+            src={userInfo.avatar}
             alt="User Profile"
             className="w-20 h-20 rounded-full mr-6"
           />
