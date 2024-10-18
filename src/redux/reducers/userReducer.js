@@ -1,20 +1,21 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import defaultAvatar from "../../assets/defaultProfile.jpg";
 
 // Async thunk to update the user
 export const updateUser = createAsyncThunk(
-  'user/update',
+  "user/update",
   async (userInfo, { rejectWithValue }) => {
     try {
-      const response = await fetch('/api/user', {
-        method: 'PUT',
+      const response = await fetch("/api/user", {
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json"
         },
-        body: JSON.stringify(userInfo),
+        body: JSON.stringify(userInfo)
       });
 
       if (!response.ok) {
-        throw new Error('Failed to update user');
+        throw new Error("Failed to update user");
       }
 
       return await response.json();
@@ -37,17 +38,20 @@ const getInitialUserInfo = () => {
 const userSlice = createSlice({
   name: "user",
   initialState: {
-    userInfo: getInitialUserInfo(),
+    userInfo: getInitialUserInfo()
   },
   reducers: {
     login: (state, action) => {
       state.userInfo = action.payload;
+      if (!state.userInfo.avatar || state.userInfo.avatar === "") {
+        state.userInfo.avatar = defaultAvatar;
+      }
       localStorage.setItem("userInfo", JSON.stringify(state.userInfo));
     },
     logout: (state) => {
       state.userInfo = null;
       localStorage.removeItem("userInfo");
-    },
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -59,7 +63,7 @@ const userSlice = createSlice({
       .addCase(updateUser.rejected, (state, action) => {
         console.error("Failed to update user:", action);
       });
-  },
+  }
 });
 
 export const { login, logout } = userSlice.actions;

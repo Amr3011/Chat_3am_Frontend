@@ -1,19 +1,25 @@
 import { Fragment, useRef } from "react";
 import LogoutImg from "../../assets/LogoutImg.svg";
 //import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import siteMap from "./../../sitemap";
+import { useNavigate } from "react-router-dom";
+import { logout } from "../../redux/reducers/userReducer";
+import { useDispatch } from "react-redux";
 
 const Logout = () => {
   //const navigate = useNavigate();
   const modalRef = useRef(null); // Reference for modal
-
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const handleLogout = async () => {
     try {
-      await axios.post('/api/user/logout');  // This is the logout endpoint
-      localStorage.removeItem('userInfo');  // Clear local storage (if you store the token here)
-      window.location.href = '/login';  // Redirect the user to login page
+      await fetch("/api/user/logout", {
+        method: "GET"
+      });
+      dispatch(logout());
+      navigate(siteMap.login.path, { replace: true });
     } catch (error) {
-      console.error('Error logging out:', error);
+      console.error("Error logging out:", error);
     }
   };
 
@@ -41,9 +47,13 @@ const Logout = () => {
             <p className="py-4">Are you sure you want to log out?</p>
             <div className="modal-action">
               {/* Yes Button */}
-              <button className="btn" onClick={handleLogout}>Yes</button>
+              <button className="btn" onClick={handleLogout}>
+                Yes
+              </button>
               {/* No Button */}
-              <button className="btn" onClick={closeModal}>No</button>
+              <button className="btn" onClick={closeModal}>
+                No
+              </button>
             </div>
           </div>
         </dialog>
