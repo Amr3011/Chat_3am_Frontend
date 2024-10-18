@@ -6,34 +6,29 @@ import RightSide from "../common/RightSide";
 import { AiOutlineSearch } from "react-icons/ai";
 import { FaArrowUp, FaArrowDown } from "react-icons/fa";
 import { IoIosArrowBack } from "react-icons/io";
-import { fetchGroupChats } from "../../api/chatApi"; // Adjust the import path
-import { setGroupChats } from "../../redux/reducers/chatReducer";
+import { fetchChats } from "../../redux/reducers/chatReducer"; // Adjusted import path
 import { faker } from "@faker-js/faker";
 
 const avatar = faker.image.avatar();
 
 const GroupChat = () => {
   const dispatch = useDispatch();
-  const { groupChats } = useSelector((state) => state.chat);
+  const { groupChats, loading, error } = useSelector((state) => state.chat);
   const [selectedGroup, setSelectedGroup] = useState(null);
   const [messages, setMessages] = useState([]);
   const [searchActive, setSearchActive] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredMessages, setFilteredMessages] = useState([]);
 
+  // const userId = useSelector((state) => state.user.userInfo._id);
+
   // Fetch group chats when component mounts
   useEffect(() => {
-    const fetchChats = async () => {
-      try {
-        const userId = JSON.parse(localStorage.getItem("userInfo"))._id; // Adjust according to your user data structure
-        const chats = await fetchGroupChats(userId);
-        dispatch(setGroupChats(chats)); // Dispatch the action to set the chats in the store
-      } catch (error) {
-        console.error("Failed to fetch group chats:", error);
-      }
+    const fetchGroupChats = async () => {
+      await dispatch(fetchChats()); // Dispatch the thunk to fetch chats
     };
 
-    fetchChats();
+    fetchGroupChats();
   }, [dispatch]);
 
   const handleGroupClick = (group) => {
@@ -91,6 +86,8 @@ const GroupChat = () => {
 
         {/* Group list */}
         <ul className="space-y-4">
+          {loading && <li>Loading...</li>}
+          {error && <li>Error fetching groups: {error}</li>}
           {filteredGroups.map((group) => (
             <li
               key={group._id}
