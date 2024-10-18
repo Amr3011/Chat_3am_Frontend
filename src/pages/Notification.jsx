@@ -1,51 +1,57 @@
+import { faker } from "@faker-js/faker";
 import AmigosChatting from "../assets/Amigos Chatting.png";
+import RightSide from "../components/common/RightSide";
+
+function timeDifference(toDate) {
+  const now = new Date(); // Get current date and time
+  const pastDate = new Date(toDate); // Parse the input date
+  const diffMs = Math.abs(now - pastDate); // Get the difference in milliseconds
+
+  // Calculate the time components
+  const years = Math.floor(diffMs / (1000 * 60 * 60 * 24 * 365));
+  const months = Math.floor(
+    (diffMs % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24 * 30)
+  );
+  const days = Math.floor(
+    (diffMs % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24)
+  );
+  const hours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+
+  return {
+    years,
+    months,
+    days,
+    hours,
+    minutes
+  };
+}
+
+const itHaveBeen = (time) => {
+  const { years, months, days, hours, minutes } = timeDifference(time);
+  if (years > 0) {
+    return `${years} years ago`;
+  } else if (months > 0) {
+    return `${months} months ago`;
+  } else if (days > 0) {
+    return `${days} days ago`;
+  } else if (hours > 0) {
+    return `${hours} hours ago`;
+  } else {
+    return `${minutes} minutes ago`;
+  }
+};
+const generateNotification = () => ({
+  id: faker.string.uuid(),
+  name: faker.person.fullName(),
+  time: itHaveBeen(faker.date.recent()),
+  message: faker.lorem.sentence(),
+  image: faker.image.avatar()
+});
+
+const notifications = Array.from({ length: 5 }, generateNotification);
 
 const Notification = () => {
-  const notifications = [
-    {
-      id: 1,
-      name: "Tafeda",
-      time: "8 min ago",
-      message: "Added your product to her favourites list",
-      image: "/path/to/tafeda.png"
-    },
-    {
-      id: 2,
-      name: "Sodfa",
-      time: "10 min ago",
-      message: "Added your product to her favourites list",
-      image: "/path/to/sodfa.png"
-    },
-    {
-      id: 3,
-      name: "Deela",
-      time: "15 min ago",
-      message: "Added your product to her favourites list",
-      image: "/path/to/deela.png"
-    },
-    {
-      id: 4,
-      name: "Shehab",
-      time: "19 min ago",
-      message: "Added your product to her favourites list",
-      image: "/path/to/shehab.png"
-    },
-    {
-      id: 5,
-      name: "Masa",
-      time: "20 min ago",
-      message: "Added your product to her favourites list",
-      image: "/path/to/masa.png"
-    },
-    {
-      id: 6,
-      name: "Marwan",
-      time: "28 min ago",
-      message: "Added your product to her favourites list",
-      image: "/path/to/marwan.png"
-    }
-  ];
-
   return (
     <div className="min-h-screen flex flex-col lg:flex-row bg-base-100 text-neutral font-roboto">
       {/* Notification Section */}
@@ -72,7 +78,7 @@ const Notification = () => {
         </div>
       </div>
 
-      <div className="md:block flex-1 bg-primary flex justify-center items-center p-12 shadow-lg">
+      {/* <div className="md:block flex-1 bg-primary flex justify-center items-center p-12 shadow-lg">
         <div className="text-center text-base-100">
           <div className="flex justify-center">
             <img src={AmigosChatting} alt="Illustration" className="mb-8" />
@@ -82,7 +88,8 @@ const Notification = () => {
             Faster Now...
           </p>
         </div>
-      </div>
+      </div> */}
+      <RightSide />
     </div>
   );
 };

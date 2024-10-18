@@ -1,18 +1,17 @@
 import PropTypes from "prop-types";
 import { TiMessageTyping } from "react-icons/ti";
 import { Link, useLocation } from "react-router-dom";
-import logo from "../../assets/Logo.png";
+import Logo from "./Logo";
 import { IoArrowRedoCircleOutline } from "react-icons/io5";
 import { FaBell } from "react-icons/fa";
 import { LuUser2 } from "react-icons/lu";
 import { HiOutlineUserGroup } from "react-icons/hi";
 import { GoGear } from "react-icons/go";
-import { faker } from "@faker-js/faker";
 import siteMap from "../../sitemap";
-
-const avatar = faker.image.avatar();
+import { useSelector } from "react-redux";
 
 export default function SideBar({ children }) {
+  const userInfo = useSelector((state) => state.user.userInfo);
   const location = useLocation();
 
   return (
@@ -34,17 +33,11 @@ export default function SideBar({ children }) {
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <ul className="flex flex-col items-center justify-around bg-primary text-white min-h-full w-32 p-4 ">
+        <ul className="flex flex-col items-center justify-around bg-primary text-white min-h-full h-full w-32 p-4">
           {/* Sidebar content here */}
           <li>
             <Link to={siteMap.home.path}>
-              <img
-                className="rounded-full h-16 w-16"
-                width={0}
-                height={0}
-                src={logo}
-                alt="logo"
-              />
+              <Logo containerClass="" imgClass="rounded-full h-16 w-16" />
             </Link>
           </li>
           <li>
@@ -52,7 +45,8 @@ export default function SideBar({ children }) {
               <li>
                 <Link
                   className={`${
-                    location.pathname == siteMap.chats.path && "text-primary bg-white"
+                    location.pathname == siteMap.chats.path &&
+                    "text-primary bg-white"
                   } hover:text-primary hover:bg-white h-fit flex flex-col items-center p-2 rounded-lg`}
                   to={siteMap.chats.path}
                 >
@@ -75,7 +69,8 @@ export default function SideBar({ children }) {
               <li>
                 <Link
                   className={`${
-                    location.pathname == siteMap.userInfo.path && "text-primary bg-white"
+                    location.pathname == siteMap.userInfo.path &&
+                    "text-primary bg-white"
                   } hover:text-primary hover:bg-white h-fit flex flex-col items-center p-2 rounded-lg`}
                   to={siteMap.userInfo.path}
                 >
@@ -86,7 +81,8 @@ export default function SideBar({ children }) {
               <li>
                 <Link
                   className={`${
-                    location.pathname == siteMap.groups.path && "text-primary bg-white"
+                    location.pathname == siteMap.groups.path &&
+                    "text-primary bg-white"
                   } hover:text-primary hover:bg-white h-fit flex flex-col items-center p-2 rounded-lg`}
                   to={siteMap.groups.path}
                 >
@@ -101,7 +97,8 @@ export default function SideBar({ children }) {
               <li>
                 <Link
                   className={`${
-                    location.pathname == siteMap.settings.path && "text-primary bg-white"
+                    location.pathname == siteMap.settings.path &&
+                    "text-primary bg-white"
                   } hover:text-primary hover:bg-white h-fit flex flex-col items-center p-2 rounded-lg`}
                   to={siteMap.settings.path}
                 >
@@ -111,7 +108,7 @@ export default function SideBar({ children }) {
               </li>
               <li className="flex justify-center">
                 <img
-                  src={avatar}
+                  src={userInfo.avatar}
                   alt="avatar"
                   width={0}
                   height={0}

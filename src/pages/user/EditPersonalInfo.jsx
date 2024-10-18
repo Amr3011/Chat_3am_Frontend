@@ -1,12 +1,16 @@
-import Profile from "../../assets/Profile.png";
 import { useState, useEffect } from "react";
 import { CgClose } from "react-icons/cg";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { updateUser } from "../../redux/reducers/userReducer";
 
 const EditPersonalInfo = () => {
-  const [isEditInfo, setEditInfo] = useState(false);
   const [isUpdateInfo, setUpdateInfo] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true); 
+  const [userInfo, setUserInfo] = useState(JSON.parse(localStorage.getItem("userInfo")));
+  const [editInfo, setEditInfoState] = useState({ ...userInfo });
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const handleResize = () => {
@@ -14,7 +18,6 @@ const EditPersonalInfo = () => {
     };
 
     window.addEventListener("resize", handleResize);
-
     handleResize();
 
     return () => window.removeEventListener("resize", handleResize);
@@ -26,29 +29,49 @@ const EditPersonalInfo = () => {
     }
   };
 
-  const toggleisEditInfo = () => {
-    setEditInfo(!isEditInfo);
+  const toggleDisabled = () => {
+    setIsDisabled(!isDisabled);  // Toggle the disabled state
   };
 
-  const submitForm = (e) => {
+  const submitForm = async (e) => {
     e.preventDefault();
+    
+    console.log("Updating user ID:", editInfo._id);
+    console.log(editInfo);
+    dispatch(updateUser(editInfo));
+
+    setUserInfo(editInfo);
+    setIsDisabled(false);
+    toggleDisabled();
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setEditInfoState((prevInfo) => ({
+      ...prevInfo,
+      [name]: value
+    }));
   };
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row light:text-base-100 font-roboto w-full">
       {/* Sidebar Section */}
       <div
-        className={`w-full md:w-[40%] lg:w-[30%] p-8 bg-base-100 shadow-lg border-r-2 border-b-neutral s:border-0 ${isUpdateInfo && isSmallScreen ? "hidden" : "block"}`}
+        className={`w-full md:w-[40%] lg:w-[30%] p-8 bg-base-100 shadow-lg border-r-2 border-b-neutral s:border-0 ${
+          isUpdateInfo && isSmallScreen ? "hidden" : "block"
+        }`}
       >
         <h1 className="text-3xl font-bold mb-8">Personal Information</h1>
 
         <div className="flex items-center mb-8">
           <img
-            src={Profile}
+            src={userInfo.avatar}
             alt="User Profile"
             className="w-20 h-20 rounded-full mr-6"
           />
-          <span className="text-xl font-semibold">Lavern Laboy</span>
+          <span className="text-xl font-semibold">
+            {userInfo.name || "Loading..."}
+          </span>
         </div>
 
         <div className="space-y-8">
@@ -92,7 +115,7 @@ const EditPersonalInfo = () => {
           </div>
 
           <div>
-            <Link to='/app/change-password'>
+            <Link to="/app/change-password">
               <div className="flex items-center border-b border-neutral pb-4 cursor-pointer hover:text-primary">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -116,138 +139,93 @@ const EditPersonalInfo = () => {
       </div>
 
       <div
-        className={`${isUpdateInfo && isSmallScreen ? "block" : "hidden md:block"} w-full bg-base-100 justify-center items-center p-12 md:w-[60%] lg:w-[70%]`}
+        className={`${
+          isUpdateInfo && isSmallScreen ? "block" : "hidden md:block"
+        } w-full bg-base-100 justify-center items-center p-12 md:w-[60%] lg:w-[70%]`}
       >
         <div className="flex justify-between mb-4">
           <h2 className="mb-4 text-4xl">Edit Personal Info</h2>
-          <CgClose className="text-primary text-3xl s:text-2xl s:block hidden hover:cursor-pointer" onClick={toggleUpdateInfo} />
+          <CgClose
+            className="text-primary text-3xl s:text-2xl s:block hidden hover:cursor-pointer"
+            onClick={toggleUpdateInfo}
+          />
         </div>
 
-        {!isEditInfo ? <>
-          <form onSubmit={submitForm}>
-            <div className="mb-4">
-              <label className="block text-lg font-medium mb-2" htmlFor="name">
-                Full Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                defaultValue="Lavern Laboy"
-                disabled
-                className="input input-bordered w-full p-3 rounded-md"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-lg font-medium mb-2" htmlFor="name">
-                UserName
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                defaultValue="Lavern Laboy"
-                disabled
-                className="input input-bordered w-full p-3 rounded-md"
-              />
-            </div>
+        <form onSubmit={submitForm}>
+          <div className="mb-4">
+            <label className="block text-lg font-medium mb-2" htmlFor="name">
+              Full Name
+            </label>
+            <input
+              disabled={isDisabled}
+              type="text"
+              id="name"
+              name="name"
+              value={editInfo.name}
+              onChange={handleChange}
+              className="input input-bordered w-full p-3 rounded-md"
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              className="block text-lg font-medium mb-2"
+              htmlFor="username"
+            >
+              UserName
+            </label>
+            <input
+              disabled={isDisabled}
+              type="text"
+              id="username"
+              name="username"
+              value={editInfo.username}
+              onChange={handleChange}
+              className="input input-bordered w-full p-3 rounded-md"
+            />
+          </div>
 
-            <div className="mb-4">
-              <label className="block text-lg font-medium mb-2" htmlFor="email">
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                defaultValue="lavern@example.com"
-                disabled
-                className="input input-bordered w-full p-3 rounded-md"
-              />
-            </div>
+          <div className="mb-4">
+            <label className="block text-lg font-medium mb-2" htmlFor="email">
+              Email
+            </label>
+            <input
+              disabled={isDisabled}
+              type="email"
+              id="email"
+              name="email"
+              value={editInfo.email}
+              onChange={handleChange}
+              className="input input-bordered w-full p-3 rounded-md"
+            />
+          </div>
 
-            <div className="mb-4">
-              <label className="block text-lg font-medium mb-2" htmlFor="mobilePhone">
-                Phone Number
-              </label>
-              <input
-                type="text"
-                id="mobilePhone"
-                name="Phone Number"
-                defaultValue="123-456-7890"
-                disabled
-                className="input input-bordered w-full p-3 rounded-md"
-              />
-            </div>
+          <div className="mb-4">
+            <label
+              className="block text-lg font-medium mb-2"
+              htmlFor="mobilePhone"
+            >
+              Phone Number
+            </label>
+            <input
+              disabled={isDisabled}
+              type="text"
+              id="mobilePhone"
+              name="phone"
+              value={editInfo.phone}
+              onChange={handleChange}
+              className="input input-bordered w-full p-3 rounded-md"
+            />
+          </div>
 
-            <div className="flex justify-end" onClick={toggleisEditInfo}>
-              <button type="submit" className="btn btn-primary px-6 py-3 rounded-md text-lg font-medium">
-                Edit Info.
-              </button>
-            </div>
-          </form>
-        </> : <>
-          <form onSubmit={submitForm}>
-            <div className="mb-4">
-              <label className="block text-lg font-medium mb-2" htmlFor="name">
-                Full Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                defaultValue="Lavern Laboy"
-                className="input input-bordered w-full p-3 rounded-md"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-lg font-medium mb-2" htmlFor="name">
-                UserName
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                defaultValue="Lavern Laboy"
-                className="input input-bordered w-full p-3 rounded-md"
-              />
-            </div>
-
-            <div className="mb-4">
-              <label className="block text-lg font-medium mb-2" htmlFor="email">
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                defaultValue="lavern@example.com"
-                className="input input-bordered w-full p-3 rounded-md"
-              />
-            </div>
-
-            <div className="mb-4">
-              <label className="block text-lg font-medium mb-2" htmlFor="mobilePhone">
-                Phone Number
-              </label>
-              <input
-                type="text"
-                id="mobilePhone"
-                name="Phone Number"
-                defaultValue="123-456-7890"
-                className="input input-bordered w-full p-3 rounded-md"
-              />
-            </div>
-
-            <div className="flex justify-end" onClick={toggleisEditInfo}>
-              <button type="submit" className="btn btn-primary px-6 py-3 rounded-md text-lg font-medium">
-                Save The Changes
-              </button>
-            </div>
-
-          </form>
-        </>}
-
+          <div className="flex justify-end">
+            <button
+              type="submit"
+              className="btn btn-primary px-6 py-3 rounded-md text-lg font-medium"
+            >
+              {isDisabled ? "Change Info." : "Save Changes"}
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );

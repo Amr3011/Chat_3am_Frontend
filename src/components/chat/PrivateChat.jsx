@@ -6,6 +6,7 @@ import RightSide from "../common/RightSide";
 import { FaArrowUp, FaArrowDown } from "react-icons/fa";
 import { IoIosArrowBack } from "react-icons/io";
 import { faker } from "@faker-js/faker";
+
 // import io from "socket.io-client";
 
 // const ENDPOINT = "http://localhost:5000/";
@@ -34,7 +35,7 @@ const PrivateChat = () => {
       email: "tafeda@example.com",
       image: "/path/to/tafeda.png",
       status: "online",
-      messages: ["Hello Tafeda! How are you?", "I'm good, thanks!"],
+      messages: ["Hello Tafeda! How are you?", "I'm good, thanks!"]
     },
     {
       id: 2,
@@ -43,7 +44,7 @@ const PrivateChat = () => {
       email: "sodfa@example.com",
       image: "/path/to/sodfa.png",
       status: "offline",
-      messages: ["Did you see the new update?", "Yes, it's awesome!"],
+      messages: ["Did you see the new update?", "Yes, it's awesome!"]
     },
     {
       id: 3,
@@ -52,7 +53,7 @@ const PrivateChat = () => {
       email: "alice@example.com",
       image: "/path/to/alice.png",
       status: "online",
-      messages: ["Hey there!", "How's it going?"],
+      messages: ["Hey there!", "How's it going?"]
     },
     {
       id: 4,
@@ -61,7 +62,7 @@ const PrivateChat = () => {
       email: "bob@example.com",
       image: "/path/to/bob.png",
       status: "offline",
-      messages: ["Good morning!", "Ready for the meeting?"],
+      messages: ["Good morning!", "Ready for the meeting?"]
     },
     {
       id: 5,
@@ -70,8 +71,8 @@ const PrivateChat = () => {
       email: "charlie@example.com",
       image: "/path/to/charlie.png",
       status: "online",
-      messages: ["Let's catch up soon!", "Miss you!"],
-    },
+      messages: ["Let's catch up soon!", "Miss you!"]
+    }
   ];
 
   const [selectedChat, setSelectedChat] = useState(null);
@@ -105,11 +106,11 @@ const PrivateChat = () => {
     <div className="flex flex-col lg:flex-row w-full h-screen">
       {/* Sidebar with chat list */}
       <div
-        className={`w-full lg:w-1/3 p-4 bg-base-100 ${
+        className={`w-full lg:w-1/3 p-4 bg-base-100 lg:overflow-y-scroll overflow-y-visible ${
           selectedChat ? "hidden lg:block" : "block"
         }`}
       >
-        <h2 className="text-2xl font-bold mb-4 text-secondary">Chats</h2>
+        <h2 className="text-2xl font-bold mb-4">Chats</h2>
         <button className="bg-primary text-white rounded-full px-4 py-2 mb-4">
           Add User
         </button>

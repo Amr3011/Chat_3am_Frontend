@@ -1,12 +1,22 @@
-import Profile from "../../assets/Profile.png";
+import { faker } from "@faker-js/faker";
 import { useState, useEffect } from "react";
 import { CgClose } from "react-icons/cg";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { changePassword } from "../../redux/reducers/userReducer"; // Ensure this action is defined in your reducer
 
 const ChangePassword = () => {
     const [iseditPassword, SetEditPassword] = useState(false);
     const [isChangePassword, SetChangePassword] = useState(false);
     const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+    const [oldPassword, setOldPassword] = useState("");
+    const [newPassword, setNewPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [message, setMessage] = useState(""); // To store success/error messages
+
+    const dispatch = useDispatch();
+    const { userInfo, error } = useSelector((state) => state.user); // Assuming error handling from the state
 
     useEffect(() => {
         const handleResize = () => {
@@ -14,7 +24,6 @@ const ChangePassword = () => {
         };
 
         window.addEventListener("resize", handleResize);
-
         handleResize();
 
         return () => window.removeEventListener("resize", handleResize);
@@ -26,12 +35,33 @@ const ChangePassword = () => {
         }
     };
 
-    const toggleEditPassword = () => {
-        SetEditPassword(!iseditPassword);
-    }
-
-    const submitform = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (newPassword !== confirmPassword) {
+            alert("Passwords do not match");
+            return;
+        }
+
+        // Create a payload with the required fields
+        const passwordPayload = {
+            oldPassword,
+            newPassword,
+        };
+
+        // Dispatch the changePassword action
+        const resultAction = await dispatch(changePassword(passwordPayload));
+
+        if (changePassword.fulfilled.match(resultAction)) {
+            setMessage("Password changed successfully!"); // Update success message
+        } else {
+            setMessage("Error changing password: " + error); // Update error message
+        }
+
+        // Clear input fields after submission
+        setOldPassword("");
+        setNewPassword("");
+        setConfirmPassword("");
     };
 
     return (
@@ -44,11 +74,11 @@ const ChangePassword = () => {
 
                 <div className="flex items-center mb-8">
                     <img
-                        src={Profile}
+                        src={faker.image.avatar()}
                         alt="User Profile"
                         className="w-20 h-20 rounded-full mr-6"
                     />
-                    <span className="text-xl font-semibold">Lavern Laboy</span>
+                    <span className="text-xl font-semibold">{userInfo?.name || "Lavern Laboy"}</span>
                 </div>
 
                 <div className="space-y-8">
@@ -124,105 +154,57 @@ const ChangePassword = () => {
                     <CgClose className="text-primary text-3xl s:text-2xl s:block hidden hover:cursor-pointer" onClick={toggleChangePassword} />
                 </div>
 
-                {!iseditPassword ? <>
-                    <form onSubmit={submitform}>
-                        <div className="mb-4">
-                            <label className="block text-lg font-medium mb-2" htmlFor="username">
-                                Old Password
-                            </label>
-                            <input
-                                type="password"
-                                id="oldPassword"
-                                name="oldPassword"
-                                defaultValue="12345678"
-                                disabled
-                                className="input input-bordered w-full p-3 rounded-md"
-                            />
-                        </div>
+                {message && <p className="text-lg font-medium text-red-600 mb-4">{message}</p>} {/* Display message */}
 
-                        <div className="mb-4">
-                            <label className="block text-lg font-medium mb-2" htmlFor="newPassword">
-                                New Password
-                            </label>
-                            <input
-                                type="password"
-                                id="newPassword"
-                                name="newPassword"
-                                defaultValue="123456789"
-                                disabled
-                                className="input input-bordered w-full p-3 rounded-md"
-                            />
-                        </div>
+                <form onSubmit={handleSubmit}>
+                    <div className="mb-4">
+                        <label className="block text-lg font-medium mb-2" htmlFor="oldPassword">
+                            Old Password
+                        </label>
+                        <input
+                            type="password"
+                            id="oldPassword"
+                            name="oldPassword"
+                            value={oldPassword}
+                            onChange={(e) => setOldPassword(e.target.value)}
+                            className="input input-bordered w-full p-3 rounded-md"
+                        />
+                    </div>
 
-                        <div className="mb-4">
-                            <label className="block text-lg font-medium mb-2" htmlFor="confirmPassword">
-                                Confirm New Password
-                            </label>
-                            <input
-                                type="password"
-                                id="confirmPassword"
-                                name="confirmPassword"
-                                defaultValue="123456789"
-                                disabled
-                                className="input input-bordered w-full p-3 rounded-md"
-                            />
-                        </div>
+                    <div className="mb-4">
+                        <label className="block text-lg font-medium mb-2" htmlFor="newPassword">
+                            New Password
+                        </label>
+                        <input
+                            type="password"
+                            id="newPassword"
+                            name="newPassword"
+                            value={newPassword}
+                            onChange={(e) => setNewPassword(e.target.value)}
+                            className="input input-bordered w-full p-3 rounded-md"
+                        />
+                    </div>
 
-                        <div className="flex justify-end" onClick={toggleEditPassword}>
-                            <button type="submit" className="btn btn-primary px-6 py-3 rounded-md text-lg font-medium">
-                                Change The Password
-                            </button>
-                        </div>
-                    </form>
-                </> : <>
-                    <form onSubmit={submitform}>
-                        <div className="mb-4">
-                            <label className="block text-lg font-medium mb-2" htmlFor="username">
-                                Old Password
-                            </label>
-                            <input
-                                type="password"
-                                id="oldPassword"
-                                name="oldPassword"
-                                defaultValue="12345678"
-                                className="input input-bordered w-full p-3 rounded-md"
-                            />
-                        </div>
+                    <div className="mb-4">
+                        <label className="block text-lg font-medium mb-2" htmlFor="confirmPassword">
+                            Confirm New Password
+                        </label>
+                        <input
+                            type="password"
+                            id="confirmPassword"
+                            name="confirmPassword"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            className="input input-bordered w-full p-3 rounded-md"
+                        />
+                    </div>
 
-                        <div className="mb-4">
-                            <label className="block text-lg font-medium mb-2" htmlFor="newPassword">
-                                New Password
-                            </label>
-                            <input
-                                type="password"
-                                id="newPassword"
-                                name="newPassword"
-                                defaultValue="123456789"
-                                className="input input-bordered w-full p-3 rounded-md"
-                            />
-                        </div>
-
-                        <div className="mb-4">
-                            <label className="block text-lg font-medium mb-2" htmlFor="confirmPassword">
-                                Confirm New Password
-                            </label>
-                            <input
-                                type="password"
-                                id="confirmPassword"
-                                name="confirmPassword"
-                                defaultValue="123456789"
-                                className="input input-bordered w-full p-3 rounded-md"
-                            />
-                        </div>
-
-                        <div className="flex justify-end" onClick={toggleEditPassword}>
-                            <button type="submit" className="btn btn-primary px-6 py-3 rounded-md text-lg font-medium">
-                                Save New Password
-                            </button>
-                        </div>
-                    </form>
-                </>}
-
+                    <div className="flex justify-end">
+                        <button type="submit" className="btn btn-primary px-6 py-3 rounded-md text-lg font-medium">
+                            Change The Password
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     );

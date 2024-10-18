@@ -1,9 +1,9 @@
-import logo from "../../assets/Logo.png";
 import leftImage from "../../assets/Login_photo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import siteMap from "../../sitemap";
+import Logo from "../../components/common/Logo";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -34,9 +34,23 @@ const Register = () => {
           },
           body: JSON.stringify(userData)
         });
-        const data = await response.json()
-        toast.success(data.message);
+        const data = await response.json();
         
+        if (!response.ok) {
+          // Handle non-OK responses
+          if (data.errors) {
+            // Display error messages
+            data.errors.forEach((error) => {
+              toast.error(error.msg);
+            });
+          } else {
+            // Display error message
+            toast.error(data.message || "Registration failed!");
+          }
+          return;
+        }
+
+        toast.success(data.message);
 
         e.target.reset();
         navigate(siteMap.verify.path, { replace: true });
@@ -46,6 +60,8 @@ const Register = () => {
     } else {
       toast.error("Passwords do not match!");
     }
+
+
   };
 
   return (
@@ -70,20 +86,18 @@ const Register = () => {
 
       {/* Right side (Register form) */}
       <div className="w-full lg:w-1/2 flex flex-col justify-center p-6 lg:p-12 relative">
-        <div className="absolute top-0 right-0 mt-8 mr-8">
-          <img src={logo} alt="Logo" className="w-10 lg:w-16 rounded-full" />
-        </div>
+        <Logo
+          containerClass="absolute top-8 right-8"
+          imgClass="w-10 lg:w-16 rounded-full"
+        />
 
-        <h2 className="text-2xl lg:text-3xl font-bold">
-          Register
-        </h2>
+        <h2 className="text-2xl lg:text-3xl font-bold">Register</h2>
         <p className="text-sm mb-4 lg:mb-6">
           Lets get you all set up so you can access your personal account.
         </p>
 
         <form onSubmit={handleRegister}>
           <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-4 mb-5">
-            
             <div className="flex flex-col w-full">
               <label className="block text-sm mb-2 font-semibold text-neutral">
                 Full Name
@@ -96,7 +110,7 @@ const Register = () => {
                 onChange={(e) => setFullName(e.target.value)}
               />
             </div>
-            
+
             <div className="flex flex-col w-full">
               <label className="block text-sm mb-2 font-semibold text-neutral">
                 UserName
@@ -180,7 +194,10 @@ const Register = () => {
         <div className="text-center">
           <p>
             Already have an Account?{" "}
-            <Link to={siteMap.login.path} className="text-primary hover:underline">
+            <Link
+              to={siteMap.login.path}
+              className="text-primary hover:underline"
+            >
               Login
             </Link>
           </p>
