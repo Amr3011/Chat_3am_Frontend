@@ -9,7 +9,7 @@ const Logout = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post('/api/user/logout');  // This is the logout endpoint
+      await axios.get('/api/user/logout');  // This is the logout endpoint
       localStorage.removeItem('userInfo');  // Clear local storage (if you store the token here)
       window.location.href = '/login';  // Redirect the user to login page
     } catch (error) {
