@@ -7,12 +7,11 @@ import { FaBell } from "react-icons/fa";
 import { LuUser2 } from "react-icons/lu";
 import { HiOutlineUserGroup } from "react-icons/hi";
 import { GoGear } from "react-icons/go";
-import { faker } from "@faker-js/faker";
 import siteMap from "../../sitemap";
-
-const avatar = faker.image.avatar();
+import { useSelector } from "react-redux";
 
 export default function SideBar({ children }) {
+  const userInfo = useSelector((state) => state.user.userInfo);
   const location = useLocation();
 
   return (
@@ -109,7 +108,7 @@ export default function SideBar({ children }) {
               </li>
               <li className="flex justify-center">
                 <img
-                  src={avatar}
+                  src={userInfo.avatar}
                   alt="avatar"
                   width={0}
                   height={0}
