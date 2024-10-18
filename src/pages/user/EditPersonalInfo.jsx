@@ -6,11 +6,11 @@ import { useDispatch } from "react-redux";
 import { updateUser } from "../../redux/reducers/userReducer";
 
 const EditPersonalInfo = () => {
-  const [isEditInfo, setEditInfo] = useState(false);
   const [isUpdateInfo, setUpdateInfo] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
-  const [isDisabled, setIsDisabled] = useState(false); // State to manage input disable
+  const [isDisabled, setIsDisabled] = useState(true); 
   const [userInfo, setUserInfo] = useState(JSON.parse(localStorage.getItem("userInfo")));
+  const [editInfo, setEditInfoState] = useState({ ...userInfo });
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -30,25 +30,25 @@ const EditPersonalInfo = () => {
     }
   };
 
-  const toggleisEditInfo = () => {
-    setEditInfo(!isEditInfo);
+  const toggleDisabled = () => {
+    setIsDisabled(!isDisabled);  // Toggle the disabled state
   };
 
   const submitForm = async (e) => {
     e.preventDefault();
     
-    console.log("Updating user ID:", userInfo._id); // Log the user ID
-    console.log(userInfo);
-    dispatch(updateUser(userInfo));
-    
-    // Disable the inputs and change button text after saving
-    setIsDisabled(true);
-    setEditInfo(false); // Hide the form after saving
+    console.log("Updating user ID:", editInfo._id);
+    console.log(editInfo);
+    dispatch(updateUser(editInfo));
+
+    setUserInfo(editInfo);
+    setIsDisabled(false);
+    toggleDisabled();
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUserInfo((prevInfo) => ({
+    setEditInfoState((prevInfo) => ({
       ...prevInfo,
       [name]: value
     }));
@@ -109,11 +109,11 @@ const EditPersonalInfo = () => {
           <div className="mb-4">
             <label className="block text-lg font-medium mb-2" htmlFor="name">Full Name</label>
             <input
-              disabled={isDisabled} // Disable input if isDisabled is true
+              disabled={isDisabled}
               type="text"
               id="name"
               name="name"
-              value={userInfo.name}
+              value={editInfo.name}
               onChange={handleChange}
               className="input input-bordered w-full p-3 rounded-md"
             />
@@ -125,7 +125,7 @@ const EditPersonalInfo = () => {
               type="text"
               id="username"
               name="username"
-              value={userInfo.username}
+              value={editInfo.username}
               onChange={handleChange}
               className="input input-bordered w-full p-3 rounded-md"
             />
@@ -138,7 +138,7 @@ const EditPersonalInfo = () => {
               type="email"
               id="email"
               name="email"
-              value={userInfo.email}
+              value={editInfo.email}
               onChange={handleChange}
               className="input input-bordered w-full p-3 rounded-md"
             />
@@ -151,7 +151,7 @@ const EditPersonalInfo = () => {
               type="text"
               id="mobilePhone"
               name="phone"
-              value={userInfo.phone}
+              value={editInfo.phone}
               onChange={handleChange}
               className="input input-bordered w-full p-3 rounded-md"
             />
@@ -161,7 +161,6 @@ const EditPersonalInfo = () => {
             <button 
               type="submit" 
               className="btn btn-primary px-6 py-3 rounded-md text-lg font-medium"
-              onClick={toggleisEditInfo}
             >
               {isDisabled ? "Change Info." : "Save Changes"}
             </button>
