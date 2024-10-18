@@ -9,9 +9,9 @@ export const updateUser = createAsyncThunk(
       const response = await fetch("/api/user", {
         method: "PUT",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(userInfo)
+        body: JSON.stringify(userInfo),
       });
 
       if (!response.ok) {
@@ -27,19 +27,19 @@ export const updateUser = createAsyncThunk(
 
 // Async thunk to change user password
 export const changePassword = createAsyncThunk(
-  'user/changePassword',
+  "user/changePassword",
   async ({ oldPassword, newPassword }, { rejectWithValue }) => {
     try {
-      const response = await fetch('/api/user/change-password', {
-        method: 'PUT',
+      const response = await fetch("/api/user/change-password", {
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ oldPassword, newPassword }),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to change password');
+        throw new Error("Failed to change password");
       }
 
       return await response.json();
@@ -62,7 +62,7 @@ const getInitialUserInfo = () => {
 const userSlice = createSlice({
   name: "user",
   initialState: {
-    userInfo: getInitialUserInfo()
+    userInfo: getInitialUserInfo(),
   },
   reducers: {
     login: (state, action) => {
@@ -75,7 +75,7 @@ const userSlice = createSlice({
     logout: (state) => {
       state.userInfo = null;
       localStorage.removeItem("userInfo");
-    }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -93,7 +93,7 @@ const userSlice = createSlice({
       .addCase(changePassword.rejected, (state, action) => {
         console.error("Failed to change password:", action);
       });
-  }
+  },
 });
 
 export const { login, logout } = userSlice.actions;
