@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import defaultAvatar from "../../assets/defaultProfile.jpg";
 
-// Async thunk to update the user
+// Async thunk to update user info (name, username, email, phone)
 export const updateUser = createAsyncThunk(
   "user/update",
   async (userInfo, { rejectWithValue }) => {
@@ -16,6 +16,30 @@ export const updateUser = createAsyncThunk(
 
       if (!response.ok) {
         throw new Error("Failed to update user");
+      }
+
+      return await response.json();
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+// Async thunk to change user password
+export const changePassword = createAsyncThunk(
+  'user/changePassword',
+  async ({ oldPassword, newPassword }, { rejectWithValue }) => {
+    try {
+      const response = await fetch('/api/user/change-password', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ oldPassword, newPassword }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to change password');
       }
 
       return await response.json();
@@ -62,6 +86,12 @@ const userSlice = createSlice({
       })
       .addCase(updateUser.rejected, (state, action) => {
         console.error("Failed to update user:", action);
+      })
+      .addCase(changePassword.fulfilled, (state, action) => {
+        console.log("Password changed successfully:", action.payload);
+      })
+      .addCase(changePassword.rejected, (state, action) => {
+        console.error("Failed to change password:", action);
       });
   }
 });
