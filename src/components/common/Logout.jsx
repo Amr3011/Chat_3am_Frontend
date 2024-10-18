@@ -2,7 +2,7 @@ import { Fragment, useRef } from "react";
 import LogoutImg from "../../assets/LogoutImg.svg";
 //import { useNavigate } from 'react-router-dom';
 import siteMap from "./../../sitemap";
-import { replace, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { logout } from "../../redux/reducers/userReducer";
 import { useDispatch } from "react-redux";
 
@@ -14,10 +14,10 @@ const Logout = () => {
   const handleLogout = async () => {
     try {
       await fetch("/api/user/logout", {
-        method: "POST"
+        method: "GET"
       });
       dispatch(logout());
-      navigate(siteMap.login.path, replace);
+      navigate(siteMap.login.path, { replace: true });
     } catch (error) {
       console.error("Error logging out:", error);
     }
