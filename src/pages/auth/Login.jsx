@@ -36,8 +36,13 @@ const Login = () => {
               toast.error(error.msg);
             });
           } else {
-            // Display error message
-            toast.error(data.message || "Login failed");
+            if (data.message === "Verify your email") {
+              toast.error(data.message);
+              navigate(siteMap.verify.path, { replace: true });
+            } else {
+              // Display error message
+              toast.error(data.message || "Login failed");
+            }
           }
           return;
         }
