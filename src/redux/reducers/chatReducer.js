@@ -1,54 +1,53 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-// Create an async thunk for fetching both group and private chats
+// Adjusted async thunk for fetching private chats
 export const fetchChats = createAsyncThunk("chat/fetchChats", async () => {
   const response = await fetch(`/api/chat/`, {
     method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
   });
 
   if (!response.ok) {
-    throw new Error("Failed to fetch chats");
+    throw new Error("Failed to fetch private chats");
   }
 
   const data = await response.json();
-
-  // Separate group and private chats
-  const groupChats = data.filter((chat) => chat.isGroup);
-  const privateChats = data.filter((chat) => !chat.isGroup);
-
-  return { groupChats, privateChats }; // Return both types of chats
+  return { privateChats: data }; // Return the fetched private chats
 });
 
-// Create an async thunk for fetching users for private chat
-export const fetchAvailableUsers = createAsyncThunk(
-  "chat/fetchAvailableUsers",
+// New async thunk for fetching group chats
+export const fetchGroupChats = createAsyncThunk(
+  "chat/fetchGroupChats",
   async () => {
-    const response = await fetch(`/api/chat/search-users`, {
+    const response = await fetch(`/api/chat/group/`, {
+      // Adjusted endpoint
       method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
 
     if (!response.ok) {
-      throw new Error("Failed to fetch users");
+      throw new Error("Failed to fetch group chats");
     }
 
     const data = await response.json();
-    return data; // Return the list of available users
+    return { groupChats: data }; // Return the fetched group chats
   }
 );
 
 const chatSlice = createSlice({
   name: "chat",
   initialState: {
-    groupChats: [],
     privateChats: [],
-    availableUsers: [], // Store available users for private chat
+    groupChats: [], // Added state for group chats
+    availableUsers: [],
     loading: false,
     error: null,
   },
   reducers: {
-    setGroupChats: (state, action) => {
-      state.groupChats = action.payload; // Set the payload as groupChats
-    },
     setPrivateChats: (state, action) => {
       state.privateChats = action.payload; // Set the payload as privateChats
     },
@@ -64,34 +63,32 @@ const chatSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // Fetch chats
+      // Fetch private chats
       .addCase(fetchChats.pending, (state) => {
         state.loading = true;
       })
       .addCase(fetchChats.fulfilled, (state, action) => {
         state.loading = false;
-        state.groupChats = action.payload.groupChats;
         state.privateChats = action.payload.privateChats;
       })
       .addCase(fetchChats.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       })
-      // Fetch available users for private chat
-      .addCase(fetchAvailableUsers.pending, (state) => {
+      // Fetch group chats
+      .addCase(fetchGroupChats.pending, (state) => {
         state.loading = true;
       })
-      .addCase(fetchAvailableUsers.fulfilled, (state, action) => {
+      .addCase(fetchGroupChats.fulfilled, (state, action) => {
         state.loading = false;
-        state.availableUsers = action.payload; // Set available users
+        state.groupChats = action.payload.groupChats; // Store fetched group chats
       })
-      .addCase(fetchAvailableUsers.rejected, (state, action) => {
+      .addCase(fetchGroupChats.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       });
   },
 });
 
-export const { setGroupChats, setPrivateChats, updatePrivateChat } =
-  chatSlice.actions;
+export const { setPrivateChats, updatePrivateChat } = chatSlice.actions;
 export default chatSlice.reducer;
