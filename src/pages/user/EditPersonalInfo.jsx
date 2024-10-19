@@ -3,12 +3,15 @@ import { CgClose } from "react-icons/cg";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { updateUser } from "../../redux/reducers/userReducer";
+import { toast } from "react-toastify";
 
 const EditPersonalInfo = () => {
   const [isUpdateInfo, setUpdateInfo] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
-  const [isDisabled, setIsDisabled] = useState(true); 
-  const [userInfo, setUserInfo] = useState(JSON.parse(localStorage.getItem("userInfo")));
+  const [isDisabled, setIsDisabled] = useState(true);
+  const [userInfo, setUserInfo] = useState(
+    JSON.parse(localStorage.getItem("userInfo"))
+  );
   const [editInfo, setEditInfoState] = useState({ ...userInfo });
   const dispatch = useDispatch();
 
@@ -30,19 +33,18 @@ const EditPersonalInfo = () => {
   };
 
   const toggleDisabled = () => {
-    setIsDisabled(!isDisabled);  // Toggle the disabled state
+    setIsDisabled(!isDisabled); // Toggle the disabled state
   };
 
   const submitForm = async (e) => {
     e.preventDefault();
-    
-    console.log("Updating user ID:", editInfo._id);
-    console.log(editInfo);
+
     dispatch(updateUser(editInfo));
 
     setUserInfo(editInfo);
     setIsDisabled(false);
     toggleDisabled();
+    toast.success("User information updated successfully");
   };
 
   const handleChange = (e) => {
@@ -51,6 +53,10 @@ const EditPersonalInfo = () => {
       ...prevInfo,
       [name]: value
     }));
+  };
+
+  const openToEdit = () => {
+    setIsDisabled(false);
   };
 
   return (
@@ -218,12 +224,21 @@ const EditPersonalInfo = () => {
           </div>
 
           <div className="flex justify-end">
-            <button
-              type="submit"
-              className="btn btn-primary px-6 py-3 rounded-md text-lg font-medium"
-            >
-              {isDisabled ? "Change Info." : "Save Changes"}
-            </button>
+            {isDisabled ? (
+              <div
+                onClick={openToEdit}
+                className="btn btn-primary px-6 py-3 rounded-md text-lg font-medium"
+              >
+                Change Info.
+              </div>
+            ) : (
+              <button
+                type="submit"
+                className="btn btn-primary px-6 py-3 rounded-md text-lg font-medium"
+              >
+                Save Changes
+              </button>
+            )}
           </div>
         </form>
       </div>

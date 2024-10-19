@@ -70,26 +70,26 @@ const userSchema = Joi.object({
   __v: Joi.number()
 });
 
-const intialState = {
+let initialState = {
   userInfo: JSON.parse(localStorage.getItem("userInfo") || "null")
 };
 
-if (intialState.userInfo) {
-  const { error } = userSchema.validate(intialState.userInfo);
-  if (error) {
-    intialState.userInfo = null;
-    localStorage.removeItem("userInfo");
-  }
-}
+// Validate userInfo against schema and check avatar, set default if missing
+// if (initialState.userInfo) {
+//   const { error } = userSchema.validate(initialState.userInfo);
+//   if (error) {
+//     initialState.userInfo = null;
+//     localStorage.removeItem("userInfo");
+//   }
+// }
 
 // User slice
 const userSlice = createSlice({
   name: "user",
-  initialState: intialState,
+  initialState: initialState,
   reducers: {
     login: (state, action) => {
       const { error } = userSchema.validate(action.payload);
-      console.log();
 
       if (error) {
         state.userInfo = null;
