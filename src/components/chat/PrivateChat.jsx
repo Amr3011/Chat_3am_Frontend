@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchChats,
-  fetchAvailableUsers,
-} from "../../redux/reducers/chatReducer";
+import { fetchChats } from "../../redux/reducers/chatReducer"; // Import the correct thunk
 import SendIcon from "../../assets/SendIcon.svg";
 import AttachedIcon from "../../assets/AttachedIcon.svg";
 import RightSide from "../common/RightSide";
@@ -14,16 +11,13 @@ const PrivateChat = () => {
   const dispatch = useDispatch();
 
   // Fetch chats from the Redux store
-  const { privateChats, availableUsers, loading, error } = useSelector(
-    (state) => state.chat
-  );
+  const { privateChats, loading, error } = useSelector((state) => state.chat);
   const [selectedChat, setSelectedChat] = useState(null);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [isAddUserModalOpen, setAddUserModalOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState(""); // Keep the search bar, but remove logic
 
   // Fetch private chats when the component mounts
   useEffect(() => {
-    dispatch(fetchChats()); // Dispatch the fetchChats action to load chats
+    dispatch(fetchChats()); // Dispatch the fetchChats action to load private chats
   }, [dispatch]);
 
   // Handle chat selection
@@ -34,29 +28,6 @@ const PrivateChat = () => {
   const handleBackClick = () => {
     setSelectedChat(null);
   };
-
-  // Fetch available users for private chat when clicking "Add User"
-  const handleOpenAddUserModal = () => {
-    dispatch(fetchAvailableUsers());
-    setAddUserModalOpen(true);
-  };
-
-  const handleCloseAddUserModal = () => {
-    setAddUserModalOpen(false);
-  };
-
-  // Filter private chats based on the search query
-  const filteredChats = privateChats.filter((chat) => {
-    const lowerCaseSearchQuery = searchQuery.toLowerCase(); // Convert search query to lowercase for case-insensitive search
-    const userEmails = chat.usersRef.map((user) => user.email.toLowerCase());
-    const userPhones = chat.usersRef.map((user) => user.phone);
-
-    return (
-      chat.chatName.toLowerCase().includes(lowerCaseSearchQuery) || // Search by chat name
-      userPhones.some((phone) => phone.includes(searchQuery)) || // Search by phone if it exists
-      userEmails.some((email) => email.includes(lowerCaseSearchQuery)) // Search by email if it exists
-    );
-  });
 
   if (loading) return <div>Loading chats...</div>;
   if (error) return <div>Error loading chats: {error}</div>;
@@ -70,25 +41,21 @@ const PrivateChat = () => {
         }`}
       >
         <h2 className="text-2xl font-bold mb-4">Chats</h2>
-        <button
-          className="bg-primary text-white rounded-full px-4 py-2 mb-4"
-          onClick={handleOpenAddUserModal}
-        >
-          Add User
-        </button>
+
+        {/* Search bar with no functionality */}
         <div className="form-control mb-4">
           <input
             type="text"
             placeholder="Search or start a new chat"
             className="input w-full bg-white pl-4 pr-4 text-neutral"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)} // Update search query
+            onChange={(e) => setSearchQuery(e.target.value)} // Input updates searchQuery but doesn't filter chats
           />
         </div>
 
         {/* Chat list */}
         <ul className="space-y-4">
-          {filteredChats.map((chat) => (
+          {privateChats.map((chat) => (
             <li
               key={chat._id}
               className={`cursor-pointer p-4 rounded-md shadow flex items-center ${
@@ -163,28 +130,6 @@ const PrivateChat = () => {
           <RightSide />
         )}
       </div>
-
-      {/* Add user modal */}
-      {isAddUserModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-          <div className="bg-white rounded-lg p-4 w-full max-w-md">
-            <h2 className="text-xl font-bold mb-4">Add a User</h2>
-            <button
-              className="bg-gray-500 text-white rounded-full px-4 py-2 mb-4"
-              onClick={handleCloseAddUserModal}
-            >
-              Close
-            </button>
-            <ul>
-              {availableUsers.map((user) => (
-                <li key={user._id} className="p-2">
-                  {user.name} ({user.email})
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

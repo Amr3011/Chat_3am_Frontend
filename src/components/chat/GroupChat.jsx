@@ -1,79 +1,57 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { fetchGroupChats } from "../../redux/reducers/chatReducer"; // Use the correct thunk
 import SendIcon from "../../assets/SendIcon.svg";
 import AttachedIcon from "../../assets/AttachedIcon.svg";
 import RightSide from "../common/RightSide";
-import { AiOutlineSearch } from "react-icons/ai";
-import { FaArrowUp, FaArrowDown } from "react-icons/fa";
 import { IoIosArrowBack } from "react-icons/io";
-import { fetchChats } from "../../redux/reducers/chatReducer"; // Adjusted import path
-import { faker } from "@faker-js/faker";
 
-const avatar = faker.image.avatar();
-
+// GroupChat Component
 const GroupChat = () => {
   const dispatch = useDispatch();
   const { groupChats, loading, error } = useSelector((state) => state.chat);
   const [selectedGroup, setSelectedGroup] = useState(null);
-  const [messages, setMessages] = useState([]);
-  const [searchActive, setSearchActive] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredMessages, setFilteredMessages] = useState([]);
-
-  // const userId = useSelector((state) => state.user.userInfo._id);
 
   // Fetch group chats when component mounts
   useEffect(() => {
-    const fetchGroupChats = async () => {
-      await dispatch(fetchChats()); // Dispatch the thunk to fetch chats
-    };
-
-    fetchGroupChats();
+    dispatch(fetchGroupChats()); // Correct action to load group chats
   }, [dispatch]);
 
   const handleGroupClick = (group) => {
     setSelectedGroup(group);
-    setMessages(group.messages); // Assume 'messages' is an array within the group object
-    setFilteredMessages(group.messages); // Set filtered messages initially
-  };
-
-  const handleSearchToggle = () => {
-    setSearchActive((prev) => !prev);
   };
 
   const handleBackClick = () => {
     setSelectedGroup(null);
-    setMessages([]);
-    setFilteredMessages([]); // Reset filtered messages
   };
 
-  // Filter groups based on search query
-  const filteredGroups = groupChats.filter((group) =>
-    group.chatName.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const handleCreateGroup = () => {
+    console.log("Create new group button clicked!");
+  };
 
-  // Filter messages based on search query
-  useEffect(() => {
-    if (selectedGroup) {
-      const results = messages.filter((msg) =>
-        msg.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-      setFilteredMessages(results);
-    }
-  }, [searchQuery, selectedGroup, messages]);
+  if (loading) return <div>Loading groups...</div>;
+  if (error) return <div>Error loading groups: {error}</div>;
 
   return (
     <div className="flex flex-col lg:flex-row w-full h-screen">
       {/* Sidebar with group list */}
       <div
-        className={`w-full lg:w-1/3 p-4 bg-base-100 ${
+        className={`w-full lg:w-1/3 p-4 bg-base-100 lg:overflow-y-scroll overflow-y-visible ${
           selectedGroup ? "hidden lg:block" : "block"
         }`}
       >
-        <h2 className="text-2xl font-bold mb-4 text-secondary">Groups</h2>
-        <button className="bg-primary text-white rounded-full px-4 py-2 mb-4">
+        <h2 className="text-2xl font-bold mb-4">Groups</h2>
+
+        {/* Create Group Button */}
+        <button
+          onClick={handleCreateGroup}
+          className="bg-primary text-white rounded-full px-4 py-2 mb-4"
+        >
           Create Group
         </button>
+
+        {/* Search bar */}
         <div className="form-control mb-4">
           <input
             type="text"
@@ -86,9 +64,7 @@ const GroupChat = () => {
 
         {/* Group list */}
         <ul className="space-y-4">
-          {loading && <li>Loading...</li>}
-          {error && <li>Error fetching groups: {error}</li>}
-          {filteredGroups.map((group) => (
+          {groupChats.map((group) => (
             <li
               key={group._id}
               className={`cursor-pointer p-4 rounded-md shadow flex items-center ${
@@ -100,7 +76,7 @@ const GroupChat = () => {
             >
               <div className="relative mr-4">
                 <img
-                  src={group.image || avatar}
+                  src={group.image || "fallback-image-url"} // Replace with actual fallback
                   alt={group.chatName}
                   className="w-10 h-10 rounded-full object-cover"
                 />
@@ -129,92 +105,56 @@ const GroupChat = () => {
                 <span className="ml-2">Back</span>
               </button>
               <div className="flex-1 flex items-center">
-                <div className="relative mr-2">
-                  <img
-                    src={selectedGroup.image || avatar}
-                    alt={selectedGroup.chatName}
-                    className="w-10 h-10 rounded-full object-cover"
-                  />
-                </div>
+                <img
+                  src={selectedGroup.image || "fallback-image-url"} // Replace with actual fallback
+                  alt={selectedGroup.chatName}
+                  className="w-10 h-10 rounded-full object-cover mr-2"
+                />
                 <span className="text-white text-xl">
                   {selectedGroup.chatName}
                 </span>
               </div>
-              <div className="flex-none">
-                <AiOutlineSearch
-                  className="text-white w-6 h-6 cursor-pointer"
-                  onClick={handleSearchToggle}
-                />
-              </div>
             </div>
 
-            {/* Search input for filtering messages */}
-            {searchActive && (
-              <div className="w-full p-4 bg-gray-200">
-                <input
-                  type="text"
-                  placeholder="Search messages..."
-                  className="input w-full bg-gray-100 pl-4 pr-4 rounded-lg"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-                <div className="flex justify-end mt-2">
-                  <FaArrowUp className="mr-2 cursor-pointer text-black" />
-                  <FaArrowDown className="cursor-pointer text-black" />
-                </div>
-              </div>
-            )}
-
             {/* Messages Container */}
-            <div
-              className="flex-1 overflow-y-auto p-4 w-full"
-              style={{ maxHeight: "calc(100vh - 200px)" }}
-            >
+            <div className="flex-1 overflow-y-auto p-4 w-full">
               <ul className="w-full">
-                {filteredMessages.map((msg, index) => (
-                  <li
-                    key={index}
-                    className={`p-2 my-2 rounded-lg ${
-                      index % 2 === 0
-                        ? "bg-[#F1F1F1] text-black"
-                        : "bg-primary text-white"
-                    }`}
-                  >
-                    {msg}
-                  </li>
-                ))}
+                {selectedGroup.messages &&
+                  selectedGroup.messages.map((msg, index) => (
+                    <li
+                      key={index}
+                      className={`p-2 my-2 rounded-lg ${
+                        index % 2 === 0
+                          ? "bg-[#F1F1F1] text-black"
+                          : "bg-primary text-white"
+                      }`}
+                    >
+                      {msg.content}{" "}
+                      {/* Adjust according to your message structure */}
+                    </li>
+                  ))}
               </ul>
             </div>
 
             {/* Input form fixed at the bottom */}
-            <form
-              className="bg-base-100 flex items-center p-2"
-              onSubmit={(e) => {
-                e.preventDefault();
-                const newMessage = e.target.input.value;
-                // Update messages and filtered messages
-                setMessages((prev) => [...prev, newMessage]);
-                setFilteredMessages((prev) => [...prev, newMessage]);
-                e.target.input.value = "";
-              }}
-            >
-              <button type="submit" className="px-1">
-                <img src={AttachedIcon} alt="Attach" />
-              </button>
-              <input
-                id="input"
-                type="text"
-                placeholder="Type your message..."
-                className="flex-grow bg-gray-100 rounded-full px-4 py-2 text-base focus:outline-none"
-                autoComplete="off"
-              />
-              <button
-                type="submit"
-                className="text-white flex items-center justify-center p-2 ml-2 rounded-full"
-              >
-                <img src={SendIcon} alt="Send" />
-              </button>
-            </form>
+            <div className="fixed bottom-0 w-full">
+              <form className="bg-base-100 flex items-center p-2">
+                <button type="button" className="px-1">
+                  <img src={AttachedIcon} alt="Attach" />
+                </button>
+
+                <input
+                  id="input"
+                  type="text"
+                  placeholder="Type your message..."
+                  className="flex-grow bg-gray-100 rounded-full pl-4 pr-4 py-2 ml-2"
+                />
+
+                <button type="submit" className="px-1">
+                  <img src={SendIcon} alt="Send" />
+                </button>
+              </form>
+            </div>
           </>
         ) : (
           <RightSide />
