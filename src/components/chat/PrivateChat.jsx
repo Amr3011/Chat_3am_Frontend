@@ -177,6 +177,12 @@ const PrivateChat = () => {
     dispatch(fetchMessages(chat._id)); // Fetch messages for the selected chat
   };
 
+  /*************  ✨ Codeium Command ⭐  *************/
+  /**
+   * Resets the selected chat to null, effectively navigating back to the list
+   * of private chats.
+   */
+  /******  abc8d989-bd17-4c13-8d66-d11246abf0cb  *******/
   const handleBackClick = () => {
     setSelectedChat(null);
   };
