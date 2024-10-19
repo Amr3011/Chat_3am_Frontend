@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import AmigosChatting from "../assets/Amigos Chatting.png";
+//import AmigosChatting from "../assets/Amigos Chatting.png";
 import RightSide from "../components/common/RightSide";
 
 function timeDifference(toDate) {
@@ -53,6 +53,7 @@ const notifications = Array.from({ length: 5 }, generateNotification);
 
 const Notification = () => {
   return (
+    
     <div className="min-h-screen flex flex-col lg:flex-row bg-base-100 text-neutral font-roboto">
       {/* Notification Section */}
       <div className="w-full lg:w-1/2 bg-neutral p-8">
@@ -89,7 +90,9 @@ const Notification = () => {
           </p>
         </div>
       </div> */}
-      <RightSide />
+      <div className="hidden lg:flex w-full lg:w-1/2 bg-primary justify-center items-center p-8">
+        <RightSide />
+      </div>
     </div>
   );
 };
