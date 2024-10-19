@@ -15,8 +15,8 @@ import ForgotPassword from "./pages/auth/ForgotPassword.jsx";
 import { useSelector } from "react-redux";
 import PublicRoute from "./components/guard/PublicRoute.jsx";
 import ResetPassword from "./pages/auth/ResetPassword.jsx";
-import GroupChat from "./components/chat/GroupChat.jsx";
-import PrivateChat from "./components/chat/PrivateChat.jsx";
+import GroupChat from "./pages/chat/GroupChat.jsx";
+import PrivateChat from "./pages/chat/PrivateChat.jsx";
 import Setting from "./pages/Setting.jsx";
 import siteMap from "./sitemap.js";
 
@@ -56,7 +56,6 @@ export default function App() {
             </ProtectedRoute>
           }
         >
-          <Route path="home" element={<h1>home page</h1>} />
           <Route path="FAQs" element={<FAQs />} />
           <Route path="user-info" element={<UserInfo />} />
           <Route path="groups" element={<GroupChat />} />

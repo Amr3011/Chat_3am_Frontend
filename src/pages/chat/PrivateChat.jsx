@@ -140,7 +140,7 @@ import { fetchChats } from "../../redux/reducers/chatReducer";
 import { fetchMessages } from "../../redux/reducers/messageReducer";
 import SendIcon from "../../assets/SendIcon.svg";
 import AttachedIcon from "../../assets/AttachedIcon.svg";
-import RightSide from "../common/RightSide";
+import RightSide from "../../components/common/RightSide";
 import { IoIosArrowBack } from "react-icons/io";
 import { io } from "socket.io-client";
 
@@ -196,7 +196,7 @@ const PrivateChat = () => {
     const newMessage = {
       content: messageInput,
       contentType: "text", // Adjust if you have other content types
-      chatId: selectedChat._id,
+      chatId: selectedChat._id
     };
     socket.emit("new message", newMessage); // Emit the message via WebSocket
     setMessageInput(""); // Clear the input after sending
