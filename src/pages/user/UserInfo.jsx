@@ -87,7 +87,7 @@ const UserInfo = () => {
         <div className="flex justify-center">
           <img src={AmigosChatting} alt="Illustration" className="mb-8" />
         </div>
-        <p className="text-xl">
+        <p className="text-xl text-white">
           Start Chat with your Friends, Make calls, Share your Screen and get
           Faster Now...
         </p>

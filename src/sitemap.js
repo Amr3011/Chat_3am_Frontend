@@ -1,5 +1,5 @@
 const siteMap = {
-  home: { path: "/app/home" },
+  home: { path: "/app/chats" },
   register: { path: "/register" },
   login: { path: "/login" },
   verify: { path: "/verify" },

@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import defaultAvatar from "../../assets/defaultProfile.jpg";
 import Joi from "joi";
+import { toast } from "react-toastify";
 
 // Async thunk to update user info (name, username, email, phone)
 export const updateUser = createAsyncThunk(
@@ -112,16 +113,15 @@ const userSlice = createSlice({
       .addCase(updateUser.fulfilled, (state, action) => {
         state.userInfo = action.payload.user;
         localStorage.setItem("userInfo", JSON.stringify(action.payload.user));
-        console.log("User updated successfully:", action.payload);
       })
       .addCase(updateUser.rejected, (state, action) => {
-        console.error("Failed to update user:", action);
+        toast.error("Failed to update user:", action);
       })
       .addCase(changePassword.fulfilled, (state, action) => {
-        console.log("Password changed successfully:", action.payload);
+        toast.success("Password changed successfully!");
       })
       .addCase(changePassword.rejected, (state, action) => {
-        console.error("Failed to change password:", action);
+        toast.error("Failed to change password:", action);
       });
   }
 });
