@@ -1,12 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-
+import { toast } from "react-toastify";
+import defaultAvatar from "../../assets/defaultProfile.jpg";
 // Adjusted async thunk for fetching private chats
 export const fetchChats = createAsyncThunk("chat/fetchChats", async () => {
   const response = await fetch(`/api/chat/`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
+    method: "GET"
   });
 
   if (!response.ok) {
@@ -22,11 +20,7 @@ export const fetchGroupChats = createAsyncThunk(
   "chat/fetchGroupChats",
   async () => {
     const response = await fetch(`/api/chat/group/`, {
-      // Adjusted endpoint
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      method: "GET"
     });
 
     if (!response.ok) {
@@ -42,24 +36,26 @@ const chatSlice = createSlice({
   name: "chat",
   initialState: {
     privateChats: [],
-    groupChats: [], // Added state for group chats
+    groupChats: [],
     availableUsers: [],
-    loading: false,
-    error: null,
+    loading: true
   },
   reducers: {
-    setPrivateChats: (state, action) => {
-      state.privateChats = action.payload; // Set the payload as privateChats
-    },
-    updatePrivateChat: (state, action) => {
-      const { chatId, updatedChat } = action.payload;
-      const chatIndex = state.privateChats.findIndex(
-        (chat) => chat._id === chatId
-      );
-      if (chatIndex !== -1) {
-        state.privateChats[chatIndex] = updatedChat; // Update the specific private chat
-      }
-    },
+    changePrivateChatName: (state, action) => {
+      state.privateChats.forEach((chat) => {
+        if (chat.usersRef[0]._id === action.payload) {
+          chat.img = chat.usersRef[1].avatar
+            ? chat.usersRef[1].avatar
+            : defaultAvatar;
+          chat.chatName = chat.usersRef[1].username;
+        } else {
+          chat.img = chat.usersRef[0].avatar
+            ? chat.usersRef[0].avatar
+            : defaultAvatar;
+          chat.chatName = chat.usersRef[0].username;
+        }
+      });
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -73,7 +69,7 @@ const chatSlice = createSlice({
       })
       .addCase(fetchChats.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        toast.error(action.error.message);
       })
       // Fetch group chats
       .addCase(fetchGroupChats.pending, (state) => {
@@ -81,14 +77,14 @@ const chatSlice = createSlice({
       })
       .addCase(fetchGroupChats.fulfilled, (state, action) => {
         state.loading = false;
-        state.groupChats = action.payload.groupChats; // Store fetched group chats
+        state.groupChats = action.payload.groupChats;
       })
       .addCase(fetchGroupChats.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        toast.error(action.error.message);
       });
-  },
+  }
 });
 
-export const { setPrivateChats, updatePrivateChat } = chatSlice.actions;
+export const { changePrivateChatName } = chatSlice.actions;
 export default chatSlice.reducer;

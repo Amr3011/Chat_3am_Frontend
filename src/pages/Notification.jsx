@@ -41,6 +41,7 @@ const itHaveBeen = (time) => {
     return `${minutes} minutes ago`;
   }
 };
+
 const generateNotification = () => ({
   id: faker.string.uuid(),
   name: faker.person.fullName(),
@@ -49,15 +50,16 @@ const generateNotification = () => ({
   image: faker.image.avatar()
 });
 
-const notifications = Array.from({ length: 5 }, generateNotification);
+const notifications = Array.from({ length: 15 }, generateNotification);
 
 const Notification = () => {
   return (
-    
-    <div className="min-h-screen flex flex-col lg:flex-row bg-base-100 text-neutral font-roboto">
+    <div className="flex flex-col lg:flex-row bg-base-100 h-screen">
       {/* Notification Section */}
-      <div className="w-full lg:w-1/2 bg-neutral p-8">
-        <h2 className="text-2xl font-bold mb-6 text-primary">Notification</h2>
+      <div className="w-full lg:w-1/2 p-8 overflow-visible lg:overflow-y-scroll">
+        <h2 className="text-2xl font-bold mb-6 text-base-content">
+          Notification
+        </h2>
         <div className="space-y-4">
           {notifications.map((notification) => (
             <div
@@ -70,7 +72,7 @@ const Notification = () => {
                 className="w-12 h-12 rounded-full object-cover mr-4"
               />
               <div className="flex-1">
-                <p className="text-lg font-semibold">{notification.name}</p>
+                <p className="text-lg font-semibold text-base-300">{notification.name}</p>
                 <p className="text-sm text-accent">{notification.message}</p>
               </div>
               <span className="text-sm text-gray-500">{notification.time}</span>
@@ -78,19 +80,7 @@ const Notification = () => {
           ))}
         </div>
       </div>
-
-      {/* <div className="md:block flex-1 bg-primary flex justify-center items-center p-12 shadow-lg">
-        <div className="text-center text-base-100">
-          <div className="flex justify-center">
-            <img src={AmigosChatting} alt="Illustration" className="mb-8" />
-          </div>
-          <p className="text-xl">
-            Start Chat with your Friends, Make calls, Share your Screen and get
-            Faster Now...
-          </p>
-        </div>
-      </div> */}
-      <div className="hidden lg:flex w-full lg:w-1/2 bg-primary justify-center items-center p-8">
+      <div className="hidden lg:flex lg:w-1/2 bg-primary justify-center items-center h-screen">
         <RightSide />
       </div>
     </div>

@@ -1,14 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 
 // Thunk for fetching messages for a selected chat
 export const fetchMessages = createAsyncThunk(
   "messages/fetchMessages",
   async (chatId) => {
     const response = await fetch(`/api/message/${chatId}`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      method: "GET"
     });
 
     if (!response.ok) {
@@ -16,7 +14,6 @@ export const fetchMessages = createAsyncThunk(
     }
 
     const data = await response.json();
-    console.log("Messages:", data);
     return data.data; // Return the fetched messages
   }
 );
@@ -25,8 +22,7 @@ const messageSlice = createSlice({
   name: "messages",
   initialState: {
     messages: [],
-    loading: false,
-    error: null,
+    loading: false
   },
   reducers: {
     setMessages: (state, action) => {
@@ -34,7 +30,7 @@ const messageSlice = createSlice({
     },
     addMessage: (state, action) => {
       state.messages.push(action.payload); // Add a new message to state
-    },
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -43,13 +39,13 @@ const messageSlice = createSlice({
       })
       .addCase(fetchMessages.fulfilled, (state, action) => {
         state.loading = false;
-        state.messages = action.payload; // Set fetched messages
+        state.messages = action.payload;
       })
       .addCase(fetchMessages.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.error.message;
+        toast.error(action.error.message);
       });
-  },
+  }
 });
 
 export const { setMessages, addMessage } = messageSlice.actions;

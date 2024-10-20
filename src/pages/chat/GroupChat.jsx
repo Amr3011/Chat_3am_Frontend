@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchGroupChats } from "../../redux/reducers/chatReducer"; // Use the correct thunk
 import SendIcon from "../../assets/SendIcon.svg";
 import AttachedIcon from "../../assets/AttachedIcon.svg";
-import RightSide from "../common/RightSide";
+import RightSide from "../../components/common/RightSide";
 import { IoIosArrowBack } from "react-icons/io";
 
 // GroupChat Component
