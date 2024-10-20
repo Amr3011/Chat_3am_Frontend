@@ -36,9 +36,7 @@ export default function SideBar({ children }) {
         <ul className="flex flex-col items-center justify-around bg-primary text-white min-h-full h-full w-32 p-4">
           {/* Sidebar content here */}
           <li>
-            <Link to={siteMap.home.path}>
               <Logo containerClass="" imgClass="rounded-full h-16 w-16" />
-            </Link>
           </li>
           <li>
             <ul className="flex flex-col gap-2">
