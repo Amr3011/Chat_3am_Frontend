@@ -79,16 +79,13 @@ const PrivateChat = () => {
                     <div className="flex flex-col">
                       <p className="capitalize">{chat.chatName}</p>
                       <p className="text-sm">
-                        {chat.latestMessage.contentType !== "text"
-                          ? chat.latestMessage.contentType
-                          : chat.latestMessage.content}
+                        {chat?.latestMessage?.content || ""}
                       </p>
                     </div>
                   </div>
                 )}
               </li>
             ))}
-            
           </ul>
         }
       </div>

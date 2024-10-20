@@ -22,7 +22,7 @@ const ChatBox = ({ selectedChat, handleBack }) => {
       <div className="flex justify-between items-center  p-2 bg-primary px-8">
         <div className="flex items-center gap-4">
           <img src={picture|| img || groupImg} alt="" className="h-12 w-12 rounded-full" />
-          <p className="text text-2xl">{chatName}</p>
+          <p className="text text-2xl text-white">{chatName}</p>
         </div>
         <button className="flex gap-2 items-center text-white capitalize" onClick={handleBack}>
           <IoIosArrowBack/><span>back</span>
