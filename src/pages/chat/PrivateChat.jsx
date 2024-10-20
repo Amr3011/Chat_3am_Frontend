@@ -7,6 +7,7 @@ import {
 } from "../../redux/reducers/chatReducer";
 import ChatSkelton from "../../components/chat/ChatSkelton";
 import ChatBox from "../../components/chat/ChatBox";
+import AddUserToChat from "../../components/chat/AddUserToChat";
 
 const PrivateChat = () => {
   const isDark = useSelector((state) => state.theme.darkMode);
@@ -35,18 +36,19 @@ const PrivateChat = () => {
           selectedChat ? "md:block hidden" : ""
         } col-span-12 md:col-span-4 p-6`}
       >
-        <div className="flex justify-between my-3">
+        <div className="flex justify-between mb-3">
           <h1 className="capitalize text-2xl font-bold mb-4">private chats</h1>
-          <button className="btn btn-primary capitalize">add user</button>
+          <AddUserToChat />
         </div>
-        <div className="form-control mb-4">
+        <div className="flex gap-2 mb-4 justify-between">
           <input
             type="text"
-            placeholder="Search or start a new chat"
-            className="input input-bordered w-full bg-white pl-4 pr-4 text-neutral"
+            placeholder="Search"
+            className="input input-bordered bg-white px-4 text-neutral w-full"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
+          <button className="btn btn-primary capitalize">search</button>
         </div>
 
         {
@@ -79,16 +81,13 @@ const PrivateChat = () => {
                     <div className="flex flex-col">
                       <p className="capitalize">{chat.chatName}</p>
                       <p className="text-sm">
-                        {chat.latestMessage.contentType !== "text"
-                          ? chat.latestMessage.contentType
-                          : chat.latestMessage.content}
+                        {chat?.latestMessage?.content || ""}
                       </p>
                     </div>
                   </div>
                 )}
               </li>
             ))}
-            
           </ul>
         }
       </div>
