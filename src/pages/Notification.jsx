@@ -72,7 +72,7 @@ const Notification = () => {
                 className="w-12 h-12 rounded-full object-cover mr-4"
               />
               <div className="flex-1">
-                <p className="text-lg font-semibold">{notification.name}</p>
+                <p className="text-lg font-semibold text-base-300">{notification.name}</p>
                 <p className="text-sm text-accent">{notification.message}</p>
               </div>
               <span className="text-sm text-gray-500">{notification.time}</span>
