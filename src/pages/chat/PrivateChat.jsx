@@ -50,7 +50,7 @@ const PrivateChat = () => {
         </div>
 
         {
-          <ul className="h-screen lg:overflow-y-scroll border-r-2 border-base-200 pb-32">
+          <ul className="h-screen lg:overflow-y-scroll border-r-2 border-base-200 pb-52">
             {privateChats.map((chat) => (
               <li
                 key={chat._id}
@@ -88,6 +88,7 @@ const PrivateChat = () => {
                 )}
               </li>
             ))}
+            
           </ul>
         }
       </div>
