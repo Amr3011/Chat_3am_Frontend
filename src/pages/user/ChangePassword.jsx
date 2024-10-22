@@ -43,22 +43,19 @@ const ChangePassword = () => {
             return;
         }
 
-        // Create a payload with the required fields
         const passwordPayload = {
             oldPassword,
             newPassword,
         };
 
-        // Dispatch the changePassword action
         const resultAction = await dispatch(changePassword(passwordPayload));
 
         if (changePassword.fulfilled.match(resultAction)) {
-            setMessage("Password changed successfully!"); // Update success message
+            setMessage("Password changed successfully!");
         } else {
-            setMessage("Error changing password: " + error); // Update error message
+            setMessage("Error changing password: " + error);
         }
 
-        // Clear input fields after submission
         setOldPassword("");
         setNewPassword("");
         setConfirmPassword("");
@@ -154,7 +151,7 @@ const ChangePassword = () => {
                     <CgClose className="text-primary text-3xl s:text-2xl s:block hidden hover:cursor-pointer" onClick={toggleChangePassword} />
                 </div>
 
-                {message && <p className="text-lg font-medium text-red-600 mb-4">{message}</p>} {/* Display message */}
+                {message && <p className="text-lg font-medium text-green-600 mb-4">{message}</p>} {/* Display message */}
 
                 <form onSubmit={handleSubmit}>
                     <div className="mb-4">
