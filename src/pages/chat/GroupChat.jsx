@@ -18,6 +18,10 @@ const GroupChat = () => {
     dispatch(fetchGroupChats());
   }, [dispatch]);
 
+  const handleSearch = () => {
+    dispatch(fetchGroupChats(searchQuery)); 
+  };
+
   const handleBack = () => {
     setSelectedChat(null);
   };
@@ -41,47 +45,49 @@ const GroupChat = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
-          <button className="btn btn-primary capitalize">search</button>
+          <button className="btn btn-primary capitalize" onClick={handleSearch}>search</button>
         </div>
 
         {
-          <ul className="h-screen lg:overflow-y-scroll border-r-2 border-base-200 pb-52">
-            {groupChats.map((chat) => (
-              <li
-                key={chat._id}
-                className={`p-2 m-2 rounded-xl flex items-center gap-3 cursor-pointer ${
-                  selectedChat && selectedChat._id === chat._id
-                    ? "bg-primary"
-                    : ""
-                } ${isDark ? "bg-black text-white" : "bg-white text-black"}`}
+ <ul className="h-screen lg:overflow-y-scroll border-r-2 border-base-200 pb-52">
+        {loading ? (
+          <ChatSkelton />
+        ) : groupChats.length === 0 ? (
+          <li className="text-center p-4">No results found</li> // Message for no results
+        ) : (
+          groupChats.map((chat) => (
+            <li
+              key={chat._id}
+              className={`p-2 m-2 rounded-xl flex items-center gap-3 cursor-pointer ${
+                selectedChat && selectedChat._id === chat._id
+                  ? "bg-primary"
+                  : ""
+              } ${isDark ? "bg-black text-white" : "bg-white text-black"}`}
+            >
+              <div
+                className="flex items-center gap-3 w-full"
+                onClick={() => {
+                  setSelectedChat(chat);
+                }}
               >
-                {loading ? (
-                  <ChatSkelton />
-                ) : (
-                  <div
-                    className="flex items-center gap-3 w-full"
-                    onClick={() => {
-                      setSelectedChat(chat);
-                    }}
-                  >
-                    <img
-                      src={chat.picture || groupImg}
-                      height={0}
-                      width={0}
-                      className="h-12 w-12 rounded-full"
-                      alt=""
-                    />
-                    <div className="flex flex-col">
-                      <p className="capitalize">{chat.chatName}</p>
-                      <p className="text-sm">
-                        {chat?.latestMessage?.content || ""}
-                      </p>
-                    </div>
-                  </div>
-                )}
-              </li>
-            ))}
-          </ul>
+                <img
+                  src={chat.picture || groupImg}
+                  height={0}
+                  width={0}
+                  className="h-12 w-12 rounded-full"
+                  alt=""
+                />
+                <div className="flex flex-col">
+                  <p className="capitalize">{chat.chatName}</p>
+                  <p className="text-sm">
+                    {chat?.latestMessage?.content || ""}
+                  </p>
+                </div>
+              </div>
+            </li>
+          ))
+        )}
+      </ul>
         }
       </div>
       <div
