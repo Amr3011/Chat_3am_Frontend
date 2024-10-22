@@ -2,8 +2,8 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 import defaultAvatar from "../../assets/defaultProfile.jpg";
 // Adjusted async thunk for fetching private chats
-export const fetchChats = createAsyncThunk("chat/fetchChats", async () => {
-  const response = await fetch(`/api/chat/`, {
+export const fetchChats = createAsyncThunk("chat/fetchChats", async (searchQuery = "") => {
+  const response = await fetch(`/api/chat?searchTerm=${searchQuery}`, {
     method: "GET"
   });
 
@@ -18,8 +18,8 @@ export const fetchChats = createAsyncThunk("chat/fetchChats", async () => {
 // New async thunk for fetching group chats
 export const fetchGroupChats = createAsyncThunk(
   "chat/fetchGroupChats",
-  async () => {
-    const response = await fetch(`/api/chat/group/`, {
+  async (searchQuery = "") => {
+    const response = await fetch(`/api/chat/group?searchTerm=${searchQuery}`, {
       method: "GET"
     });
 
