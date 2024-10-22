@@ -4,17 +4,18 @@ import userReducer from "./reducers/userReducer"; // Already added
 import chatReducer from "./reducers/chatReducer";
 import messageReducer from "./reducers/messageReducer";
 
+
 // Combine all the reducers
 const rootReducer = combineReducers({
   theme: themeReducer,
-  user: userReducer, // The reducer for user registration and authentication
+  user: userReducer,
   chat: chatReducer,
   messages: messageReducer,
 });
 
 // Configure the Redux store
 const store = configureStore({
-  reducer: rootReducer,
+  reducer: rootReducer
 });
 
 export default store;

@@ -9,10 +9,20 @@ import { HiOutlineUserGroup } from "react-icons/hi";
 import { GoGear } from "react-icons/go";
 import siteMap from "../../sitemap";
 import { useSelector } from "react-redux";
+import socket from "./../../utils/Socket";
+import { useEffect } from "react";
 
 export default function SideBar({ children }) {
   const userInfo = useSelector((state) => state.user.userInfo);
   const location = useLocation();
+
+  useEffect(() => {
+    socket.emit("subscribe", userInfo._id);
+    return () => {
+      socket.emit("unsubscribe", userInfo._id);
+      socket.disconnect();
+    };
+  }, [userInfo._id]);
 
   return (
     <div className="drawer lg:drawer-open">
@@ -36,7 +46,7 @@ export default function SideBar({ children }) {
         <ul className="flex flex-col items-center justify-around bg-primary text-white min-h-full h-full w-32 p-4">
           {/* Sidebar content here */}
           <li>
-              <Logo containerClass="" imgClass="rounded-full h-16 w-16" />
+            <Logo containerClass="" imgClass="rounded-full h-16 w-16" />
           </li>
           <li>
             <ul className="flex flex-col gap-2">

@@ -31,13 +31,7 @@ const Message = ({ msg }) => {
 };
 
 Message.propTypes = {
-  msg: PropTypes.objectOf({
-    _id: PropTypes.string.isRequired,
-    sender: PropTypes.object.isRequired,
-    content: PropTypes.string.isRequired,
-    contentType: PropTypes.string.isRequired,
-    updatedAt: PropTypes.string.isRequired
-  }).isRequired
+  msg: PropTypes.object.isRequired
 };
 
 export default Message;
