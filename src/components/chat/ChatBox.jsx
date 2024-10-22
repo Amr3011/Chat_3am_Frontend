@@ -58,7 +58,21 @@ const ChatBox = ({ selectedChat, handleBack }) => {
       }
       const data = await response.json();
       dispatch(addMessage(data.data));
-      socket.emit("newMessage", data.data);
+      // socket.emit("newMessage", data.data);
+      // const res = await fetch("/api/notifications", {
+      //   headers: {
+      //     "Content-Type": "application/json"
+      //   },
+      //   body: JSON.stringify({
+      //     sender: userInfo._id,
+      //     receiver: selectedChat.usersRef.filter(
+      //       (user) => user._id !== userInfo._id
+      //     ),
+      //     message: data.data._id
+      //   })
+      // });
+      // const { notification } = await res.json();
+      // socket.emit("newNotification", notification);
       setNewMessage("");
     } catch (error) {
       toast.error(error.message);

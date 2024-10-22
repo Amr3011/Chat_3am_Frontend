@@ -9,21 +9,36 @@ import { HiOutlineUserGroup } from "react-icons/hi";
 import { FaQuestionCircle } from "react-icons/fa";
 import { GoGear } from "react-icons/go";
 import siteMap from "../../sitemap";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import socket from "./../../utils/Socket";
 import { useEffect } from "react";
+import {
+  addNotification,
+  fetchNotifications
+} from "../../redux/reducers/notificationReducer";
 
 export default function SideBar({ children }) {
   const userInfo = useSelector((state) => state.user.userInfo);
   const location = useLocation();
+  const dispatch = useDispatch();
+  // const notificationsCounter = useSelector(
+  //   (state) => state.notifications.length
+  // );
+
+  useEffect(() => {
+    dispatch(fetchNotifications());
+  }, [dispatch]);
 
   useEffect(() => {
     socket.emit("subscribe", userInfo._id);
+    socket.on("notificationReceived", (notification) => {
+      dispatch(addNotification(notification));
+    });
     return () => {
       socket.emit("unsubscribe", userInfo._id);
       socket.disconnect();
     };
-  }, [userInfo._id]);
+  }, [userInfo._id, dispatch]);
 
   return (
     <div className="drawer lg:drawer-open">
@@ -70,7 +85,12 @@ export default function SideBar({ children }) {
                   } hover:text-primary hover:bg-white h-fit flex flex-col items-center p-2 rounded-lg`}
                   to={siteMap.notifications.path}
                 >
-                  <FaBell fontSize={24} />
+                  <div className="relative">
+                    {/* <span className="h-4 w-4 flex justify-center items-center rounded-full absolute top-1 left-0 bg-red-600 text-white">
+                      {notificationsCounter}
+                    </span> */}
+                    <FaBell fontSize={24} />
+                  </div>
                   <p className="capitalize">notifications</p>
                 </Link>
               </li>
@@ -147,5 +167,5 @@ export default function SideBar({ children }) {
 }
 
 SideBar.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired
 };
