@@ -2,7 +2,7 @@ import ThemeToggler from "../components/inputs/ThemeToggler";
 import LastSeen from "../components/chat/LastSeen";
 import DeleteAccount from "../components/common/DeleteAccount";
 import Logout from "../components/common/Logout";
-import chat from "../assets/chat.svg";
+import chat from "../assets/Chat.svg";
 import { useSelector } from "react-redux";
 
 const Setting = () => {
