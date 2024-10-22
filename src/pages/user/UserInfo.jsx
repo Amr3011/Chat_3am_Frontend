@@ -15,7 +15,7 @@ const UserInfo = () => {
             alt="User Profile"
             className="w-20 h-20 rounded-full mr-6"
           />
-          <span className="text-xl font-semibold">Lavern Laboy</span>
+          <span className="text-xl font-semibold">{userInfo.username}</span>
         </div>
 
         <div className="space-y-8">

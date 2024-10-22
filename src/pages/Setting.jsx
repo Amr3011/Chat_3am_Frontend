@@ -18,7 +18,7 @@ const Setting = () => {
             alt="User Profile"
             className="w-20 h-20 rounded-full mr-6"
           />
-          <span className="text-xl font-semibold">{userInfo.name || "Lavern Laboy"}</span>
+          <span className="text-xl font-semibold">{userInfo.username}</span>
         </div>
         <ThemeToggler />
         <LastSeen />

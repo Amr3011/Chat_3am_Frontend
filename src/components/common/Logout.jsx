@@ -4,6 +4,7 @@ import siteMap from "./../../sitemap";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../redux/reducers/userReducer";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
 const Logout = () => {
   const modalRef = useRef(null); // Reference for modal
@@ -17,7 +18,7 @@ const Logout = () => {
       dispatch(logout());
       navigate(siteMap.login.path, { replace: true });
     } catch (error) {
-      console.error("Error logging out:", error);
+      toast.error("Failed to logout" + error.message);
     }
   };
 

@@ -8,6 +8,7 @@ import {
 import ChatSkelton from "../../components/chat/ChatSkelton";
 import ChatBox from "../../components/chat/ChatBox";
 import AddUserToChat from "../../components/chat/AddUserToChat";
+import socket from "../../utils/Socket";
 
 const PrivateChat = () => {
   const isDark = useSelector((state) => state.theme.darkMode);
@@ -16,6 +17,12 @@ const PrivateChat = () => {
   const { privateChats, loading } = useSelector((state) => state.chat);
   const [selectedChat, setSelectedChat] = useState();
   const [searchQuery, setSearchQuery] = useState("");
+
+  useEffect(() => {
+    socket.on("chatCreated", () => {
+      dispatch(fetchChats(searchQuery));
+    });
+  }, [dispatch, searchQuery]);
 
   useEffect(() => {
     dispatch(fetchChats());
@@ -29,7 +36,6 @@ const PrivateChat = () => {
     dispatch(fetchChats(searchQuery));
   };
 
-
   const handleBack = () => {
     setSelectedChat(null);
   };
@@ -37,8 +43,9 @@ const PrivateChat = () => {
   return (
     <div className="w-full grid grid-cols-12 overflow-y-hidden h-screen">
       <div
-        className={`${selectedChat ? "md:block hidden" : ""
-          } col-span-12 md:col-span-4 p-6`}
+        className={`${
+          selectedChat ? "md:block hidden" : ""
+        } col-span-12 md:col-span-4 p-6`}
       >
         <div className="flex justify-between mb-3">
           <h1 className="capitalize text-2xl font-bold mb-4">private chats</h1>
@@ -52,7 +59,9 @@ const PrivateChat = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
-          <button className="btn btn-primary capitalize" onClick={handleSearch}>search</button>
+          <button className="btn btn-primary capitalize" onClick={handleSearch}>
+            search
+          </button>
         </div>
 
         {
@@ -65,10 +74,11 @@ const PrivateChat = () => {
               privateChats.map((chat) => (
                 <li
                   key={chat._id}
-                  className={`p-2 m-2 rounded-xl flex items-center gap-3 cursor-pointer ${selectedChat && selectedChat._id === chat._id
+                  className={`p-2 m-2 rounded-xl flex items-center gap-3 cursor-pointer ${
+                    selectedChat && selectedChat._id === chat._id
                       ? "bg-primary"
                       : ""
-                    } ${isDark ? "bg-black text-white" : "bg-white text-black"}`}
+                  } ${isDark ? "bg-black text-white" : "bg-white text-black"}`}
                 >
                   <div
                     className="flex items-center gap-3 w-full"
@@ -97,8 +107,9 @@ const PrivateChat = () => {
         }
       </div>
       <div
-        className={`col-span-12 md:col-span-8 ${selectedChat ? "" : "hidden md:block"
-          }`}
+        className={`col-span-12 md:col-span-8 ${
+          selectedChat ? "" : "hidden md:block"
+        }`}
       >
         {selectedChat ? (
           <ChatBox selectedChat={selectedChat} handleBack={handleBack} />

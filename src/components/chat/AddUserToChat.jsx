@@ -2,10 +2,12 @@ import { useRef, useState } from "react";
 import { IoClose } from "react-icons/io5";
 import { toast } from "react-toastify";
 import defaultAvatar from "../../assets/defaultProfile.jpg";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchChats } from "../../redux/reducers/chatReducer";
+import socket from "../../utils/Socket";
 
 const AddUserToChat = () => {
+  const { userInfo } = useSelector((state) => state.user);
   const addModal = useRef(null);
   const [users, setUsers] = useState([]);
   const [search, setSearch] = useState("");
@@ -24,9 +26,11 @@ const AddUserToChat = () => {
       if (!response.ok) {
         throw new Error("Failed to add user to chat");
       }
+      const data = await response.json();
       handleResearch();
       addModal.current.close();
       dispatch(fetchChats());
+      socket.emit("newChat", data, userInfo._id);
     } catch (error) {
       toast.error(error.message);
     }

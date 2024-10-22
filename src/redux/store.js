@@ -3,7 +3,7 @@ import themeReducer from "./reducers/themeReducer";
 import userReducer from "./reducers/userReducer"; // Already added
 import chatReducer from "./reducers/chatReducer";
 import messageReducer from "./reducers/messageReducer";
-
+// import notificationsReducer from "./reducers/notificationReducer";
 
 // Combine all the reducers
 const rootReducer = combineReducers({
@@ -11,6 +11,7 @@ const rootReducer = combineReducers({
   user: userReducer,
   chat: chatReducer,
   messages: messageReducer,
+  // notifications: notificationsReducer
 });
 
 // Configure the Redux store
