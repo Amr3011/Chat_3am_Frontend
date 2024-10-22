@@ -35,6 +35,8 @@ const ChatBox = ({ selectedChat, handleBack }) => {
 
   const sendMessage = async (e) => {
     e.preventDefault();
+    setTyping(false);
+    setWhoIsTyping("");
     if (newMessage.trim() === "") {
       toast.error("Message cannot be empty");
       return;
@@ -58,7 +60,6 @@ const ChatBox = ({ selectedChat, handleBack }) => {
       dispatch(addMessage(data.data));
       socket.emit("newMessage", data.data);
       setNewMessage("");
-      setTyping(false);
     } catch (error) {
       toast.error(error.message);
     }
@@ -83,7 +84,6 @@ const ChatBox = ({ selectedChat, handleBack }) => {
     socket.on("typing", (username) => {
       setTyping(true);
       setWhoIsTyping(username);
-
       // Clear existing timeout if user is typing again
       if (typingTimeoutRef.current) {
         clearTimeout(typingTimeoutRef.current);
