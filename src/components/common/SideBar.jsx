@@ -6,6 +6,7 @@ import { IoArrowRedoCircleOutline } from "react-icons/io5";
 import { FaBell } from "react-icons/fa";
 import { LuUser2 } from "react-icons/lu";
 import { HiOutlineUserGroup } from "react-icons/hi";
+import { FaQuestionCircle } from "react-icons/fa";
 import { GoGear } from "react-icons/go";
 import siteMap from "../../sitemap";
 import { useSelector } from "react-redux";
@@ -18,7 +19,6 @@ export default function SideBar({ children }) {
     <div className="drawer lg:drawer-open">
       <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content grid">
-        {/* Page content here */}
         <label
           htmlFor="my-drawer-2"
           className="drawer-button lg:hidden max-w-max p-3"
@@ -33,17 +33,17 @@ export default function SideBar({ children }) {
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <ul className="flex flex-col items-center justify-around bg-primary text-white min-h-full h-full w-32 p-4">
+        <ul className="flex flex-col items-center justify-between bg-primary text-white min-h-full h-full w-32 p-4">
           {/* Sidebar content here */}
           <li>
-              <Logo containerClass="" imgClass="rounded-full h-16 w-16" />
+            <Logo containerClass="" imgClass="rounded-full h-16 w-16" />
           </li>
           <li>
             <ul className="flex flex-col gap-2">
               <li>
                 <Link
                   className={`${
-                    location.pathname == siteMap.chats.path &&
+                    location.pathname === siteMap.chats.path &&
                     "text-primary bg-white"
                   } hover:text-primary hover:bg-white h-fit flex flex-col items-center p-2 rounded-lg`}
                   to={siteMap.chats.path}
@@ -55,7 +55,7 @@ export default function SideBar({ children }) {
               <li>
                 <Link
                   className={`${
-                    location.pathname == siteMap.notifications.path &&
+                    location.pathname === siteMap.notifications.path &&
                     "text-primary bg-white"
                   } hover:text-primary hover:bg-white h-fit flex flex-col items-center p-2 rounded-lg`}
                   to={siteMap.notifications.path}
@@ -67,7 +67,7 @@ export default function SideBar({ children }) {
               <li>
                 <Link
                   className={`${
-                    location.pathname == siteMap.userInfo.path &&
+                    location.pathname === siteMap.userInfo.path &&
                     "text-primary bg-white"
                   } hover:text-primary hover:bg-white h-fit flex flex-col items-center p-2 rounded-lg`}
                   to={siteMap.userInfo.path}
@@ -79,7 +79,7 @@ export default function SideBar({ children }) {
               <li>
                 <Link
                   className={`${
-                    location.pathname == siteMap.groups.path &&
+                    location.pathname === siteMap.groups.path &&
                     "text-primary bg-white"
                   } hover:text-primary hover:bg-white h-fit flex flex-col items-center p-2 rounded-lg`}
                   to={siteMap.groups.path}
@@ -95,7 +95,7 @@ export default function SideBar({ children }) {
               <li>
                 <Link
                   className={`${
-                    location.pathname == siteMap.settings.path &&
+                    location.pathname === siteMap.settings.path &&
                     "text-primary bg-white"
                   } hover:text-primary hover:bg-white h-fit flex flex-col items-center p-2 rounded-lg`}
                   to={siteMap.settings.path}
@@ -114,6 +114,21 @@ export default function SideBar({ children }) {
                 />
               </li>
             </ul>
+            <ul>
+              <li className="mt-4">
+                {" "}
+                <Link
+                  className={`${
+                    location.pathname === siteMap.FAQs.path &&
+                    "text-primary bg-white"
+                  } hover:text-primary hover:bg-white h-fit flex flex-col items-center p-2 rounded-lg`}
+                  to={siteMap.FAQs.path}
+                >
+                  <FaQuestionCircle fontSize={24} />
+                  <p className="capitalize">FAQs</p>
+                </Link>
+              </li>
+            </ul>
           </li>
         </ul>
       </div>
@@ -122,5 +137,5 @@ export default function SideBar({ children }) {
 }
 
 SideBar.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 };

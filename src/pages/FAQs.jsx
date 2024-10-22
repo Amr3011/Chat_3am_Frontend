@@ -1,26 +1,49 @@
 import { useState } from "react";
 import { FiChevronDown, FiChevronUp } from "react-icons/fi";
-import AmigosChatting from "../assets/Amigos Chatting.png";
+import RightSide from "../components/common/RightSide";
 
 const FAQs = () => {
   const [activeIndex, setActiveIndex] = useState(null);
 
   const faqs = [
-    { question: "Question?", answer: "Answer" },
-    { question: "Question?", answer: "Answer" },
-    { question: "Question?", answer: "Answer" }
+    {
+      question: "What should I do if I forgot my password?",
+      answer: "If you forgot your password, click on the 'Forgot Password?' link on the login page and follow the instructions to reset it."
+    },
+    {
+      question: "How do I verify my email address?",
+      answer: "After registering, you will receive a verification email with a code. Please check your email, find the code, and enter it in the designated field on the verification page."
+    },
+    {
+      question: "Why can't I log in to my account?",
+      answer: "If you are unable to log in, please check your email and password for accuracy. You can also reset your password if necessary."
+    },
+    {
+      question: "How can I register for a new account?",
+      answer: "To register for a new account, click on the 'Register' button and fill out the required fields. You will receive a confirmation email to verify your account."
+    },
+    {
+      question: "How do I change my password?",
+      answer: "To change your password, go to your User Info and select 'Change Password.' Follow the prompts to update it."
+    },
+    {
+      question: "What if I don't receive the verification email?",
+      answer: "If you don't receive the verification email, please check your spam or junk folder. You can also request a new verification email."
+    },
   ];
+  
 
   const toggleFaq = (index) => {
     setActiveIndex(index === activeIndex ? null : index);
   };
 
   return (
-    <div className="min-h-screen flex flex-col lg:flex-row bg-base-100 text-neutral font-roboto">
+    <div className="min-h-screen flex flex-col lg:flex-row bg-base-100  font-roboto">
+      
       {/* FAQ Section */}
-      <div className="w-full lg:w-1/2 bg-neutral p-8">
-        <h2 className="text-2xl font-bold mb-6">FAQs</h2>
-        <div className="space-y-4">
+      <div className="w-full lg:w-1/2 bg-base-100 p-8 ">
+        <h2 className="text-2xl font-bold mb-4">FAQs</h2>
+        <div className="space-y-4 text-neutral">
           {faqs.map((faq, index) => (
             <div
               key={index}
@@ -43,16 +66,8 @@ const FAQs = () => {
         </div>
       </div>
 
-      <div className="md:block flex-1 bg-primary flex justify-center items-center p-12 shadow-lg">
-        <div className="text-center text-base-100">
-          <div className="flex justify-center">
-            <img src={AmigosChatting} alt="Illustration" className="mb-8" />
-          </div>
-          <p className="text-xl">
-            Start Chat with your Friends, Make calls, Share your Screen and get
-            Faster Now...
-          </p>
-        </div>
+      <div className="hidden lg:flex lg:w-1/2 bg-primary justify-center items-center h-screen">
+        <RightSide />
       </div>
     </div>
   );
