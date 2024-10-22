@@ -10,10 +10,20 @@ import { FaQuestionCircle } from "react-icons/fa";
 import { GoGear } from "react-icons/go";
 import siteMap from "../../sitemap";
 import { useSelector } from "react-redux";
+import socket from "./../../utils/Socket";
+import { useEffect } from "react";
 
 export default function SideBar({ children }) {
   const userInfo = useSelector((state) => state.user.userInfo);
   const location = useLocation();
+
+  useEffect(() => {
+    socket.emit("subscribe", userInfo._id);
+    return () => {
+      socket.emit("unsubscribe", userInfo._id);
+      socket.disconnect();
+    };
+  }, [userInfo._id]);
 
   return (
     <div className="drawer lg:drawer-open">

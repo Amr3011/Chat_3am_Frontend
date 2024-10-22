@@ -1,13 +1,11 @@
 import { Fragment, useRef } from "react";
 import LogoutImg from "../../assets/LogoutImg.svg";
-//import { useNavigate } from 'react-router-dom';
 import siteMap from "./../../sitemap";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../redux/reducers/userReducer";
 import { useDispatch } from "react-redux";
 
 const Logout = () => {
-  //const navigate = useNavigate();
   const modalRef = useRef(null); // Reference for modal
   const navigate = useNavigate();
   const dispatch = useDispatch();

@@ -4,7 +4,7 @@ import RightSide from "../../components/common/RightSide";
 import { fetchGroupChats } from "../../redux/reducers/chatReducer";
 import ChatSkelton from "../../components/chat/ChatSkelton";
 import ChatBox from "../../components/chat/ChatBox";
-import groupImg from "../../assets/groupChats.png";
+import groupImg from "../../assets/groupChats.jpg";
 import AddUserToGroupChat from "./../../components/chat/AddUserToGroupChat";
 
 const GroupChat = () => {
