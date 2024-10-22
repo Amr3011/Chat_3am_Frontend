@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
-import { GrDocumentUpload } from "react-icons/gr";
+// import { GrDocumentUpload } from "react-icons/gr";
 import { useDispatch, useSelector } from "react-redux";
 import { addMessage, fetchMessages } from "../../redux/reducers/messageReducer";
 import Message from "./Message";
 import Loading from "./../common/Loading";
 import PropTypes from "prop-types";
-import groupImg from "../../assets/groupChats.png";
+import groupImg from "../../assets/groupChats.jpg";
 import { IoIosArrowBack } from "react-icons/io";
 import { toast } from "react-toastify";
 import socket from "./../../utils/Socket";
@@ -164,12 +164,12 @@ const ChatBox = ({ selectedChat, handleBack }) => {
         method="post"
         className="flex items-center gap-3 p-4 absolute bottom-0 w-full bg-base-100"
       >
-        <label htmlFor="file" className="btn btn-primary">
+        {/* <label htmlFor="file" className="btn btn-primary">
           <input type="file" name="file" id="file" className="hidden" />
           <span>
             <GrDocumentUpload fontSize={18} />
           </span>
-        </label>
+        </label> */}
         <input
           type="text"
           placeholder="Type a message"
