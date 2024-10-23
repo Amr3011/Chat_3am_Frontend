@@ -12,10 +12,10 @@ import siteMap from "../../sitemap";
 import { useDispatch, useSelector } from "react-redux";
 import socket from "./../../utils/Socket";
 import { useEffect } from "react";
-import {
-  addNotification,
-  fetchNotifications
-} from "../../redux/reducers/notificationReducer";
+// import {
+//   addNotification,
+//   fetchNotifications
+// } from "../../redux/reducers/notificationReducer";
 
 export default function SideBar({ children }) {
   const userInfo = useSelector((state) => state.user.userInfo);
