@@ -26,14 +26,14 @@ export default function SideBar({ children }) {
   // );
 
   useEffect(() => {
-    dispatch(fetchNotifications());
+    // dispatch(fetchNotifications());
   }, [dispatch]);
 
   useEffect(() => {
     socket.emit("subscribe", userInfo._id);
-    socket.on("notificationReceived", (notification) => {
-      dispatch(addNotification(notification));
-    });
+    // socket.on("notificationReceived", (notification) => {
+    //   dispatch(addNotification(notification));
+    // });
     return () => {
       socket.emit("unsubscribe", userInfo._id);
       socket.disconnect();
