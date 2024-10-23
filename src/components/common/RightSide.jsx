@@ -1,4 +1,4 @@
-import chat from "../../assets/chat.svg";
+import chat from "../../assets/Chat.svg";
 
 export default function RightSide() {
   return (
