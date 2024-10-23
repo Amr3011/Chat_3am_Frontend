@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "nodejs-chat-io.vercel.app"
+        target: import.meta.env.VITE_API_URL
       }
     }
   },
