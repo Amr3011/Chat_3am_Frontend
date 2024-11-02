@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://localhost:5000"
+        target: "https://chatio-e0b5bvfwhwhye6fv.uaenorth-01.azurewebsites.net"
       }
     }
   },
