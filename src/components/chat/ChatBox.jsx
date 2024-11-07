@@ -25,13 +25,10 @@ const ChatBox = ({ selectedChat, handleBack }) => {
   }, [messages]);
 
   useEffect(() => {
-    // انضم للشات عند التحديد
     socket.emit("joinChat", selectedChat._id);
 
-    // استدعاء الرسائل الخاصة بالشات
     dispatch(fetchMessages(selectedChat._id));
 
-    // استقبال أحداث typing و stopTyping و messageReceived
     socket.on("typing", (username) => {
       setTyping(true);
       setWhoIsTyping(username);
@@ -51,7 +48,6 @@ const ChatBox = ({ selectedChat, handleBack }) => {
       dispatch(addMessage(message));
     });
 
-    // تنظيف الاشتراك عند تغيير الشات أو إلغاء المكون
     return () => {
       socket.emit("leaveChat", selectedChat._id);
       socket.off("typing");
