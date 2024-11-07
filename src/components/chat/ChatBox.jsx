@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-// import { GrDocumentUpload } from "react-icons/gr";
 import { useDispatch, useSelector } from "react-redux";
 import { addMessage, fetchMessages } from "../../redux/reducers/messageReducer";
 import Message from "./Message";
@@ -26,11 +25,42 @@ const ChatBox = ({ selectedChat, handleBack }) => {
   }, [messages]);
 
   useEffect(() => {
+    // انضم للشات عند التحديد
     socket.emit("joinChat", selectedChat._id);
-  }, [selectedChat._id]);
 
-  useEffect(() => {
+    // استدعاء الرسائل الخاصة بالشات
     dispatch(fetchMessages(selectedChat._id));
+
+    // استقبال أحداث typing و stopTyping و messageReceived
+    socket.on("typing", (username) => {
+      setTyping(true);
+      setWhoIsTyping(username);
+      if (typingTimeoutRef.current) {
+        clearTimeout(typingTimeoutRef.current);
+      }
+    });
+
+    socket.on("stopTyping", () => {
+      typingTimeoutRef.current = setTimeout(() => {
+        setTyping(false);
+        setWhoIsTyping("");
+      }, 500);
+    });
+
+    socket.on("messageReceived", (message) => {
+      dispatch(addMessage(message));
+    });
+
+    // تنظيف الاشتراك عند تغيير الشات أو إلغاء المكون
+    return () => {
+      socket.emit("leaveChat", selectedChat._id);
+      socket.off("typing");
+      socket.off("stopTyping");
+      socket.off("messageReceived");
+      if (typingTimeoutRef.current) {
+        clearTimeout(typingTimeoutRef.current);
+      }
+    };
   }, [dispatch, selectedChat._id]);
 
   const sendMessage = async (e) => {
@@ -58,22 +88,8 @@ const ChatBox = ({ selectedChat, handleBack }) => {
       }
       const data = await response.json();
       dispatch(addMessage(data.data));
-      // socket.emit("newMessage", data.data);
-      // const res = await fetch("/api/notifications", {
-      //   headers: {
-      //     "Content-Type": "application/json"
-      //   },
-      //   body: JSON.stringify({
-      //     sender: userInfo._id,
-      //     receiver: selectedChat.usersRef.filter(
-      //       (user) => user._id !== userInfo._id
-      //     ),
-      //     message: data.data._id
-      //   })
-      // });
-      // const { notification } = await res.json();
-      // socket.emit("newNotification", notification);
-      setNewMessage("");
+      socket.emit("newMessage", data.data);
+      setNewMessage("");  // Clear the message input
     } catch (error) {
       toast.error(error.message);
     }
@@ -89,42 +105,7 @@ const ChatBox = ({ selectedChat, handleBack }) => {
 
   const handleOnTyping = (e) => {
     setNewMessage(e.target.value);
-    if (e.key === "Enter") {
-      sendMessage(e);
-    }
   };
-
-  useEffect(() => {
-    socket.on("typing", (username) => {
-      setTyping(true);
-      setWhoIsTyping(username);
-      // Clear existing timeout if user is typing again
-      if (typingTimeoutRef.current) {
-        clearTimeout(typingTimeoutRef.current);
-      }
-    });
-
-    socket.on("stopTyping", () => {
-      // Set a timeout before changing the typing state
-      typingTimeoutRef.current = setTimeout(() => {
-        setTyping(false);
-        setWhoIsTyping("");
-      }, 500);
-    });
-
-    socket.on("messageReceived", (message) => {
-      dispatch(addMessage(message));
-    });
-
-    return () => {
-      socket.emit("leaveChat", selectedChat._id);
-
-      // Cleanup timeout on component unmount
-      if (typingTimeoutRef.current) {
-        clearTimeout(typingTimeoutRef.current);
-      }
-    };
-  }, [dispatch, userInfo._id, selectedChat._id]);
 
   return (
     <div className="relative h-screen ">
@@ -178,12 +159,6 @@ const ChatBox = ({ selectedChat, handleBack }) => {
         method="post"
         className="flex items-center gap-3 p-4 absolute bottom-0 w-full bg-base-100"
       >
-        {/* <label htmlFor="file" className="btn btn-primary">
-          <input type="file" name="file" id="file" className="hidden" />
-          <span>
-            <GrDocumentUpload fontSize={18} />
-          </span>
-        </label> */}
         <input
           type="text"
           placeholder="Type a message"
