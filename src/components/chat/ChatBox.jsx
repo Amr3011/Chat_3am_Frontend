@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addMessage, fetchMessages } from "../../redux/reducers/messageReducer";
 import Message from "./Message";
@@ -7,113 +7,124 @@ import PropTypes from "prop-types";
 import groupImg from "../../assets/groupChats.jpg";
 import { IoIosArrowBack } from "react-icons/io";
 import { toast } from "react-toastify";
-import socket from "./../../utils/Socket";
+import socket from "../../utils/Socket";
 
 const ChatBox = ({ selectedChat, handleBack }) => {
   const { userInfo } = useSelector((state) => state.user);
   const [typing, setTyping] = useState(false);
   const [whoIsTyping, setWhoIsTyping] = useState("");
   const [newMessage, setNewMessage] = useState("");
-  const [isSending, setIsSending] = useState(false);  // Track if message is being sent
+  const [isSending, setIsSending] = useState(false); 
   const { messages, loading } = useSelector((state) => state.messages);
   const { chatName, img, picture } = selectedChat;
   const messagesRef = useRef();
-  const typingTimeoutRef = useRef(null); // Ref to store timeout ID
+  const typingTimeoutRef = useRef(null);  
   const dispatch = useDispatch();
 
   useEffect(() => {
-    messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+    if (messagesRef.current) {
+      messagesRef.current.scrollTop = messagesRef.current.scrollHeight;
+    }
   }, [messages]);
 
   useEffect(() => {
     socket.emit("joinChat", selectedChat._id);
+    return () => {
+      socket.emit("leaveChat", selectedChat._id);
+      socket.off("typing");
+      socket.off("stopTyping");
+      socket.off("messageReceived");
+      if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
+    };
   }, [selectedChat._id]);
 
   useEffect(() => {
     dispatch(fetchMessages(selectedChat._id));
   }, [dispatch, selectedChat._id]);
 
-  const sendMessage = async (e) => {
-    e.preventDefault();
-    if (isSending) return; // Prevent multiple submissions while sending
-    setIsSending(true); // Set the sending state to true
-    setTyping(false);
-    setWhoIsTyping("");
+  const sendMessage = useCallback(
+    async (e) => {
+      e.preventDefault();
+      if (isSending) return;
 
-    if (newMessage.trim() === "") {
-      toast.error("Message cannot be empty");
-      setIsSending(false); // Reset sending state if message is empty
-      return;
-    }
-    try {
-      const response = await fetch(`/api/message`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          chatId: selectedChat._id,
-          content: newMessage,
-          contentType: "text"
-        })
-      });
-      if (!response.ok) {
-        throw new Error("Failed to send message");
+      setIsSending(true);
+      setTyping(false);
+      socket.emit("stopTyping", selectedChat._id);
+
+      if (newMessage.trim() === "") {
+        toast.error("Message cannot be empty");
+        setIsSending(false);
+        return;
       }
-      const data = await response.json();
-      dispatch(addMessage(data.data));
-      socket.emit("newMessage", data.data);
 
-      setNewMessage("");  // Clear the message input
-    } catch (error) {
-      toast.error(error.message);
-    } finally {
-      setIsSending(false); // Reset sending state after try-catch
-    }
-  };
+      try {
+        const response = await fetch(`/api/message`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            chatId: selectedChat._id,
+            content: newMessage,
+            contentType: "text",
+          }),
+        });
+        if (!response.ok) throw new Error("Failed to send message");
 
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter" && !isSending) {  // Send message only if not sending
-      sendMessage(e);
-    } else {
-      socket.emit("typing", selectedChat._id, userInfo.username);  // Emit typing event
-    }
-  };
+        const data = await response.json();
+        dispatch(addMessage(data.data));
+        socket.emit("newMessage", data.data);
+        setNewMessage("");
+      } catch (error) {
+        toast.error(error.message);
+      } finally {
+        setIsSending(false);
+      }
+    },
+    [isSending, newMessage, selectedChat._id, dispatch]
+  );
+
+  const handleKeyDown = useCallback(
+    (e) => {
+      if (e.key === "Enter" && !isSending) {
+        sendMessage(e);
+      } else {
+        socket.emit("typing", selectedChat._id, userInfo.username);
+      }
+    },
+    [sendMessage, isSending, selectedChat._id, userInfo.username]
+  );
 
   useEffect(() => {
     socket.on("typing", (username) => {
-      setTyping(true);
       setWhoIsTyping(username);
-      // Clear existing timeout if user is typing again
-      if (typingTimeoutRef.current) {
-        clearTimeout(typingTimeoutRef.current);
-      }
-    });
+      setTyping(true);
 
-    socket.on("stopTyping", () => {
-      // Set a timeout before changing the typing state
+      if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
+
       typingTimeoutRef.current = setTimeout(() => {
         setTyping(false);
         setWhoIsTyping("");
-      }, 500);
+      }, 1000); 
+    });
+
+    socket.on("stopTyping", () => {
+      if (typingTimeoutRef.current) clearTimeout(typingTimeoutRef.current);
+      setTyping(false);
+      setWhoIsTyping("");
     });
 
     socket.on("messageReceived", (message) => {
-      dispatch(addMessage(message));
-    });
-
-    return () => {
-      socket.emit("leaveChat", selectedChat._id);
-
-      // Cleanup timeout on component unmount
-      if (typingTimeoutRef.current) {
-        clearTimeout(typingTimeoutRef.current);
+      if (message && message.content) {
+        dispatch(addMessage(message));
+      } else {
+        console.error("Invalid message format:", message);
       }
-    };
-  }, [dispatch, userInfo._id, selectedChat._id]);
+    });
+  }, [dispatch]);
 
   return (
-    <div className="relative h-screen ">
+    <div className="relative h-screen">
       <div className="flex justify-between items-center p-2 bg-primary px-8">
         <div className="flex items-center gap-4">
           <div className="relative">
@@ -167,7 +178,7 @@ const ChatBox = ({ selectedChat, handleBack }) => {
         <input
           type="text"
           placeholder="Type a message"
-          className="input input-bordered w-full  px-4 text-base-content"
+          className="input input-bordered w-full px-4 text-base-content"
           value={newMessage}
           onChange={(e) => setNewMessage(e.target.value)}
           onKeyDown={handleKeyDown}
@@ -182,7 +193,7 @@ const ChatBox = ({ selectedChat, handleBack }) => {
 
 ChatBox.propTypes = {
   selectedChat: PropTypes.object.isRequired,
-  handleBack: PropTypes.func.isRequired
+  handleBack: PropTypes.func.isRequired,
 };
 
 export default ChatBox;
