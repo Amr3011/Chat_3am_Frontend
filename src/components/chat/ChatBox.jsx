@@ -14,6 +14,7 @@ const ChatBox = ({ selectedChat, handleBack }) => {
   const [typing, setTyping] = useState(false);
   const [whoIsTyping, setWhoIsTyping] = useState("");
   const [newMessage, setNewMessage] = useState("");
+  const [isSending, setIsSending] = useState(false);  // Track if message is being sent
   const { messages, loading } = useSelector((state) => state.messages);
   const { chatName, img, picture } = selectedChat;
   const messagesRef = useRef();
@@ -26,45 +27,22 @@ const ChatBox = ({ selectedChat, handleBack }) => {
 
   useEffect(() => {
     socket.emit("joinChat", selectedChat._id);
+  }, [selectedChat._id]);
 
+  useEffect(() => {
     dispatch(fetchMessages(selectedChat._id));
-
-    socket.on("typing", (username) => {
-      setTyping(true);
-      setWhoIsTyping(username);
-      if (typingTimeoutRef.current) {
-        clearTimeout(typingTimeoutRef.current);
-      }
-    });
-
-    socket.on("stopTyping", () => {
-      typingTimeoutRef.current = setTimeout(() => {
-        setTyping(false);
-        setWhoIsTyping("");
-      }, 500);
-    });
-
-    socket.on("messageReceived", (message) => {
-      dispatch(addMessage(message));
-    });
-
-    return () => {
-      socket.emit("leaveChat", selectedChat._id);
-      socket.off("typing");
-      socket.off("stopTyping");
-      socket.off("messageReceived");
-      if (typingTimeoutRef.current) {
-        clearTimeout(typingTimeoutRef.current);
-      }
-    };
   }, [dispatch, selectedChat._id]);
 
   const sendMessage = async (e) => {
     e.preventDefault();
+    if (isSending) return; // Prevent multiple submissions while sending
+    setIsSending(true); // Set the sending state to true
     setTyping(false);
     setWhoIsTyping("");
+
     if (newMessage.trim() === "") {
       toast.error("Message cannot be empty");
+      setIsSending(false); // Reset sending state if message is empty
       return;
     }
     try {
@@ -85,23 +63,54 @@ const ChatBox = ({ selectedChat, handleBack }) => {
       const data = await response.json();
       dispatch(addMessage(data.data));
       socket.emit("newMessage", data.data);
+
       setNewMessage("");  // Clear the message input
     } catch (error) {
       toast.error(error.message);
+    } finally {
+      setIsSending(false); // Reset sending state after try-catch
     }
   };
 
-  const handleKeyDown = () => {
-    socket.emit("typing", selectedChat._id, userInfo.username);
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && !isSending) {  // Send message only if not sending
+      sendMessage(e);
+    } else {
+      socket.emit("typing", selectedChat._id, userInfo.username);  // Emit typing event
+    }
   };
 
-  const handleKeyUp = () => {
-    socket.emit("stopTyping", selectedChat._id);
-  };
+  useEffect(() => {
+    socket.on("typing", (username) => {
+      setTyping(true);
+      setWhoIsTyping(username);
+      // Clear existing timeout if user is typing again
+      if (typingTimeoutRef.current) {
+        clearTimeout(typingTimeoutRef.current);
+      }
+    });
 
-  const handleOnTyping = (e) => {
-    setNewMessage(e.target.value);
-  };
+    socket.on("stopTyping", () => {
+      // Set a timeout before changing the typing state
+      typingTimeoutRef.current = setTimeout(() => {
+        setTyping(false);
+        setWhoIsTyping("");
+      }, 500);
+    });
+
+    socket.on("messageReceived", (message) => {
+      dispatch(addMessage(message));
+    });
+
+    return () => {
+      socket.emit("leaveChat", selectedChat._id);
+
+      // Cleanup timeout on component unmount
+      if (typingTimeoutRef.current) {
+        clearTimeout(typingTimeoutRef.current);
+      }
+    };
+  }, [dispatch, userInfo._id, selectedChat._id]);
 
   return (
     <div className="relative h-screen ">
@@ -160,11 +169,12 @@ const ChatBox = ({ selectedChat, handleBack }) => {
           placeholder="Type a message"
           className="input input-bordered w-full  px-4 text-base-content"
           value={newMessage}
-          onChange={handleOnTyping}
+          onChange={(e) => setNewMessage(e.target.value)}
           onKeyDown={handleKeyDown}
-          onKeyUp={handleKeyUp}
         />
-        <button className="btn bg-primary text-white">Send</button>
+        <button className="btn bg-primary text-white" disabled={isSending}>
+          {isSending ? "Sending..." : "Send"}
+        </button>
       </form>
     </div>
   );
